@@ -21,7 +21,6 @@ class VozillaRepository(
         val lng = param.location?.longitude ?: return null
 
         return MarkerModel(id = id,
-            name = param.name,
             location = LatLng(lat, lng),
             type = ServiceType.Vozilla
         )

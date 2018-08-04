@@ -5,6 +5,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import pl.ccki.szypwyp.blinkee.di.BlinkeeComponent
 import pl.ccki.szypwyp.goscooter.di.GoScooterComponent
+import pl.ccki.szypwyp.traficar.di.TraficarComponent
 import pl.ccki.szypwyp.vozilla.di.VozillaComponent
 import javax.inject.Singleton
 
@@ -16,7 +17,8 @@ import javax.inject.Singleton
 ], dependencies = [
     BlinkeeComponent::class,
     VozillaComponent::class,
-    GoScooterComponent::class
+    GoScooterComponent::class,
+    TraficarComponent::class
 ])
 interface ApplicationComponent : AndroidInjector<DIApplication> {
 
@@ -25,6 +27,7 @@ interface ApplicationComponent : AndroidInjector<DIApplication> {
         abstract fun vozilla(dependency: VozillaComponent): Builder
         abstract fun blinkee(dependency: BlinkeeComponent): Builder
         abstract fun goScooter(dependency: GoScooterComponent): Builder
+        abstract fun traficar(dependency: TraficarComponent): Builder
     }
 
 }

@@ -6,6 +6,8 @@ import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
 import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
+import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
+import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 
 class DIApplication : DaggerApplication() {
 
@@ -17,7 +19,9 @@ class DIApplication : DaggerApplication() {
     }
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerApplicationComponent.builder()
-            .blinkee(DaggerBlinkeeComponent.builder().build())
-            .vozilla(DaggerVozillaComponent.builder().build())
+            .blinkee(DaggerBlinkeeComponent.create())
+            .vozilla(DaggerVozillaComponent.create())
+            .goScooter(DaggerGoScooterComponent.create())
+            .traficar(DaggerTraficarComponent.create())
             .create(this)
 }

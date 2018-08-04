@@ -34,7 +34,6 @@ class GoScooterRepository(
                 val range = m.group(5)
                 result += MarkerModel(
                     id = desc,
-                    name = range,
                     location = LatLng(lat, lng),
                     type = ServiceType.GoScooter
                 )

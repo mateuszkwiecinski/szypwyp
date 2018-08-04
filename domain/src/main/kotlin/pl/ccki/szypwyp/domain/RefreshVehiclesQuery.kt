@@ -33,5 +33,5 @@ class RefreshVehiclesQuery @Inject constructor(
         } ?: Single.just(emptyList())
 
     private val defaultConfig: ServiceConfigurationModel
-        get() = ServiceConfigurationModel(listOf(ServiceType.Vozilla))
+        get() = ServiceConfigurationModel(ServiceType.values().toList())
 }

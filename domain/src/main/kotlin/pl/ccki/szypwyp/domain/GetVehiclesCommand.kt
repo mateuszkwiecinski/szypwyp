@@ -7,6 +7,7 @@ import javax.inject.Inject
 class GetVehiclesCommand @Inject constructor(
     private val persistence: VehiclesPersistence
 ) : Command<List<MarkerModel>> {
+
     override fun run(): Observable<List<MarkerModel>> =
         persistence.get()
 }

@@ -15,8 +15,8 @@ enum class Regions {
     PowiatOstrowski,
     Budapest;
 
-    val regionId : Int
-        get() = when(this){
+    internal val regionId: Int
+        get() = when (this) {
             Warszawa -> 1
             Poznan -> 2
             Krakow -> 4

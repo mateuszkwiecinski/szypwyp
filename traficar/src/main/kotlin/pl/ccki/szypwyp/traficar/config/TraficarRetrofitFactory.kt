@@ -1,15 +1,13 @@
-package pl.ccki.szypwyp.blinkee.config
+package pl.ccki.szypwyp.traficar.config
 
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object BlinkeeRetrofitFactory {
+object TraficarRetrofitFactory {
 
-    fun create(apiUrl: String, client: OkHttpClient): Retrofit =
+    fun create(apiUrl: String): Retrofit =
         Retrofit.Builder().apply {
             baseUrl(apiUrl)
             addConverterFactory(GsonConverterFactory.create())
-            client(client)
         }.build()
 }
