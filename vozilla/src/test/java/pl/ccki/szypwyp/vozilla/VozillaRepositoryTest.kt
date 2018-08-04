@@ -1,13 +1,11 @@
 package pl.ccki.szypwyp.vozilla
 
-import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert
 import org.junit.Test
 import pl.ccki.szypwyp.vozilla.config.VozillaEndpoints
 import pl.ccki.szypwyp.vozilla.config.VozillaRetrofitFactory
-import retrofit2.Retrofit
 
 class VozillaRepositoryTest {
     @Test

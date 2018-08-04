@@ -29,5 +29,4 @@ interface ApplicationComponent : AndroidInjector<DIApplication> {
         abstract fun goScooter(dependency: GoScooterComponent): Builder
         abstract fun traficar(dependency: TraficarComponent): Builder
     }
-
 }

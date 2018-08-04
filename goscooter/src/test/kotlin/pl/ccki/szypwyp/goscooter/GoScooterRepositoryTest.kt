@@ -148,7 +148,8 @@ private val page = """<!DOCTYPE html>
         });
 
         marker.addListener('click', function() {
-            infowindow.setContent('<a href="/Ride/StartReservation/'+desc+'">'+'Zarezerwuj</a><br />Zasięg: <strong>'+ range + ' km</strong>' );
+            infowindow.setContent('<a href="/Ride/StartReservation/'+desc+'">'+'Zarezerwuj</a>
+            <br />Zasięg: <strong>'+ range + ' km</strong>');
             infowindow.open(map, marker);
         });
 
@@ -163,7 +164,8 @@ private val page = """<!DOCTYPE html>
         });
 
         marker.addListener('click', function() {
-            infowindow.setContent('<a href="/Ride/StartReservation/'+desc+'">'+'Zarezerwuj</a><br />Zasięg: <strong>'+ range + ' km</strong>' );
+            infowindow.setContent('<a href="/Ride/StartReservation/'+desc+'">'+'Zarezerwuj</a>
+            <br />Zasięg: <strong>'+ range + ' km</strong>' );
             infowindow.open(map, marker);
         });
 
@@ -1702,7 +1704,8 @@ private val page = """<!DOCTYPE html>
         </div>
         <div class="rowBox footer">
             <footer>
-	&copy; 2018 - <a href="http://goscooter.pl">GoScooter.pl</a> && <a href="http://cybertrick.pl">Software Cybertrick.pl</a>. Wszelkie prawa zastrzeżone <a href="http://goscooter.pl#contact"> Kontakt</a>
+	&copy; 2018 - <a href="http://goscooter.pl">GoScooter.pl</a> &&
+<a href="http://cybertrick.pl">Software Cybertrick.pl</a>. Wszelkie prawa zastrzeżone <a href="http://goscooter.pl#contact"> Kontakt</a>
 </footer>
         </div>
     </div>

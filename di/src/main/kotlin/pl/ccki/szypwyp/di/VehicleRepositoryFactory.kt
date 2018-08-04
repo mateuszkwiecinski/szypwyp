@@ -14,7 +14,7 @@ class VehicleRepositoryFactory @Inject constructor(
     private val blinkee: BlinkeeRepository,
     private val vozilla: VozillaRepository,
     private val goscooter: GoScooterRepository,
-    private val traficar : TraficarRepository
+    private val traficar: TraficarRepository
 ) : VehiclesRepository {
     override fun get(param: SearchModel): List<MarkerModel> =
         when (param.type) {

@@ -15,5 +15,4 @@ class BlinkeeRefererInterceptor : Interceptor {
 
         return chain.proceed(request)
     }
-
 }

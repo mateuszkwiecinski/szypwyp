@@ -11,4 +11,3 @@ object VozillaRetrofitFactory {
             addConverterFactory(GsonConverterFactory.create())
         }.build()
 }
-

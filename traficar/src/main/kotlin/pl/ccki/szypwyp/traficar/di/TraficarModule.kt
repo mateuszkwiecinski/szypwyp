@@ -2,7 +2,6 @@ package pl.ccki.szypwyp.traficar.di
 
 import dagger.Module
 import dagger.Provides
-import okhttp3.OkHttpClient
 import pl.ccki.szypwyp.traficar.TraficarRepository
 import pl.ccki.szypwyp.traficar.config.TraficarEndpoints
 import pl.ccki.szypwyp.traficar.config.TraficarRetrofitFactory

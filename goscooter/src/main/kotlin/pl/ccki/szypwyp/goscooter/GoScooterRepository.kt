@@ -38,7 +38,6 @@ class GoScooterRepository(
                     type = ServiceType.GoScooter
                 )
             }
-
         }
 
         return result

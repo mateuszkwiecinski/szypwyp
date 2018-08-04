@@ -9,4 +9,3 @@ object GoScooterRetrofitFactory {
             baseUrl(apiUrl)
         }.build()
 }
-
