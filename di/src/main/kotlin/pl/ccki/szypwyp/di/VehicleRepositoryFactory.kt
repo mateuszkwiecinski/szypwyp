@@ -21,7 +21,7 @@ class VehicleRepositoryFactory @Inject constructor(
             ServiceType.GoScooter -> goscooter.getAll()
             ServiceType.Vozilla -> vozilla.getAll()
             ServiceType.Traficar -> traficar.getAll()
-            ServiceType.Nexbike -> emptyList()
+            ServiceType.Nextbike -> emptyList()
             ServiceType.Blinkee -> blinkee.getAll()
         }
 }

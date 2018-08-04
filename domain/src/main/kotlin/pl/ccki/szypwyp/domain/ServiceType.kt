@@ -4,6 +4,6 @@ enum class ServiceType {
     GoScooter,
     Vozilla,
     Traficar,
-    Nexbike,
+    Nextbike,
     Blinkee
 }
