@@ -1,5 +1,8 @@
 package pl.ccki.szypwyp.blinkee
 
+import pl.ccki.szypwyp.blinkee.config.BlinkeeEndpoints
+import pl.ccki.szypwyp.blinkee.models.BlinkeItemResponse
+import pl.ccki.szypwyp.blinkee.models.Regions
 import pl.ccki.szypwyp.domain.LatLng
 import pl.ccki.szypwyp.domain.MarkerModel
 import pl.ccki.szypwyp.domain.ServiceType

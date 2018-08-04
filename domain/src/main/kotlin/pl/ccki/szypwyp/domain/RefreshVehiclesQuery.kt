@@ -6,7 +6,7 @@ import pl.ccki.szypwyp.domain.base.Query
 import javax.inject.Inject
 
 class RefreshVehiclesQuery @Inject constructor(
-    private val configuration: ServicesConfiguration,
+    private val configuration: ServicesConfigurationStorage,
     private val repository: VehiclesRepository,
     private val persistence: VehiclesPersistence,
     private val locationProvider: SearchConfigProvider
@@ -33,5 +33,5 @@ class RefreshVehiclesQuery @Inject constructor(
         } ?: Single.just(emptyList())
 
     private val defaultConfig: ServiceConfigurationModel
-        get() = ServiceConfigurationModel(listOf(ServiceType.Blinkee))
+        get() = ServiceConfigurationModel(listOf(ServiceType.Vozilla))
 }

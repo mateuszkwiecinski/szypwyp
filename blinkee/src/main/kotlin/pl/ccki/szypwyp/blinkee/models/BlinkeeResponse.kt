@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.blinkee
+package pl.ccki.szypwyp.blinkee.models
 
 import com.google.gson.annotations.SerializedName
 

@@ -4,8 +4,8 @@ import android.util.Log
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
-import pl.ccki.szypwyp.blinkee.BlinkeeComponent
-import pl.ccki.szypwyp.blinkee.DaggerBlinkeeComponent
+import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
+import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
 
 class DIApplication : DaggerApplication() {
 
@@ -17,5 +17,7 @@ class DIApplication : DaggerApplication() {
     }
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerApplicationComponent.builder()
-            .blinkee(DaggerBlinkeeComponent.builder().build()).create(this)
+            .blinkee(DaggerBlinkeeComponent.builder().build())
+            .vozilla(DaggerVozillaComponent.builder().build())
+            .create(this)
 }

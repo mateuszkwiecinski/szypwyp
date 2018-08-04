@@ -27,13 +27,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     override fun init(savedInstanceState: Bundle?) = Unit
 
     override fun initView(savedInstanceState: Bundle?) {
-        Observable.interval(0, 20, TimeUnit.SECONDS)
-            .flatMapCompletable {
-                refresh.run()
-            }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .disposeIn(disposeBag)
+        binding.btnClick.setOnClickListener{
+            refresh.run()
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+                .disposeIn(disposeBag)
+        }
+        binding.btnClick.performClick()
         getVehicles.run()
             .subscribeOn(Schedulers.io())
             .subscribe {

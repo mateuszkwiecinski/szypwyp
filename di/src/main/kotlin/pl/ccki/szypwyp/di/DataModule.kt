@@ -10,7 +10,7 @@ import pl.ccki.szypwyp.domain.LatLng
 import pl.ccki.szypwyp.domain.MarkerModel
 import pl.ccki.szypwyp.domain.SearchConfigProvider
 import pl.ccki.szypwyp.domain.ServiceConfigurationModel
-import pl.ccki.szypwyp.domain.ServicesConfiguration
+import pl.ccki.szypwyp.domain.ServicesConfigurationStorage
 import pl.ccki.szypwyp.domain.VehiclesPersistence
 import pl.ccki.szypwyp.domain.VehiclesRepository
 import javax.inject.Singleton
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Module
 class DataModule {
     @Provides
-    fun servicesConfiguration(): ServicesConfiguration = object : ServicesConfiguration {
+    fun servicesConfiguration(): ServicesConfigurationStorage = object : ServicesConfigurationStorage {
 
         override fun get(): Maybe<ServiceConfigurationModel> = Maybe.empty()
     }
