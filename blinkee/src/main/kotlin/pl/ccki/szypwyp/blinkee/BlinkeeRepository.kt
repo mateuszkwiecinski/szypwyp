@@ -21,7 +21,7 @@ class BlinkeeRepository(
     private fun map(data: BlinkeItemResponse): MarkerModel? {
         val id = data.id?.toString() ?: return null
         val lat = data.position?.latitude ?: return null
-        val lng = data.position?.latitude ?: return null
+        val lng = data.position?.longitude ?: return null
         return MarkerModel(
             id = id,
             location = LatLng(lat, lng)

@@ -1,8 +1,11 @@
 package pl.ccki.szypwyp.presentation.map.ui
 
 import android.os.Bundle
+import com.google.android.gms.maps.SupportMapFragment
+import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
+import pl.ccki.szypwyp.presentation.base.extensions.rxGetMap
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 
@@ -14,6 +17,20 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
     override fun init(savedInstanceState: Bundle?) = Unit
 
     override fun initView(savedInstanceState: Bundle?) {
+        initMap()
         // navController.navigate(R.id.action_mapFragment_to_configurationFragment)
+    }
+
+    private fun initMap() {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+            ?: return
+        mapFragment.rxGetMap()
+            .map { map ->
+                context?.let {
+                    SzypMap(it, map, viewModel, this)
+                }
+            }
+            .subscribe()
+            .disposeIn(disposeBag)
     }
 }

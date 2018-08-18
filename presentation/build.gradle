@@ -11,6 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        resValue "string", "maps_api_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets {
@@ -48,7 +49,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
     implementation "com.google.firebase:firebase-core:$firebase_version"
     implementation "com.google.firebase:firebase-crash:$firebase_version"
+    implementation "com.google.android.gms:play-services-maps:15.0.1"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
+
 
     testImplementation 'junit:junit:4.12'
 

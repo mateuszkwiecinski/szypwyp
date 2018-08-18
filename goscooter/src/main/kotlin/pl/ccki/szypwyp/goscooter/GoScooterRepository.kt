@@ -22,7 +22,7 @@ class GoScooterRepository(
     private fun map(data: GoScooterResponse): MarkerModel? {
         val id = data.id?.toString() ?: return null
         val lat = data.latitude ?: return null
-        val lng = data.latitude ?: return null
+        val lng = data.longitude ?: return null
 
         return MarkerModel(
             id = id,

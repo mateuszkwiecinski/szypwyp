@@ -21,7 +21,7 @@ class TraficarRepository(
     private fun map(data: Car): MarkerModel? {
         val id = data.id?.toString() ?: return null
         val lat = data.latitude ?: return null
-        val lng = data.latitude ?: return null
+        val lng = data.longitude ?: return null
         return MarkerModel(
             id = id,
             location = LatLng(lat, lng)
