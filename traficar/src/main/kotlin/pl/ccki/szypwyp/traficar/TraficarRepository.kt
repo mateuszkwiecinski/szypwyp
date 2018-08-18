@@ -1,8 +1,7 @@
 package pl.ccki.szypwyp.traficar
 
-import pl.ccki.szypwyp.domain.LatLng
-import pl.ccki.szypwyp.domain.MarkerModel
-import pl.ccki.szypwyp.domain.ServiceType
+import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.traficar.config.TraficarEndpoints
 import pl.ccki.szypwyp.traficar.models.Car
 import pl.ccki.szypwyp.traficar.models.Regions
@@ -25,8 +24,7 @@ class TraficarRepository(
         val lng = data.latitude ?: return null
         return MarkerModel(
             id = id,
-            location = LatLng(lat, lng),
-            type = ServiceType.Blinkee
+            location = LatLng(lat, lng)
         )
     }
 }

@@ -22,6 +22,6 @@ class GoScooterModule {
         retrofit.create(GoScooterEndpoints::class.java)
 
     @Provides
-    fun goScooterRepository(enpoints: GoScooterEndpoints, apiUrl: String): GoScooterRepository =
-        GoScooterRepository(enpoints, apiUrl)
+    fun goScooterRepository(enpoints: GoScooterEndpoints): GoScooterRepository =
+        GoScooterRepository(enpoints)
 }

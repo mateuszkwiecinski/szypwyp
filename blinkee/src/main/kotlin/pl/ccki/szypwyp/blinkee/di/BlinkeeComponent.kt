@@ -1,9 +1,10 @@
 package pl.ccki.szypwyp.blinkee.di
 
 import dagger.Component
-import pl.ccki.szypwyp.blinkee.BlinkeeRepository
+import pl.ccki.szypwyp.blinkee.BlinkeeService
 
 @Component(modules = [BlinkeeModule::class])
 interface BlinkeeComponent {
-    fun repository(): BlinkeeRepository
+
+    fun service(): BlinkeeService
 }

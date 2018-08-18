@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -26,12 +26,11 @@ abstract class BaseFragment<TBinding : ViewDataBinding> : Fragment(), HasSupport
     protected lateinit var binding: TBinding
 
     protected val navController: NavController
-        get() = binding.root.findNavController()
+        get() = Navigation.findNavController(binding.root)
 
     protected val disposeBag = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
         init(savedInstanceState)
     }

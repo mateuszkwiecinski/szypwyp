@@ -4,6 +4,9 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import pl.ccki.szypwyp.blinkee.di.BlinkeeComponent
+import pl.ccki.szypwyp.di.modules.ApplicationInjectorsModule
+import pl.ccki.szypwyp.di.modules.DataModule
+import pl.ccki.szypwyp.di.modules.ServicesModule
 import pl.ccki.szypwyp.goscooter.di.GoScooterComponent
 import pl.ccki.szypwyp.traficar.di.TraficarComponent
 import pl.ccki.szypwyp.vozilla.di.VozillaComponent
@@ -12,8 +15,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    ApplicationInjectors::class,
-    DataModule::class
+    ApplicationInjectorsModule::class,
+    DataModule::class,
+    ServicesModule::class
 ], dependencies = [
     BlinkeeComponent::class,
     VozillaComponent::class,

@@ -1,8 +1,7 @@
 package pl.ccki.szypwyp.vozilla
 
-import pl.ccki.szypwyp.domain.LatLng
-import pl.ccki.szypwyp.domain.MarkerModel
-import pl.ccki.szypwyp.domain.ServiceType
+import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.vozilla.config.VozillaEndpoints
 import pl.ccki.szypwyp.vozilla.model.ObjectResponse
 
@@ -21,8 +20,7 @@ class VozillaRepository(
         val lng = param.location?.longitude ?: return null
 
         return MarkerModel(id = id,
-            location = LatLng(lat, lng),
-            type = ServiceType.Vozilla
+            location = LatLng(lat, lng)
         )
     }
 }

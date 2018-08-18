@@ -3,10 +3,10 @@ package pl.ccki.szypwyp.presentation
 import android.os.Bundle
 import android.util.Log
 import io.reactivex.schedulers.Schedulers
-import pl.ccki.szypwyp.domain.GetVehiclesCommand
-import pl.ccki.szypwyp.domain.RefreshVehiclesQuery
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.base.run
+import pl.ccki.szypwyp.domain.commands.GetVehiclesCommand
+import pl.ccki.szypwyp.domain.queries.RefreshVehiclesQuery
 import pl.ccki.szypwyp.presentation.base.BaseFragment
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
 import javax.inject.Inject

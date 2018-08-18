@@ -3,9 +3,8 @@ package pl.ccki.szypwyp.blinkee
 import pl.ccki.szypwyp.blinkee.config.BlinkeeEndpoints
 import pl.ccki.szypwyp.blinkee.models.BlinkeItemResponse
 import pl.ccki.szypwyp.blinkee.models.Regions
-import pl.ccki.szypwyp.domain.LatLng
-import pl.ccki.szypwyp.domain.MarkerModel
-import pl.ccki.szypwyp.domain.ServiceType
+import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MarkerModel
 
 class BlinkeeRepository(
     private val endpoints: BlinkeeEndpoints
@@ -25,8 +24,7 @@ class BlinkeeRepository(
         val lng = data.position?.latitude ?: return null
         return MarkerModel(
             id = id,
-            location = LatLng(lat, lng),
-            type = ServiceType.Blinkee
+            location = LatLng(lat, lng)
         )
     }
 }
