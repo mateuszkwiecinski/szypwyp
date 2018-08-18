@@ -3,6 +3,8 @@ package pl.ccki.szypwyp.domain.queries
 import io.reactivex.Completable
 import io.reactivex.Single
 import pl.ccki.szypwyp.domain.base.Query
+import pl.ccki.szypwyp.domain.base.SchedulersProvider
+import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.ServiceId
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
@@ -15,10 +17,11 @@ class RefreshVehiclesQuery @Inject constructor(
     private val configuration: ServicesConfigurationRepository,
     private val registeredServices: Set<@JvmSuppressWildcards ExternalService>,
     private val persistence: VehiclesPersistence,
-    private val locationProvider: SearchConfigRepository
+    private val locationProvider: SearchConfigRepository,
+    private val schedulersProvider: SchedulersProvider
 ) : Query<Unit> {
 
-    override fun run(param: Unit): Completable =
+    override fun execute(param: Unit): Completable =
         Single.fromCallable<List<Single<RequestDto>>> {
             val servicesToCall = findServices()
             val target = locationProvider.target
@@ -36,6 +39,7 @@ class RefreshVehiclesQuery @Inject constructor(
             .flatMapCompletable {
                 persistence.update(it)
             }
+            .applySchedulers(schedulersProvider)
 
     private fun findServices(): Iterable<ExternalService> {
         val services = configuration.selected ?: return registeredServices

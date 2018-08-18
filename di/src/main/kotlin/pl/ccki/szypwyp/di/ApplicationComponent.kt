@@ -4,6 +4,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import pl.ccki.szypwyp.blinkee.di.BlinkeeComponent
+import pl.ccki.szypwyp.di.modules.AppModule
 import pl.ccki.szypwyp.di.modules.ApplicationInjectorsModule
 import pl.ccki.szypwyp.di.modules.DataModule
 import pl.ccki.szypwyp.di.modules.ServicesModule
@@ -17,7 +18,8 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     ApplicationInjectorsModule::class,
     DataModule::class,
-    ServicesModule::class
+    ServicesModule::class,
+    AppModule::class
 ], dependencies = [
     BlinkeeComponent::class,
     VozillaComponent::class,

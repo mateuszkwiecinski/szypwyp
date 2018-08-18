@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import dagger.android.AndroidInjector
@@ -15,14 +16,23 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
+import pl.ccki.szypwyp.presentation.BR
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
-abstract class BaseFragment<TBinding : ViewDataBinding> : Fragment(), HasSupportFragmentInjector {
+abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewModel> : Fragment(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelsFactory
+
+    @Inject
+    lateinit var viewModel: TViewModel
+
     protected abstract val layoutId: Int
+    protected abstract val viewModelClass: KClass<TViewModel>
     protected lateinit var binding: TBinding
 
     protected val navController: NavController
@@ -32,6 +42,7 @@ abstract class BaseFragment<TBinding : ViewDataBinding> : Fragment(), HasSupport
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[viewModelClass.java]
         init(savedInstanceState)
     }
 
@@ -42,6 +53,8 @@ abstract class BaseFragment<TBinding : ViewDataBinding> : Fragment(), HasSupport
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        binding.setLifecycleOwner(this)
+        binding.setVariable(BR.model, viewModel)
         initView(savedInstanceState)
 
         return binding.root

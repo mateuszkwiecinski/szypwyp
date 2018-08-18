@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="pl.ccki.szypwyp.presentation.MapFragment"
+        android:name="pl.ccki.szypwyp.presentation.map.ui.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/configurationFragment"
-        android:name="pl.ccki.szypwyp.presentation.ConfigurationFragment"
+        android:name="pl.ccki.szypwyp.presentation.configuration.ui.ConfigurationFragment"
         android:label="fragment_configuration"
         tools:layout="@layout/fragment_configuration" />
 </navigation>

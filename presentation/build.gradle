@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
@@ -21,19 +22,34 @@ android {
     }
 }
 
+crashlytics {
+    def di = rootProject.project(":di")
+    def android = di.getPlugins().findPlugin("android")
+    //TODO fix crashlytics
+    manifestPath = "${di.buildDir}/intermediates/merged_manifests/debug/AndroidManifest.xml"
+}
+
 dependencies {
-    def nav_version = "1.0.0-alpha04"
+    def nav_version = "1.0.0-alpha05"
+    def lifecycle_version = "1.1.1"
+    def firebase_version = "16.0.1"
 
     implementation project(":domain")
-    implementation 'com.google.dagger:dagger-android-support:2.16'
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha1'
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
+    implementation 'androidx.appcompat:appcompat:1.0.0-rc1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+    implementation "com.google.firebase:firebase-crash:$firebase_version"
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

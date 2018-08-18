@@ -4,12 +4,13 @@ import android.util.Log
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
+import pl.ccki.szypwyp.presentation.PresentationAplication
 import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
 import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
 import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 
-class DIApplication : DaggerApplication() {
+class DIApplication : PresentationAplication() {
 
     override fun onCreate() {
         super.onCreate()

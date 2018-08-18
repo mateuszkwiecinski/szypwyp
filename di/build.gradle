@@ -2,9 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-
 android {
     compileSdkVersion 28
+    signingConfigs {
+        debug {
+            storeFile file("../keys/debug.keystore")
+            storePassword "cyckicycki"
+            keyAlias "AndroidDebugKey"
+            keyPassword "cycki2"
+        }
+    }
     defaultConfig {
         applicationId "pl.ccki.szypwyp"
         minSdkVersion 21
@@ -21,6 +28,9 @@ android {
         enabled = true
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
