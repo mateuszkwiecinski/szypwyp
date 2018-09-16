@@ -25,12 +25,12 @@ android {
 dependencies {
     def nav_version = "1.0.0-alpha05"
     def lifecycle_version = "1.1.1"
-    def firebase_version = "16.0.1"
+    def firebase_version = "16.0.2"
 
     implementation project(":domain")
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
     implementation 'androidx.appcompat:appcompat:1.0.0-rc1'
@@ -38,7 +38,7 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
     implementation "com.google.firebase:firebase-core:$firebase_version"
     implementation "com.google.firebase:firebase-crash:$firebase_version"
     implementation "com.google.android.gms:play-services-maps:15.0.1"
