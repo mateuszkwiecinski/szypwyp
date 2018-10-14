@@ -13,8 +13,5 @@ interface SchedulersProvider {
 fun <T : Any> Observable<T>.applySchedulers(schedulersProvider: SchedulersProvider) =
     subscribeOn(schedulersProvider.worker).observeOn(schedulersProvider.postExecution)
 
-fun <T : Any> Single<T>.applySchedulers(schedulersProvider: SchedulersProvider) =
-    subscribeOn(schedulersProvider.worker).observeOn(schedulersProvider.postExecution)
-
 fun Completable.applySchedulers(schedulersProvider: SchedulersProvider) =
     subscribeOn(schedulersProvider.worker).observeOn(schedulersProvider.postExecution)

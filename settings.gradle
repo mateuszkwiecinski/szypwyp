@@ -1,2 +1,2 @@
 include ":di", ':presentation', ":domain", ":vozilla", ":goscooter", ":blinkee", ":traficar",
-        ":nextbike"
+        ":nextbike", "platform"

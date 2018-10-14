@@ -5,7 +5,7 @@ import dagger.Module
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.presentation.base.AndroidSchedulersProvider
 
-@Module(includes = [ViewModelsModule::class])
+@Module(includes = [ViewModelsModule::class, PersistencesModule::class])
 abstract class AppModule {
 
     @Binds

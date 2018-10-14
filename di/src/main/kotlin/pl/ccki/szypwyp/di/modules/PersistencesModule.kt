@@ -5,20 +5,15 @@ import dagger.Provides
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.ServiceId
+import pl.ccki.szypwyp.domain.persistences.CameraPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
-import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
-import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import javax.inject.Singleton
 
 @Module
-class DataModule {
-    @Provides
-    fun servicesConfiguration(): ServicesConfigurationRepository = object : ServicesConfigurationRepository {
-        override var selected: Collection<ServiceId>? = null
-    }
+class PersistencesModule {
 
     @Provides
     @Singleton
@@ -33,8 +28,15 @@ class DataModule {
     }
 
     @Provides
-    fun locationProvider(): SearchConfigRepository = object : SearchConfigRepository {
+    @Singleton
+    fun cameraPersistence(): CameraPersistence = object : CameraPersistence {
+        private val subject = BehaviorSubject.create<Camera>()
 
-        override val target: LatLng? = LatLng(51.107883, 17.038538)
+        override fun get(): Observable<Camera> = subject.hide()
+
+        override fun update(new: Camera): Completable =
+            Completable.fromAction {
+                subject.onNext(new)
+            }
     }
 }

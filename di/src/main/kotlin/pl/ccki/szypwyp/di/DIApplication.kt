@@ -8,6 +8,7 @@ import pl.ccki.szypwyp.presentation.PresentationAplication
 import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
 import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
+import pl.ccki.szypwyp.platform.DaggerPlatformComponent
 import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 
 class DIApplication : PresentationAplication() {
@@ -24,5 +25,6 @@ class DIApplication : PresentationAplication() {
             .vozilla(DaggerVozillaComponent.create())
             .goScooter(DaggerGoScooterComponent.create())
             .traficar(DaggerTraficarComponent.create())
+            .platform(DaggerPlatformComponent.builder().context(this).build())
             .create(this)
 }

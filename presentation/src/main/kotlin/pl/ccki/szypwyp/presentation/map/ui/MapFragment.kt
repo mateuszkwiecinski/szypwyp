@@ -14,20 +14,21 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
     override val layoutId = R.layout.fragment_map
     override val viewModelClass = MapViewModel::class
 
-    override fun init(savedInstanceState: Bundle?) = Unit
+    override fun init(savedInstanceState: Bundle?){
+        savedInstanceState ?: viewModel.onFirstRun()
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
-        initMap()
+        initMap(savedInstanceState)
         // navController.navigate(R.id.action_mapFragment_to_configurationFragment)
     }
 
-    private fun initMap() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-            ?: return
+    private fun initMap(savedInstanceState: Bundle?) {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment ?: return
         mapFragment.rxGetMap()
             .map { map ->
                 context?.let {
-                    SzypMap(it, map, viewModel, this)
+                    SzypMap(it, map, viewModel, this, savedInstanceState)
                 }
             }
             .subscribe()

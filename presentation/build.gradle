@@ -23,9 +23,8 @@ android {
 }
 
 dependencies {
-    def nav_version = "1.0.0-alpha05"
+    def nav_version = "1.0.0-alpha06"
     def lifecycle_version = "1.1.1"
-    def firebase_version = "16.0.1"
 
     implementation project(":domain")
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -33,22 +32,22 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
-    implementation "com.google.firebase:firebase-core:$firebase_version"
-    implementation "com.google.firebase:firebase-crash:$firebase_version"
-    implementation "com.google.android.gms:play-services-maps:15.0.1"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "com.google.firebase:firebase-core:16.0.4"
+    implementation "com.google.firebase:firebase-crash:16.2.1"
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
 
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
-
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
     androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 }
