@@ -8,4 +8,4 @@ fun Disposable.disposeIn(disposeBag: CompositeDisposable) {
     disposeBag.add(this)
 }
 
-fun Query<Unit>.execute(): Completable = execute(Unit)
+fun Command<Unit>.execute(): Completable = execute(Unit)

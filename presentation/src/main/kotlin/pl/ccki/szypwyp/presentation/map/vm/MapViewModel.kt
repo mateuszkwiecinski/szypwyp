@@ -3,20 +3,20 @@ package pl.ccki.szypwyp.presentation.map.vm
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.subjects.BehaviorSubject
 import pl.ccki.szypwyp.domain.base.execute
-import pl.ccki.szypwyp.domain.commands.GetCameraCommand
-import pl.ccki.szypwyp.domain.commands.GetVehiclesCommand
+import pl.ccki.szypwyp.domain.queries.GetCameraQuery
+import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.queries.FindFirstCameraQuery
-import pl.ccki.szypwyp.domain.queries.RefreshVehiclesQuery
+import pl.ccki.szypwyp.domain.commands.InitializeMapCommand
+import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
 import pl.ccki.szypwyp.presentation.base.BaseViewModel
 import javax.inject.Inject
 
 class MapViewModel @Inject constructor(
-    getVehiclesCommand: GetVehiclesCommand,
-    getCameraCommand: GetCameraCommand,
-    private val refreshVehiclesQuery: RefreshVehiclesQuery,
-    private val findFirstCameraQuery: FindFirstCameraQuery
+    getVehiclesCommand: GetVehiclesQuery,
+    getCameraCommand: GetCameraQuery,
+    private val refreshVehiclesQuery: RefreshVehiclesCommand,
+    private val initializeMapQuery: InitializeMapCommand
 ) : BaseViewModel() {
 
     val markers = MutableLiveData<Map<String, List<MarkerModel>>>()
@@ -32,8 +32,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun onFirstRun() {
-        findFirstCameraQuery.execute()
-            .andThen(refreshVehiclesQuery.execute())
+        initializeMapQuery.execute()
             .subscribe()
     }
 }

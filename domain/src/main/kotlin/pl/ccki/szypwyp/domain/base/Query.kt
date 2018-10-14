@@ -1,7 +1,7 @@
 package pl.ccki.szypwyp.domain.base
 
-import io.reactivex.Completable
+import io.reactivex.Observable
 
-interface Query<T> {
-    fun execute(param: T): Completable
+interface Query<T : Any> {
+    fun execute(): Observable<T>
 }

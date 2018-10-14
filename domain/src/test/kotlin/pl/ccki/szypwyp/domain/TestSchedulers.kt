@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.domain.commands
+package pl.ccki.szypwyp.domain
 
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers

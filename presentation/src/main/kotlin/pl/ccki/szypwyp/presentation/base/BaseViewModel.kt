@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.disposables.DisposableContainer
-import pl.ccki.szypwyp.domain.base.Command
+import pl.ccki.szypwyp.domain.base.Query
 
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     protected val disposeBag = CompositeDisposable()
@@ -15,7 +15,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
         super.onCleared()
     }
 
-    fun <T : Any> Command<T>.execute(action: (T) -> Unit) =
+    fun <T : Any> Query<T>.execute(action: (T) -> Unit) =
         execute().subscribe(action).disposeWith(disposeBag)
 }
 

@@ -1,10 +1,11 @@
-package pl.ccki.szypwyp.domain.queries
+package pl.ccki.szypwyp.domain.commands
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import pl.ccki.szypwyp.domain.base.Query
+import pl.ccki.szypwyp.domain.base.Command
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.applySchedulers
+import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.Zoom
@@ -14,12 +15,13 @@ import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FindFirstCameraQuery @Inject constructor(
+class InitializeMapCommand @Inject constructor(
     private val cameraPersistence: CameraPersistence,
     private val locationProvider: LocationProvider,
     private val searchConfig: SearchConfigRepository,
-    private val schedulersProvider: SchedulersProvider
-) : Query<Unit> {
+    private val schedulersProvider: SchedulersProvider,
+    private val refreshVehiclesCommand: RefreshVehiclesCommand
+) : Command<Unit> {
 
     override fun execute(param: Unit): Completable =
         Single.fromCallable {
@@ -38,6 +40,10 @@ class FindFirstCameraQuery @Inject constructor(
                     .toMaybe()
                     .onErrorComplete()
             )
-            .flatMapCompletable { cameraPersistence.update(Camera.ToPosition(it, Zoom.Away)) }
+            .flatMapCompletable {
+                searchConfig.target = it
+                cameraPersistence.update(Camera.ToPosition(it, Zoom.Away))
+            }
+            .andThen(refreshVehiclesCommand.execute())
             .applySchedulers(schedulersProvider)
 }

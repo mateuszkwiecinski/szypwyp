@@ -12,6 +12,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
+import pl.ccki.szypwyp.domain.TestSchedulers
 import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.errors.Android
 import pl.ccki.szypwyp.domain.models.Camera
@@ -19,15 +20,16 @@ import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.persistences.CameraPersistence
 import pl.ccki.szypwyp.domain.providers.LocationProvider
-import pl.ccki.szypwyp.domain.queries.FindFirstCameraQuery
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 
-class FindFirstCameraPositionQueryTest {
+class InitializeMapCommandTest {
 
-    lateinit var query: FindFirstCameraQuery
+    lateinit var query: InitializeMapCommand
     lateinit var cameraPersistence: CameraPersistence
     lateinit var locationProvider: LocationProvider
     lateinit var searchConfig: SearchConfigRepository
+    lateinit var refreshVehiclesCommand: RefreshVehiclesCommand
+
 
     @Before
     fun setUp() {
@@ -36,11 +38,15 @@ class FindFirstCameraPositionQueryTest {
         }
         locationProvider = mock()
         searchConfig = mock()
-        query = FindFirstCameraQuery(
+        refreshVehiclesCommand = mock{
+            on { execute(any()) } doReturn Completable.complete()
+        }
+        query = InitializeMapCommand(
             cameraPersistence = cameraPersistence,
             locationProvider = locationProvider,
             searchConfig = searchConfig,
-            schedulersProvider = TestSchedulers
+            schedulersProvider = TestSchedulers,
+            refreshVehiclesCommand = refreshVehiclesCommand
         )
     }
 

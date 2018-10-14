@@ -1,8 +1,8 @@
-package pl.ccki.szypwyp.domain.queries
+package pl.ccki.szypwyp.domain.commands
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import pl.ccki.szypwyp.domain.base.Query
+import pl.ccki.szypwyp.domain.base.Command
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
@@ -14,13 +14,13 @@ import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import pl.ccki.szypwyp.domain.services.ExternalService
 import javax.inject.Inject
 
-class RefreshVehiclesQuery @Inject constructor(
+class RefreshVehiclesCommand @Inject constructor(
     private val configuration: ServicesConfigurationRepository,
     private val registeredServices: Set<@JvmSuppressWildcards ExternalService>,
     private val persistence: VehiclesPersistence,
     private val searchConfig: SearchConfigRepository,
     private val schedulersProvider: SchedulersProvider
-) : Query<Unit> {
+) : Command<Unit> {
 
     override fun execute(param: Unit): Completable =
         Single.fromCallable<List<Single<RequestDto>>> {

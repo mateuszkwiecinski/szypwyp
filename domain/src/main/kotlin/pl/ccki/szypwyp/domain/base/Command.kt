@@ -1,7 +1,7 @@
 package pl.ccki.szypwyp.domain.base
 
-import io.reactivex.Observable
+import io.reactivex.Completable
 
-interface Command<T : Any> {
-    fun execute(): Observable<T>
+interface Command<T> {
+    fun execute(param: T): Completable
 }
