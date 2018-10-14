@@ -25,7 +25,7 @@ android {
 dependencies {
     def nav_version = "1.0.0-alpha05"
     def lifecycle_version = "1.1.1"
-    def firebase_version = "16.0.2"
+    def firebase_version = "16.0.1"
 
     implementation project(":domain")
     implementation "com.google.dagger:dagger-android-support:$dagger_version"

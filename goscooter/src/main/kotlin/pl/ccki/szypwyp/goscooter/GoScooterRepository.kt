@@ -12,10 +12,8 @@ class GoScooterRepository(
     fun getAll(): List<MarkerModel> {
         val response = endpoint.allAvailableDevices().execute()
 
-        return response.body().let {
-            it.orEmpty().mapNotNull {
-                map(it)
-            }
+        return response.body().orEmpty().mapNotNull {
+            map(it)
         }
     }
 
@@ -30,4 +28,3 @@ class GoScooterRepository(
         )
     }
 }
-
