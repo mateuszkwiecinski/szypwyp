@@ -25,6 +25,7 @@ android {
 dependencies {
     def nav_version = "1.0.0-alpha06"
     def lifecycle_version = "1.1.1"
+    def constraint_layout_version = '2.0.0-alpha2'
 
     implementation project(":domain")
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -33,9 +34,12 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
     implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.constraintlayout:constraintlayout-solver:$constraint_layout_version"
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.google.firebase:firebase-core:16.0.4"
@@ -47,7 +51,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
 
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 }

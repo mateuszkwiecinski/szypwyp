@@ -10,6 +10,7 @@ import com.nhaarman.mockitokotlin2.stub
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 import pl.ccki.szypwyp.domain.TestSchedulers
@@ -30,7 +31,6 @@ class InitializeMapCommandTest {
     lateinit var searchConfig: SearchConfigRepository
     lateinit var refreshVehiclesCommand: RefreshVehiclesCommand
 
-
     @Before
     fun setUp() {
         cameraPersistence = mock {
@@ -38,7 +38,7 @@ class InitializeMapCommandTest {
         }
         locationProvider = mock()
         searchConfig = mock()
-        refreshVehiclesCommand = mock{
+        refreshVehiclesCommand = mock {
             on { execute(any()) } doReturn Completable.complete()
         }
         query = InitializeMapCommand(
@@ -53,7 +53,7 @@ class InitializeMapCommandTest {
     @Test
     fun `updates default value on first run`() {
         locationProvider.stub {
-            on { singleUpdate() } doReturn Single.error(Android.MissingPermission(Permission.Location))
+            on { singleUpdate(Schedulers.trampoline()) } doReturn Single.error(Android.MissingPermission(Permission.Location))
         }
 
         query.execute().test().assertNoErrors()
@@ -64,14 +64,13 @@ class InitializeMapCommandTest {
     @Test
     fun `emits last saved value instantly and than current users`() {
         locationProvider.stub {
-            on { singleUpdate() } doReturn Single.just(LatLng(21.37, 9.11))
+            on { singleUpdate(any()) } doReturn Single.just(LatLng(21.37, 9.11))
         }
         searchConfig.stub {
             on { target } doReturn LatLng(9.12, 21.38)
         }
 
         query.execute().test().assertNoErrors()
-
 
         inOrder(cameraPersistence) {
             verify(cameraPersistence).update(argThat {
@@ -88,14 +87,13 @@ class InitializeMapCommandTest {
     @Test
     fun `emits only last saved value if user has no location`() {
         locationProvider.stub {
-            on { singleUpdate() } doReturn Single.error(Android.MissingPermission(Permission.Location))
+            on { singleUpdate(any()) } doReturn Single.error(Android.MissingPermission(Permission.Location))
         }
         searchConfig.stub {
             on { target } doReturn LatLng(9.12, 21.38)
         }
 
         query.execute().test().assertNoErrors()
-
 
         inOrder(cameraPersistence) {
             verify(cameraPersistence).update(argThat {
@@ -108,12 +106,11 @@ class InitializeMapCommandTest {
     @Test
     fun `updates default target on first run`() {
         locationProvider.stub {
-            on { singleUpdate() } doReturn Single.error(Android.MissingPermission(Permission.Location))
+            on { singleUpdate(any()) } doReturn Single.error(Android.MissingPermission(Permission.Location))
         }
 
         query.execute().test().assertNoErrors()
 
         verify(searchConfig).target = notNull()
     }
-
 }

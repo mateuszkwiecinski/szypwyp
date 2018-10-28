@@ -43,6 +43,7 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[viewModelClass.java]
+        lifecycle.addObserver(viewModel)
         init(savedInstanceState)
     }
 
@@ -73,6 +74,7 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
 
     override fun onDestroy() {
         disposeBag.dispose()
+        lifecycle.removeObserver(viewModel)
         super.onDestroy()
     }
 }

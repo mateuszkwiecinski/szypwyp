@@ -1,10 +1,10 @@
 package pl.ccki.szypwyp.domain.persistences
 
-import io.reactivex.Completable
-import io.reactivex.Observable
 import pl.ccki.szypwyp.domain.models.Camera
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface CameraPersistence {
-    fun get(): Observable<Camera>
-    fun update(new: Camera): Completable
-}
+interface CameraPersistence : DefaultPersistence<Camera>
+
+@Singleton
+class InMemoryCameraPersistence @Inject constructor() : BehaviorSubjectBasedPersistence<Camera>(), CameraPersistence

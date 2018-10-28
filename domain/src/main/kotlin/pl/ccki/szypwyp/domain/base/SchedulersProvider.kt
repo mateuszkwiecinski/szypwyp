@@ -3,7 +3,6 @@ package pl.ccki.szypwyp.domain.base
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.Single
 
 interface SchedulersProvider {
     val worker: Scheduler

@@ -6,9 +6,11 @@ import dagger.Provides
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.ServiceId
 import pl.ccki.szypwyp.domain.providers.LocationProvider
+import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import pl.ccki.szypwyp.platform.internal.AndroidLocationProvider
+import pl.ccki.szypwyp.platform.internal.AndroidPermissionChecker
 
 @Module(includes = [LocationModule::class])
 abstract class DataModule {
@@ -31,4 +33,7 @@ abstract class DataModule {
 
     @Binds
     abstract fun locationProvider(provider: AndroidLocationProvider): LocationProvider
+
+    @Binds
+    abstract fun permissionChecker(provider: AndroidPermissionChecker): PermissionChecker
 }

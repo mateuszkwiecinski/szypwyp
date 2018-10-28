@@ -35,7 +35,7 @@ class InitializeMapCommand @Inject constructor(
                 cameraPersistence.update(Camera.ToPosition(it, Zoom.Away))
             }
             .andThen(
-                locationProvider.singleUpdate()
+                locationProvider.singleUpdate(schedulersProvider.worker)
                     .timeout(5, TimeUnit.SECONDS)
                     .toMaybe()
                     .onErrorComplete()

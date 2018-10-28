@@ -1,12 +1,13 @@
 package pl.ccki.szypwyp.domain.persistences
 
-import io.reactivex.Completable
-import io.reactivex.Observable
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.ServiceId
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface VehiclesPersistence {
-    fun get(): Observable<Map<ServiceId, List<MarkerModel>>>
+private typealias VehiclesData = Map<ServiceId, List<MarkerModel>>
 
-    fun update(new: Map<ServiceId, List<MarkerModel>>): Completable
-}
+interface VehiclesPersistence : DefaultPersistence<VehiclesData>
+
+@Singleton
+class InMemoryVehiclesPersistence @Inject constructor() : BehaviorSubjectBasedPersistence<VehiclesData>(emptyMap()), VehiclesPersistence
