@@ -1,7 +1,6 @@
 package pl.ccki.szypwyp.domain.persistences
 
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.models.ServiceId
 import pl.ccki.szypwyp.domain.models.ServiceInfoModel
 import javax.inject.Inject
 import javax.inject.Singleton

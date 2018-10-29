@@ -7,7 +7,7 @@ import pl.ccki.szypwyp.blinkee.domain.BlinkeeService
 import pl.ccki.szypwyp.domain.services.ExternalService
 import pl.ccki.szypwyp.goscooter.GoScooterService
 import pl.ccki.szypwyp.traficar.TraficarService
-import pl.ccki.szypwyp.vozilla.VozillaService
+import pl.ccki.szypwyp.vozilla.domain.VozillaService
 
 @Module
 abstract class ServicesModule {

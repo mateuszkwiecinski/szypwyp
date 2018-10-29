@@ -2,7 +2,6 @@ package pl.ccki.szypwyp.traficar
 
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.models.ServiceId
 import pl.ccki.szypwyp.domain.models.ServiceInfoModel
 import pl.ccki.szypwyp.domain.services.ExternalService
 import javax.inject.Inject
