@@ -32,7 +32,7 @@ class InitializeMapCommand @Inject constructor(
             searchConfig.target ?: DEFAULT_LOCATION
         }
             .flatMapCompletable {
-                cameraPersistence.update(Camera.ToPosition(it, Zoom.Away))
+                cameraPersistence.update(Camera.ToPosition(it, maxZoom = Zoom.Away))
             }
             .andThen(
                 locationProvider.singleUpdate(schedulersProvider.worker)
@@ -42,7 +42,7 @@ class InitializeMapCommand @Inject constructor(
             )
             .flatMapCompletable {
                 searchConfig.target = it
-                cameraPersistence.update(Camera.ToPosition(it, Zoom.Away))
+                cameraPersistence.update(Camera.ToPosition(it, maxZoom = Zoom.Away))
             }
             .andThen(refreshVehiclesCommand.execute())
             .applySchedulers(schedulersProvider)

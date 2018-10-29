@@ -15,6 +15,7 @@ import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.commands.InitializeMapCommand
 import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
 import pl.ccki.szypwyp.domain.models.Camera
+import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.Zoom
@@ -23,6 +24,7 @@ import pl.ccki.szypwyp.domain.queries.GetLocationQuery
 import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.presentation.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.map.clustering.SingleClusterItem
 import pl.ccki.szypwyp.presentation.map.models.LocationMode
 import pl.ccki.szypwyp.presentation.map.models.MapEvent
 import javax.inject.Inject
@@ -74,12 +76,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun onMapTouched() {
-        when (locationMode.value) {
-            LocationMode.None -> null
-            LocationMode.ContinuousUpdates, null -> LocationMode.None
-        }?.let {
-            locationSubject.onNext(it)
-        }
+        locationSubject.onNext(LocationMode.None)
     }
 
     fun onFirstRun() {
@@ -106,6 +103,15 @@ class MapViewModel @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun checkPermission() {
         locationPermissionGranted.onNext(permissionChecker.check(Permission.Location))
+    }
+
+    fun onItemClicked(item: SingleClusterItem) {
+        locationSubject.onNext(LocationMode.None)
+    }
+
+    fun onClusterClicked(items: Iterable<SingleClusterItem>) {
+        locationSubject.onNext(LocationMode.None)
+        camera.onNext(Camera.ToGroup(items.map { element -> element.position.let { LatLng(it.latitude, it.longitude) } }))
     }
 }
 

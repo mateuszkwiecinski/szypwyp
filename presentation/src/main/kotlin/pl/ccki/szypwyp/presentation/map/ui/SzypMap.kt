@@ -31,7 +31,7 @@ class SzypMap(
     private val disposeBag: CompositeDisposable = CompositeDisposable()
 ) : Disposable by disposeBag {
 
-    private val clusterManager = MapCluterManager(context, googleMap)
+    private val clusterManager = MapCluterManager(context, googleMap, viewModel)
 
     init {
         googleMap.clear()
@@ -68,7 +68,7 @@ private fun Camera.toCameraUpdate(camera: CameraPosition): CameraUpdate =
             val max = maxZoom?.toFloat() ?: current
             val min = minZoom?.toFloat() ?: current
 
-            when{
+            when {
                 current < max -> CameraUpdateFactory.newLatLngZoom(position.toLatLng(), max)
                 current > min -> CameraUpdateFactory.newLatLngZoom(position.toLatLng(), min)
                 else -> CameraUpdateFactory.newLatLng(position.toLatLng())
@@ -78,7 +78,7 @@ private fun Camera.toCameraUpdate(camera: CameraPosition): CameraUpdate =
             val builder = LatLngBounds.builder()
             items.map(LatLng::toLatLng).forEach { builder.include(it) }
 
-            CameraUpdateFactory.newLatLngBounds(builder.build(), 100)
+            CameraUpdateFactory.newLatLngBounds(builder.build(), 200)
         }
         Camera.ZoomIn -> CameraUpdateFactory.zoomIn()
         Camera.ZoomOut -> CameraUpdateFactory.zoomOut()

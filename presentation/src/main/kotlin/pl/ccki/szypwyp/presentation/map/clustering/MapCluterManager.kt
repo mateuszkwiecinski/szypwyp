@@ -4,10 +4,12 @@ import android.content.Context
 import com.google.android.gms.maps.GoogleMap
 import com.google.maps.android.clustering.ClusterManager
 import pl.ccki.szypwyp.domain.models.MarkerModel
+import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 
 class MapCluterManager(
     context: Context,
-    map: GoogleMap
+    map: GoogleMap,
+    private val viewModel: MapViewModel
 ) {
 
     var items: Map<String, List<MarkerModel>> = emptyMap()
@@ -26,6 +28,14 @@ class MapCluterManager(
             map.setOnMarkerClickListener(it)
             map.setOnCameraIdleListener(it)
             map.setOnInfoWindowClickListener(it)
+            it.setOnClusterItemClickListener { item ->
+                viewModel.onItemClicked(item)
+                false
+            }
+            it.setOnClusterClickListener { cluster ->
+                viewModel.onClusterClicked(cluster.items)
+                true
+            }
         }
     }
 }
