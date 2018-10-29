@@ -1,2 +1,12 @@
-include ":di", ':presentation', ":domain", ":vozilla", ":goscooter", ":blinkee", ":traficar",
-        ":nextbike", "platform"
+include ":di",
+        ':presentation',
+        ":domain",
+        ":vozilla",
+        ":goscooter",
+        ":blinkee:di",
+        ":blinkee:domain",
+        ":blinkee:data",
+        ":blinkee:presentation",
+        ":traficar",
+        ":nextbike",
+        "platform"

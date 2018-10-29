@@ -18,6 +18,7 @@ import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
+import pl.ccki.szypwyp.domain.models.ServiceInfoModel
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
@@ -40,7 +41,7 @@ class MapViewModel @Inject constructor(
 
     private var cameraUpdates: Disposable? = null
 
-    val markers = MutableLiveData<Map<String, List<MarkerModel>>>()
+    val markers = MutableLiveData<Map<ServiceInfoModel, List<MarkerModel>>>()
     val camera = BehaviorSubject.create<Camera>()
     val locationPermissionGranted = BehaviorSubject.create<Boolean>()
 

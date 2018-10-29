@@ -7,7 +7,7 @@ import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.models.ServiceId
+import pl.ccki.szypwyp.domain.models.ServiceInfoModel
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
@@ -29,12 +29,12 @@ class RefreshVehiclesCommand @Inject constructor(
 
             servicesToCall.map {
                 Single.fromCallable {
-                    RequestDto(it.id, it.findInLocation(target))
+                    RequestDto(it.info, it.findInLocation(target))
                 }
             }
         }
             .flatMap {
-                Single.mergeDelayError(it).toMap(RequestDto::id, RequestDto::result)
+                Single.mergeDelayError(it).toMap(RequestDto::info, RequestDto::result)
             }
             .flatMapCompletable {
                 persistence.update(it)
@@ -45,9 +45,9 @@ class RefreshVehiclesCommand @Inject constructor(
         val services = configuration.selected ?: return registeredServices
 
         return registeredServices.filter {
-            services.contains(it.id)
+            services.contains(it.info.id)
         }
     }
 }
 
-private data class RequestDto(val id: ServiceId, val result: List<MarkerModel>)
+private data class RequestDto(val info: ServiceInfoModel, val result: List<MarkerModel>)

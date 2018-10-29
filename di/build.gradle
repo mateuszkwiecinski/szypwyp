@@ -36,6 +36,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/*.kotlin_module' /* TODO what i just did here!? */
+    }
+}
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -43,7 +50,10 @@ dependencies {
     implementation project(":domain")
     implementation project(":vozilla")
     implementation project(":goscooter")
-    implementation project(":blinkee")
+    implementation project(":blinkee:di")
+    implementation project(":blinkee:domain")
+    implementation project(":blinkee:data")
+    implementation project(":blinkee:presentation")
     implementation project(":traficar")
     implementation project(":nextbike")
     implementation project(":platform")

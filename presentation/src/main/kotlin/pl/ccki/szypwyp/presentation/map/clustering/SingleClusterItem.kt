@@ -3,14 +3,15 @@ package pl.ccki.szypwyp.presentation.map.clustering
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import pl.ccki.szypwyp.domain.models.MarkerModel
+import pl.ccki.szypwyp.domain.models.ServiceInfoModel
 
 class SingleClusterItem(
-    private val providerId: String,
-    private val marker: MarkerModel) : ClusterItem {
+    val info: ServiceInfoModel,
+    val marker: MarkerModel) : ClusterItem {
 
     override fun getSnippet(): String = marker.id
 
-    override fun getTitle(): String = providerId
+    override fun getTitle(): String = info.id
 
     override fun getPosition(): LatLng = marker.location.latLng
 }
