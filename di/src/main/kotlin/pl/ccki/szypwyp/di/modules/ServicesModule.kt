@@ -6,7 +6,7 @@ import dagger.multibindings.IntoSet
 import pl.ccki.szypwyp.blinkee.domain.BlinkeeService
 import pl.ccki.szypwyp.domain.services.ExternalService
 import pl.ccki.szypwyp.goscooter.domain.GoScooterService
-import pl.ccki.szypwyp.traficar.TraficarService
+import pl.ccki.szypwyp.traficar.domain.TraficarService
 import pl.ccki.szypwyp.vozilla.domain.VozillaService
 
 @Module

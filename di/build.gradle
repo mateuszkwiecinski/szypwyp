@@ -60,7 +60,10 @@ dependencies {
     implementation project(":vozilla:domain")
     implementation project(":vozilla:data")
     implementation project(":vozilla:presentation")
-    implementation project(":traficar")
+    implementation project(":traficar:di")
+    implementation project(":traficar:domain")
+    implementation project(":traficar:data")
+    implementation project(":traficar:presentation")
     implementation project(":platform")
 
     implementation "com.google.dagger:dagger-android:$dagger_version"
