@@ -13,7 +13,7 @@ class RemoteVozillaRepository @Inject constructor(
 
     override fun getAll(): List<MarkerModel> =
         endpoints.get().execute().let {
-            it.body()?.list?.mapNotNull { map(it) }.orEmpty()
+            it.body()?.list?.mapNotNull(this::map).orEmpty()
         }
 
     private fun map(param: ObjectResponse): MarkerModel? {

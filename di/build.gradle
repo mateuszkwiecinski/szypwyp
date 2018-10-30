@@ -38,7 +38,7 @@ android {
     }
 
     packagingOptions {
-        pickFirst 'META-INF/*.kotlin_module' /* TODO what i just did here!? */
+        pickFirst 'META-INF/*.kotlin_module' /* TODO what I just did here!? */
     }
 }
 kapt {
@@ -48,7 +48,10 @@ kapt {
 dependencies {
     implementation project(":presentation")
     implementation project(":domain")
-    implementation project(":goscooter")
+    implementation project(":goscooter:di")
+    implementation project(":goscooter:domain")
+    implementation project(":goscooter:data")
+    implementation project(":goscooter:presentation")
     implementation project(":blinkee:di")
     implementation project(":blinkee:domain")
     implementation project(":blinkee:data")
@@ -58,7 +61,6 @@ dependencies {
     implementation project(":vozilla:data")
     implementation project(":vozilla:presentation")
     implementation project(":traficar")
-    implementation project(":nextbike")
     implementation project(":platform")
 
     implementation "com.google.dagger:dagger-android:$dagger_version"
