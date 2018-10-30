@@ -30,7 +30,7 @@
             android:layout_marginBottom="30dp"
             android:onClick="@{() -> model.onMyLocationClicked()}"
             android:src="@drawable/ic_my_location"
-            android:tint="@{model.locationMode == LocationMode.ContinuousUpdates ? @color/md_blue_700 : @color/md_grey_900}"
+            android:tint="@{model.locationMode == LocationMode.ContinuousUpdates || model.locationMode == LocationMode.ZoomedUpdates ? @color/md_blue_700 : @color/md_grey_900}"
             app:backgroundTint="@color/md_white_1000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

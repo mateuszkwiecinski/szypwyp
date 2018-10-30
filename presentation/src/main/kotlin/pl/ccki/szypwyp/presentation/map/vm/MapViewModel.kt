@@ -36,7 +36,7 @@ class MapViewModel @Inject constructor(
     private val refreshVehiclesQuery: RefreshVehiclesCommand,
     private val initializeMapQuery: InitializeMapCommand,
     private val permissionChecker: PermissionChecker,
-    getLocationQuery: GetLocationQuery
+    private val getLocationQuery: GetLocationQuery
 ) : BaseViewModel() {
 
     private var cameraUpdates: Disposable? = null
@@ -61,12 +61,15 @@ class MapViewModel @Inject constructor(
             .distinctUntilChanged()
             .subscribe { mode: LocationMode ->
                 when (mode) {
-                    LocationMode.ContinuousUpdates -> {
+                    LocationMode.ContinuousUpdates,
+                    LocationMode.ZoomedUpdates -> {
                         cameraUpdates?.dispose()
                         cameraUpdates = getLocationQuery.execute()
                             .subscribe {
-                                camera.onNext(Camera.ToPosition(it, maxZoom = Zoom.Away))
-                            }.also { disposeBag.add(it) }
+                                val zoom = if (mode == LocationMode.ContinuousUpdates) Zoom.Away else Zoom.Close
+                                camera.onNext(Camera.ToPosition(it, maxZoom = zoom))
+                            }
+                            .also { disposeBag.add(it) }
                     }
                     LocationMode.None -> {
                         cameraUpdates?.dispose()
@@ -89,7 +92,12 @@ class MapViewModel @Inject constructor(
     fun onMyLocationClicked() {
         checkPermission()
         if (locationPermissionGranted.value == true) {
-            locationSubject.onNext(LocationMode.ContinuousUpdates)
+            val newValue = when(locationSubject.value){
+                LocationMode.None, null -> LocationMode.ContinuousUpdates
+                LocationMode.ContinuousUpdates -> LocationMode.ZoomedUpdates
+                LocationMode.ZoomedUpdates -> LocationMode.ZoomedUpdates
+            }
+            locationSubject.onNext(newValue)
         } else {
             navigation.onNext(MapEvent.MyLocationPermissionError)
         }

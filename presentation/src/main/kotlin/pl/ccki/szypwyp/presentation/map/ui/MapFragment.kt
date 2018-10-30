@@ -11,6 +11,7 @@ import pl.ccki.szypwyp.presentation.base.extensions.observe
 import pl.ccki.szypwyp.presentation.base.extensions.permissionName
 import pl.ccki.szypwyp.presentation.base.extensions.rxGetMap
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
+import pl.ccki.szypwyp.presentation.dialogs.PermissionBlockedDialog
 import pl.ccki.szypwyp.presentation.map.models.LocationMode
 import pl.ccki.szypwyp.presentation.map.models.MapEvent
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
@@ -34,15 +35,22 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
             .subscribe {
                 when {
                     it.granted -> viewModel.onMyLocationClicked()
-                    !it.shouldShowRequestPermissionRationale -> Unit //TODO show dialog, open settings
+                    !it.shouldShowRequestPermissionRationale -> context?.let { context ->
+                        PermissionBlockedDialog(
+                            Permission.Location,
+                            context,
+                            this::startActivity
+                        ).show()
+                    }
                 }
             }
             .disposeIn(disposeBag)
 
         viewModel.locationMode.observe(this) {
-            binding.btnLocation.animate().rotation(when(it){
+            binding.btnLocation.animate().rotation(when (it) {
                 LocationMode.ContinuousUpdates -> 90f
                 LocationMode.None, null -> 0f
+                LocationMode.ZoomedUpdates -> 180f
             })
         }
         // navController.navigate(R.id.action_mapFragment_to_configurationFragment)

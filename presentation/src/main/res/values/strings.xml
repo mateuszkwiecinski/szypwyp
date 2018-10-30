@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SzypWyp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_permission_blocked_title">Required Permission</string>
+    <string name="dialog_permission_blocked_positive">Settings</string>
+    <string name="dialog_permission_blocked_location_message">Location permission is required to use this functionality. Plese go to settings and grant location acces for this app.</string>
 </resources>
