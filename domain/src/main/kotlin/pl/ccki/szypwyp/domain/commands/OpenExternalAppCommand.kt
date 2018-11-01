@@ -18,7 +18,9 @@ class OpenExternalAppCommand @Inject constructor(
 ) : Command<PluginId> {
 
     override fun execute(param: PluginId): Completable =
-        Maybe.fromCallable<ExternalAppId> { supportedApps[param]?.appId }
+        Maybe.fromCallable<ExternalAppId> {
+            supportedApps[param]?.appId
+        }
             .doOnSuccess {
                 if (appsChecker.isAppInstalled(it)) {
                     appOpener.openApp(it)

@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.execute
+import pl.ccki.szypwyp.domain.models.ExternalAppId
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
@@ -53,10 +54,16 @@ class RefreshVehiclesCommandTest {
         }
         val data = listOf<MarkerModel>(mock(), mock())
         val firstPlugin = object : ExternalPlugin {
+            override val appId: ExternalAppId
+                get() = mock()
+
             override fun findInLocation(location: LatLng): List<MarkerModel> =
                 data
         }
         val secondPlugin = object : ExternalPlugin {
+            override val appId: ExternalAppId
+                get() = mock()
+
             override fun findInLocation(location: LatLng): List<MarkerModel> {
                 Thread.sleep(100)
                 throw IllegalStateException()

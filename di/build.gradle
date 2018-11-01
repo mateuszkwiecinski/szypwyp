@@ -1,9 +1,6 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'lib.main'
 
 android {
-    compileSdkVersion 28
     signingConfigs {
         debug {
             storeFile file("../keys/debug.keystore")
@@ -14,15 +11,8 @@ android {
     }
     defaultConfig {
         applicationId "pl.ccki.szypwyp"
-        minSdkVersion 21
-        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-        test.java.srcDirs += "src/test/kotlin"
     }
     dataBinding {
         enabled = true
@@ -40,10 +30,6 @@ android {
     packagingOptions {
         pickFirst 'META-INF/*.kotlin_module' /* TODO what I just did here!? */
     }
-}
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
 }
 
 dependencies {
@@ -67,14 +53,4 @@ dependencies {
     implementation project(":traficar:presentation")
     implementation project(":platform")
     implementation project(":presentationInterfaces")
-
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation "junit:junit:$junit_version"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
-
 }

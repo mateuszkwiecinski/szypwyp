@@ -1,5 +1,6 @@
 package pl.ccki.szypwyp.di.modules
 
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
