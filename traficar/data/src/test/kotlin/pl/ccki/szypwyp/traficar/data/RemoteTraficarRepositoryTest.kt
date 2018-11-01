@@ -18,7 +18,7 @@ class RemoteTraficarRepositoryTest {
         server.start()
         val endpoints = TraficarRetrofitFactory.create(server.url("/").toString())
             .create(TraficarEndpoints::class.java)
-        val repository = TraficarRepository(endpoints)
+        val repository = RemoteTraficarRepository(endpoints)
 
         val result = repository.getAll()
 

@@ -1,7 +1,7 @@
 package pl.ccki.szypwyp.domain.repositories
 
-import pl.ccki.szypwyp.domain.models.ServiceId
+import pl.ccki.szypwyp.domain.models.PluginId
 
 interface ServicesConfigurationRepository {
-    var selected: Collection<ServiceId>?
+    var selected: Iterable<PluginId>?
 }

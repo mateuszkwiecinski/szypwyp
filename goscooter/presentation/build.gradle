@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation project(":goscooter:domain")
+    api project(":presentationInterfaces")
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

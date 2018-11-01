@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="info_window_range">Range:</string>
+    <string name="info_window_name">Vozilla</string>
+</resources>

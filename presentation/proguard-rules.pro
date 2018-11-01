@@ -1,7 +1,7 @@
 # Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
 
-# Retain service method parameters when optimizing.
+# Retain plugin method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }

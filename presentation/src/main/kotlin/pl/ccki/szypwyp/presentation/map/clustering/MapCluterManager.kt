@@ -4,16 +4,18 @@ import android.content.Context
 import com.google.android.gms.maps.GoogleMap
 import com.google.maps.android.clustering.ClusterManager
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.models.ServiceInfoModel
+import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 
 class MapCluterManager(
     context: Context,
     map: GoogleMap,
+    viewsProvider : Map<PluginId, MapViewsProvider<MarkerModel>>,
     private val viewModel: MapViewModel
 ) {
 
-    var items: Map<ServiceInfoModel, List<MarkerModel>> = emptyMap()
+    var items: Map<PluginId, List<MarkerModel>> = emptyMap()
         set(value) {
             field = value
             val all = value.toList().map { (info, markers) ->
@@ -37,7 +39,10 @@ class MapCluterManager(
                 viewModel.onClusterClicked(cluster.items)
                 true
             }
-            it.renderer = ClusterIconRenderer(context, map, it)
+            it.renderer = ClusterIconRenderer(context, viewsProvider, map, it)
+            it.setOnClusterItemInfoWindowClickListener {
+                viewModel.onInfoWindowClicked(it)
+            }
         }
     }
 }

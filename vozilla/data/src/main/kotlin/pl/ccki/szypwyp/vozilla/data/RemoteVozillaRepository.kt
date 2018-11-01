@@ -5,6 +5,8 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.vozilla.data.config.VozillaEndpoints
 import pl.ccki.szypwyp.vozilla.domain.VozillaRepository
 import pl.ccki.szypwyp.vozilla.data.model.ObjectResponse
+import pl.ccki.szypwyp.vozilla.domain.Kilometers
+import pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel
 import javax.inject.Inject
 
 class RemoteVozillaRepository @Inject constructor(
@@ -21,8 +23,9 @@ class RemoteVozillaRepository @Inject constructor(
         val lat = param.location?.latitude ?: return null
         val lng = param.location?.longitude ?: return null
 
-        return MarkerModel(id = id,
-            location = LatLng(lat, lng)
+        return VozillaMarkerModel(id = id,
+            location = LatLng(lat, lng),
+            range = param.rangeKm?.let(::Kilometers)
         )
     }
 }

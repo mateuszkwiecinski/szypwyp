@@ -43,6 +43,7 @@ android {
 }
 kapt {
     correctErrorTypes = true
+    useBuildCache = true
 }
 
 dependencies {
@@ -65,6 +66,7 @@ dependencies {
     implementation project(":traficar:data")
     implementation project(":traficar:presentation")
     implementation project(":platform")
+    implementation project(":presentationInterfaces")
 
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"

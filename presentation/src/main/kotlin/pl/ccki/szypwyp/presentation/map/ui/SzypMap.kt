@@ -11,13 +11,16 @@ import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLngBounds
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MarkerModel
+import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.presentation.base.extensions.observe
+import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.map.clustering.MapCluterManager
+import pl.ccki.szypwyp.presentation.map.clustering.MarkerInfoWindowAdapter
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 import com.google.android.gms.maps.model.LatLng as GoogleLatLng
 
@@ -28,10 +31,11 @@ class SzypMap(
     viewModel: MapViewModel,
     lifecycleOwner: LifecycleOwner,
     savedInstanceState: Bundle?,
-    private val disposeBag: CompositeDisposable = CompositeDisposable()
-) : Disposable by disposeBag {
+    viewsProvider: Map<PluginId, MapViewsProvider<MarkerModel>>,
+    disposeBag: CompositeDisposable
+) {
 
-    private val clusterManager = MapCluterManager(context, googleMap, viewModel)
+    private val clusterManager = MapCluterManager(context, googleMap, viewsProvider, viewModel)
 
     init {
         googleMap.clear()
@@ -47,7 +51,10 @@ class SzypMap(
             googleMap.animateCamera(it.toCameraUpdate(googleMap.cameraPosition))
         }.disposeIn(disposeBag)
 
-        googleMap.uiSettings.isMyLocationButtonEnabled = false
+        googleMap.uiSettings.apply {
+            isMyLocationButtonEnabled = false
+            isMapToolbarEnabled = false
+        }
         viewModel.locationPermissionGranted.subscribe {
             googleMap.isMyLocationEnabled = it
         }.disposeIn(disposeBag)
@@ -58,6 +65,7 @@ class SzypMap(
                 }
             }
         }
+        googleMap.setInfoWindowAdapter(MarkerInfoWindowAdapter(context, viewsProvider))
     }
 }
 

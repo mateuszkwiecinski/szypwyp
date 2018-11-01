@@ -3,20 +3,21 @@ package pl.ccki.szypwyp.domain.commands
 import io.reactivex.Completable
 import io.reactivex.Single
 import pl.ccki.szypwyp.domain.base.Command
+import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.MarkerModel
-import pl.ccki.szypwyp.domain.models.ServiceInfoModel
+import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
-import pl.ccki.szypwyp.domain.services.ExternalService
+import pl.ccki.szypwyp.domain.services.ExternalPlugin
 import javax.inject.Inject
 
 class RefreshVehiclesCommand @Inject constructor(
     private val configuration: ServicesConfigurationRepository,
-    private val registeredServices: Set<@JvmSuppressWildcards ExternalService>,
+    private val registeredPlugins: InjectableMap<PluginId, ExternalPlugin>,
     private val persistence: VehiclesPersistence,
     private val searchConfig: SearchConfigRepository,
     private val schedulersProvider: SchedulersProvider
@@ -27,27 +28,27 @@ class RefreshVehiclesCommand @Inject constructor(
             val servicesToCall = findServices()
             val target = searchConfig.target ?: DEFAULT_LOCATION
 
-            servicesToCall.map {
+            servicesToCall.map { (id, plugin) ->
                 Single.fromCallable {
-                    RequestDto(it.info, it.findInLocation(target))
+                    RequestDto(id, plugin.findInLocation(target))
                 }
             }
         }
-            .flatMap {
-                Single.mergeDelayError(it).toMap(RequestDto::info, RequestDto::result)
-            }
             .flatMapCompletable {
-                persistence.update(it)
+                Single.mergeDelayError(it)
+                    .flatMapCompletable { (id, result) ->
+                        persistence.update(id, result)
+                    }
             }
             .applySchedulers(schedulersProvider)
 
-    private fun findServices(): Iterable<ExternalService> {
-        val services = configuration.selected ?: return registeredServices
+    private fun findServices(): Map<PluginId, ExternalPlugin> {
+        val services = configuration.selected ?: return registeredPlugins
 
-        return registeredServices.filter {
-            services.contains(it.info.id)
+        return registeredPlugins.filterKeys {
+            services.contains(it)
         }
     }
 }
 
-private data class RequestDto(val info: ServiceInfoModel, val result: List<MarkerModel>)
+private data class RequestDto(val id: PluginId, val result: List<MarkerModel>)

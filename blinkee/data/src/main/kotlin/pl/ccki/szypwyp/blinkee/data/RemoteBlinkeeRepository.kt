@@ -4,6 +4,7 @@ import pl.ccki.szypwyp.blinkee.data.config.BlinkeeEndpoints
 import pl.ccki.szypwyp.blinkee.domain.BlinkeeRepository
 import pl.ccki.szypwyp.blinkee.data.models.BlinkeItemResponse
 import pl.ccki.szypwyp.blinkee.data.models.Regions
+import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeMarkerModel
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class RemoteBlinkeeRepository @Inject constructor(
         val id = data.id?.toString() ?: return null
         val lat = data.position?.latitude ?: return null
         val lng = data.position?.longitude ?: return null
-        return MarkerModel(
+        return BlinkeeMarkerModel(
             id = id,
             location = LatLng(lat, lng)
         )

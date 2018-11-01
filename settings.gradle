@@ -17,4 +17,5 @@ include ":di",
         ":traficar:domain",
         ":traficar:data",
         ":traficar:presentation",
-        "platform"
+        ":platform",
+        ":presentationInterfaces"

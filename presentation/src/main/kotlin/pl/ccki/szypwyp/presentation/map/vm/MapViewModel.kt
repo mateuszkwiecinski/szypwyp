@@ -13,12 +13,13 @@ import io.reactivex.subjects.PublishSubject
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.commands.InitializeMapCommand
+import pl.ccki.szypwyp.domain.commands.OpenExternalAppCommand
 import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
-import pl.ccki.szypwyp.domain.models.ServiceInfoModel
+import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
@@ -36,12 +37,13 @@ class MapViewModel @Inject constructor(
     private val refreshVehiclesQuery: RefreshVehiclesCommand,
     private val initializeMapQuery: InitializeMapCommand,
     private val permissionChecker: PermissionChecker,
-    private val getLocationQuery: GetLocationQuery
+    private val getLocationQuery: GetLocationQuery,
+    private val openExternalAppCommand: OpenExternalAppCommand
 ) : BaseViewModel() {
 
     private var cameraUpdates: Disposable? = null
 
-    val markers = MutableLiveData<Map<ServiceInfoModel, List<MarkerModel>>>()
+    val markers = MutableLiveData<Map<PluginId, List<MarkerModel>>>()
     val camera = BehaviorSubject.create<Camera>()
     val locationPermissionGranted = BehaviorSubject.create<Boolean>()
 
@@ -92,7 +94,7 @@ class MapViewModel @Inject constructor(
     fun onMyLocationClicked() {
         checkPermission()
         if (locationPermissionGranted.value == true) {
-            val newValue = when(locationSubject.value){
+            val newValue = when (locationSubject.value) {
                 LocationMode.None, null -> LocationMode.ContinuousUpdates
                 LocationMode.ContinuousUpdates -> LocationMode.ZoomedUpdates
                 LocationMode.ZoomedUpdates -> LocationMode.ZoomedUpdates
@@ -121,6 +123,13 @@ class MapViewModel @Inject constructor(
     fun onClusterClicked(items: Iterable<SingleClusterItem>) {
         locationSubject.onNext(LocationMode.None)
         camera.onNext(Camera.ToGroup(items.map { element -> element.position.let { LatLng(it.latitude, it.longitude) } }))
+    }
+
+    fun onInfoWindowClicked(item: SingleClusterItem) {
+        openExternalAppCommand
+            .execute(item.id)
+            .subscribe()
+            .disposeIn(disposeBag)
     }
 }
 

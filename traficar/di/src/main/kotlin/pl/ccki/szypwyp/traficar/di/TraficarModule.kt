@@ -2,16 +2,22 @@ package pl.ccki.szypwyp.traficar.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import pl.ccki.szypwyp.traficar.data.RemoteTraficarRepository
-import pl.ccki.szypwyp.traficar.domain.IconProvider
+import pl.ccki.szypwyp.traficar.domain.TraficarId
 import pl.ccki.szypwyp.traficar.domain.TraficarRepository
-import pl.ccki.szypwyp.traficar.presentation.TraficarIconProvider
 
 @Module(includes = [TraficarApiModule::class])
 abstract class TraficarModule {
-    @Binds
-    abstract fun repository(impl: RemoteTraficarRepository): TraficarRepository
+
+    @Module
+    companion object {
+
+        @Provides
+        @JvmStatic
+        fun id() = TraficarId
+    }
 
     @Binds
-    abstract fun iconProvider(impl: TraficarIconProvider): IconProvider
+    abstract fun repository(impl: RemoteTraficarRepository): TraficarRepository
 }

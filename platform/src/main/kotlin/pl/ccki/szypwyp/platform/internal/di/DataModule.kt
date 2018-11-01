@@ -4,13 +4,17 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import pl.ccki.szypwyp.domain.models.LatLng
-import pl.ccki.szypwyp.domain.models.ServiceId
+import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.providers.LocationProvider
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
-import pl.ccki.szypwyp.platform.internal.AndroidLocationProvider
-import pl.ccki.szypwyp.platform.internal.AndroidPermissionChecker
+import pl.ccki.szypwyp.domain.services.AppOpeningService
+import pl.ccki.szypwyp.domain.services.AppsCheckingService
+import pl.ccki.szypwyp.platform.implementations.AndroidAppOpeningService
+import pl.ccki.szypwyp.platform.implementations.AndroidAppsCheckingService
+import pl.ccki.szypwyp.platform.implementations.AndroidLocationProvider
+import pl.ccki.szypwyp.platform.implementations.AndroidPermissionChecker
 
 @Module(includes = [LocationModule::class])
 abstract class DataModule {
@@ -20,7 +24,7 @@ abstract class DataModule {
         @Provides
         @JvmStatic
         fun servicesConfiguration(): ServicesConfigurationRepository = object : ServicesConfigurationRepository {
-            override var selected: Collection<ServiceId>? = null
+            override var selected: Iterable<PluginId>? = null
         }
 
         @Provides
@@ -36,4 +40,10 @@ abstract class DataModule {
 
     @Binds
     abstract fun permissionChecker(provider: AndroidPermissionChecker): PermissionChecker
+
+    @Binds
+    abstract fun openingService(provider: AndroidAppOpeningService): AppOpeningService
+
+    @Binds
+    abstract fun checkingService(provider: AndroidAppsCheckingService): AppsCheckingService
 }

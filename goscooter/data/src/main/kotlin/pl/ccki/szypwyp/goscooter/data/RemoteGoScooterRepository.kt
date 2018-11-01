@@ -5,6 +5,7 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.goscooter.data.config.GoScooterEndpoints
 import pl.ccki.szypwyp.goscooter.data.models.GoScooterResponse
 import pl.ccki.szypwyp.goscooter.domain.GoScooterRepository
+import pl.ccki.szypwyp.goscooter.domain.models.GoScooterMarkerModel
 import javax.inject.Inject
 
 class RemoteGoScooterRepository @Inject constructor(
@@ -24,7 +25,7 @@ class RemoteGoScooterRepository @Inject constructor(
         val lat = data.latitude ?: return null
         val lng = data.longitude ?: return null
 
-        return MarkerModel(
+        return GoScooterMarkerModel(
             id = id,
             location = LatLng(lat, lng)
         )
