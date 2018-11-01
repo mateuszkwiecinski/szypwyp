@@ -2,32 +2,23 @@ package pl.ccki.szypwyp.goscooter.data.models
 
 import com.google.gson.annotations.SerializedName
 
-class GoScooterResponse {
-
+data class GoScooterResponse(
     @SerializedName("DeviceTypeId")
-    var typeId: Long? = null
-
+    val typeId: Long?,
     @SerializedName("DeviceId")
-    var id: Long? = null
-
+    val id: Long?,
     @SerializedName("DeviceName")
-    var name: String? = null
-
+    val name: String?,
     @SerializedName("DeviceNetworkKey")
-    var networkKey: String? = null
-
+    val networkKey: String?,
     @SerializedName("DeviceLatitude")
-    var latitude: Double? = null
-
+    val latitude: Double?,
     @SerializedName("DeviceLongitude")
-    var longitude: Double? = null
-
+    val longitude: Double?,
     @SerializedName("DeviceAltitude")
-    var altitude: Int? = null
-
+    val altitude: Int?,
     @SerializedName("DevicePositionStamp")
-    var positionStamp: String? = null
-
+    val positionStamp: String?,
     @SerializedName("Image")
-    var image: String? = null
-}
+    val image: String?
+)

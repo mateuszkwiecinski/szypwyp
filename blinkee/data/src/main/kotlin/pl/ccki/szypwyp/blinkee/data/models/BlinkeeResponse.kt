@@ -2,30 +2,30 @@ package pl.ccki.szypwyp.blinkee.data.models
 
 import com.google.gson.annotations.SerializedName
 
-class BlinkeeResponse {
+data class BlinkeeResponse(
     @SerializedName("data")
-    var data: BlinkeDataResponse? = null
-}
+    val data: BlinkeDataResponse?
+)
 
-class BlinkeDataResponse {
+data class BlinkeDataResponse(
     @SerializedName("totalItems")
-    var totalItems: Int? = null
+    val totalItems: Int?,
     @SerializedName("items")
-    var items: List<BlinkeItemResponse>? = null
-}
+    val items: List<BlinkeItemResponse>?
+)
 
-class BlinkeItemResponse {
+data class BlinkeItemResponse(
     @SerializedName("id")
-    var id: Long? = null
+    val id: Long?,
     @SerializedName("position")
-    var position: BlinkeePositionResponse? = null
+    val position: BlinkeePositionResponse?,
     @SerializedName("type")
-    var type: String? = null
-}
+    val type: String?
+)
 
-class BlinkeePositionResponse {
+data class BlinkeePositionResponse(
     @SerializedName("lat")
-    var latitude: Double? = null
+    val latitude: Double?,
     @SerializedName("lng")
-    var longitude: Double? = null
-}
+    val longitude: Double?
+)

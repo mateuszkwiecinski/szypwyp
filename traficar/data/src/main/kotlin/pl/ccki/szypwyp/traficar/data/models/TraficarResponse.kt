@@ -2,29 +2,29 @@ package pl.ccki.szypwyp.traficar.data.models
 
 import com.google.gson.annotations.SerializedName
 
-class TraficarResponse {
-    @SerializedName("cars") var cars: List<Car>? = null
-    @SerializedName("shapeId") var shapeId: Int? = null
-}
+data class TraficarResponse(
+    @SerializedName("cars") val cars: List<Car>?,
+    @SerializedName("shapeId") val shapeId: Int?
+)
 
-class Car {
-    @SerializedName("id") var id: Int? = null
-    @SerializedName("model") var model: String? = null
-    @SerializedName("regNumber") var regNumber: String? = null
-    @SerializedName("vin") var vin: String? = null
-    @SerializedName("orderNumber") var orderNumber: Int? = null
-    @SerializedName("fuel") var fuel: Double? = null
-    @SerializedName("latitude") var latitude: Double? = null
-    @SerializedName("location") var location: String? = null
-    @SerializedName("distanceAccumulated") var distanceAccumulated: Int? = null
-    @SerializedName("distanceCounter") var distanceCounter: Int? = null
-    @SerializedName("longitude") var longitude: Double? = null
-    @SerializedName("vehicleName") var vehicleName: String? = null
-    @SerializedName("priceList") var priceList: PriceList? = null
-}
+data class Car(
+    @SerializedName("id") val id: Int?,
+    @SerializedName("model") val model: String?,
+    @SerializedName("regNumber") val regNumber: String?,
+    @SerializedName("vin") val vin: String?,
+    @SerializedName("orderNumber") val orderNumber: Int?,
+    @SerializedName("fuel") val fuel: Double?,
+    @SerializedName("latitude") val latitude: Double?,
+    @SerializedName("location") val location: String?,
+    @SerializedName("distanceAccumulated") val distanceAccumulated: Int?,
+    @SerializedName("distanceCounter") val distanceCounter: Int?,
+    @SerializedName("longitude") val longitude: Double?,
+    @SerializedName("vehicleName") val vehicleName: String?,
+    @SerializedName("priceList") val priceList: PriceList?
+)
 
-class PriceList {
-    @SerializedName("kmPrice") var kmPrice: Double? = null
-    @SerializedName("stopPrice") var stopPrice: Double? = null
-    @SerializedName("drivingPrice") var drivingPrice: Double? = null
-}
+data class PriceList(
+    @SerializedName("kmPrice") val kmPrice: Double?,
+    @SerializedName("stopPrice") val stopPrice: Double?,
+    @SerializedName("drivingPrice") val drivingPrice: Double?
+)

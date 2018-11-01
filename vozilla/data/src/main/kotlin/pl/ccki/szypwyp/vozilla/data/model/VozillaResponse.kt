@@ -2,52 +2,58 @@ package pl.ccki.szypwyp.vozilla.data.model
 
 import com.google.gson.annotations.SerializedName
 
-class VozillaReponse {
-    @SerializedName("objects") var list: List<ObjectResponse>? = null
-}
+data class VozillaReponse(
+    @SerializedName("objects")
+    val list: List<ObjectResponse>?
+)
 
-class Picture {
-    @SerializedName("id") var id: String? = null
-    @SerializedName("name") var name: String? = null
-    @SerializedName("extension") var extension: String? = null
-}
-
-class Location {
-    @SerializedName("latitude") var latitude: Double? = null
-    @SerializedName("longitude") var longitude: Double? = null
-}
-
-class ObjectResponse {
+data class Picture(
     @SerializedName("id")
-    var id: String? = null
-    @SerializedName("discriminator")
-    var discriminator: String? = null
-    @SerializedName("platesNumber")
-    var platesNumber: String? = null
-    @SerializedName("sideNumber")
-    var sideNumber: String? = null
-    @SerializedName("color")
-    var color: String? = null
-    @SerializedName("type")
-    var type: String? = null
-    @SerializedName("picture")
-    var picture: Picture? = null
-    @SerializedName("rangeKm")
-    var rangeKm: Int? = null
-    @SerializedName("batteryLevelPct")
-    var batteryLevelPct: Int? = null
-    @SerializedName("reservationEnd")
-    var reservationEnd: String? = null
-    @SerializedName("status")
-    var status: String? = null
-    @SerializedName("locationDescription")
-    var locationDescription: String? = null
+    val id: String?,
     @SerializedName("name")
-    var name: String? = null
+    val name: String?,
+    @SerializedName("extension")
+    val extension: String?
+)
+
+data class Location(
+    @SerializedName("latitude")
+    val latitude: Double?,
+    @SerializedName("longitude")
+    val longitude: Double?
+)
+
+data class ObjectResponse(
+    @SerializedName("id")
+    val id: String?,
+    @SerializedName("discriminator")
+    val discriminator: String?,
+    @SerializedName("platesNumber")
+    val platesNumber: String?,
+    @SerializedName("sideNumber")
+    val sideNumber: String?,
+    @SerializedName("color")
+    val color: String?,
+    @SerializedName("type")
+    val type: String?,
+    @SerializedName("picture")
+    val picture: Picture?,
+    @SerializedName("rangeKm")
+    val rangeKm: Int?,
+    @SerializedName("batteryLevelPct")
+    val batteryLevelPct: Int?,
+    @SerializedName("reservationEnd")
+    val reservationEnd: String?,
+    @SerializedName("status")
+    val status: String?,
+    @SerializedName("locationDescription")
+    val locationDescription: String?,
+    @SerializedName("name")
+    val name: String?,
     @SerializedName("description")
-    var description: String? = null
+    val description: String?,
     @SerializedName("location")
-    var location: Location? = null
+    val location: Location?,
     @SerializedName("metadata")
-    var metadata: String? = null
-}
+    val metadata: String?
+)

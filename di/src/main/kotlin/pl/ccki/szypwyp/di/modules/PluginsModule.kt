@@ -75,12 +75,10 @@ class PresentationPlugins {
     fun blinkee(id: BlinkeeId, provider: BlinkeeMapViewsProvider): Pair<PluginId, MapViewsProvider<MarkerModel>> =
         id to provider as MapViewsProvider<MarkerModel>
 
-
     @Provides
     @IntoSet
     fun traficar(id: TraficarId, provider: TraficarMapViewsProvider): Pair<PluginId, MapViewsProvider<MarkerModel>> =
         id to provider as MapViewsProvider<MarkerModel>
-
 
     @Provides
     @IntoSet

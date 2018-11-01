@@ -13,9 +13,6 @@ import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
-import timber.log.Timber
-import timber.log.debug
-import timber.log.warn
 import javax.inject.Inject
 
 class RefreshVehiclesCommand @Inject constructor(
