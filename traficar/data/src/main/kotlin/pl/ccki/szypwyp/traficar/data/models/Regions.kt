@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.traficar.models
+package pl.ccki.szypwyp.traficar.data.models
 
 enum class Regions {
     Krakow,

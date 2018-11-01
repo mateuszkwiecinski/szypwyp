@@ -6,7 +6,7 @@ import pl.ccki.szypwyp.traficar.data.config.TraficarEndpoints
 import pl.ccki.szypwyp.traficar.domain.TraficarRepository
 import pl.ccki.szypwyp.traficar.domain.models.TraficarMarkerModel
 import pl.ccki.szypwyp.traficar.data.models.Car
-import pl.ccki.szypwyp.traficar.models.Regions
+import pl.ccki.szypwyp.traficar.data.models.Regions
 import javax.inject.Inject
 
 class RemoteTraficarRepository @Inject constructor(
@@ -15,9 +15,7 @@ class RemoteTraficarRepository @Inject constructor(
     override fun getAll(): List<MarkerModel> {
         val response = endpoints.get(Regions.Wroclaw.regionId).execute()
         return response.body()?.let {
-            it.cars?.mapNotNull {
-                map(it)
-            }.orEmpty()
+            it.cars?.mapNotNull(this::map).orEmpty()
         } ?: emptyList()
     }
 

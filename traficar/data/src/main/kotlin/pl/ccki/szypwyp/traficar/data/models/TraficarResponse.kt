@@ -1,28 +1,30 @@
 package pl.ccki.szypwyp.traficar.data.models
 
+import com.google.gson.annotations.SerializedName
+
 class TraficarResponse {
-    var cars: List<Car>? = null
-    var shapeId: Int? = null
+    @SerializedName("cars") var cars: List<Car>? = null
+    @SerializedName("shapeId") var shapeId: Int? = null
 }
 
 class Car {
-    var id: Int? = null
-    var model: String? = null
-    var regNumber: String? = null
-    var vin: String? = null
-    var orderNumber: Int? = null
-    var fuel: Double? = null
-    var latitude: Double? = null
-    var location: String? = null
-    var distanceAccumulated: Int? = null
-    var distanceCounter: Int? = null
-    var longitude: Double? = null
-    var vehicleName: String? = null
-    var priceList: PriceList? = null
+    @SerializedName("id") var id: Int? = null
+    @SerializedName("model") var model: String? = null
+    @SerializedName("regNumber") var regNumber: String? = null
+    @SerializedName("vin") var vin: String? = null
+    @SerializedName("orderNumber") var orderNumber: Int? = null
+    @SerializedName("fuel") var fuel: Double? = null
+    @SerializedName("latitude") var latitude: Double? = null
+    @SerializedName("location") var location: String? = null
+    @SerializedName("distanceAccumulated") var distanceAccumulated: Int? = null
+    @SerializedName("distanceCounter") var distanceCounter: Int? = null
+    @SerializedName("longitude") var longitude: Double? = null
+    @SerializedName("vehicleName") var vehicleName: String? = null
+    @SerializedName("priceList") var priceList: PriceList? = null
 }
 
 class PriceList {
-    var kmPrice: Double? = null
-    var stopPrice: Double? = null
-    var drivingPrice: Double? = null
+    @SerializedName("kmPrice") var kmPrice: Double? = null
+    @SerializedName("stopPrice") var stopPrice: Double? = null
+    @SerializedName("drivingPrice") var drivingPrice: Double? = null
 }
