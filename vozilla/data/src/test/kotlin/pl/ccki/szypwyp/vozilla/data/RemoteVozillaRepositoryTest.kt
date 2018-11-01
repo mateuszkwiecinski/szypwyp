@@ -3,6 +3,8 @@ package pl.ccki.szypwyp.vozilla.data
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import pl.ccki.szypwyp.vozilla.data.config.VozillaEndpoints
 import pl.ccki.szypwyp.vozilla.data.config.VozillaRetrofitFactory
@@ -21,11 +23,15 @@ class RemoteVozillaRepositoryTest {
 
         val result = repository.getAll()
 
-        Assert.assertTrue(result.isNotEmpty())
+        assertTrue(result.isNotEmpty())
+        result.first().let {
+            assertEquals(51.144344, it.location.latitude, 0.000001)
+            assertEquals(17.071172, it.location.longitude, 0.000001)
+        }
     }
 }
 
-private val response = """{
+private const val response = """{
     "objects": [
         {
             "discriminator": "vehicle",

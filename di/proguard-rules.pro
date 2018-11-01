@@ -24,4 +24,3 @@
 # https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-jsoup.pro
 -keeppackagenames org.jsoup.nodes
 
-

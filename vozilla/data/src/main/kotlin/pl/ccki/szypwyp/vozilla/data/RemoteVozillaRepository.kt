@@ -21,7 +21,7 @@ class RemoteVozillaRepository @Inject constructor(
     private fun map(param: ObjectResponse): MarkerModel? {
         val id = param.id ?: return null
         val lat = param.location?.latitude ?: return null
-        val lng = param.location?.longitude ?: return null
+        val lng = param.location.longitude ?: return null
 
         return VozillaMarkerModel(id = id,
             location = LatLng(lat, lng),

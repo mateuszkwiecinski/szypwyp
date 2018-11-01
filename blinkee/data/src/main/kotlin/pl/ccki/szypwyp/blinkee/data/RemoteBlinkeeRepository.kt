@@ -15,17 +15,17 @@ class RemoteBlinkeeRepository @Inject constructor(
 
     override fun getAll(): List<MarkerModel> {
         val response = endpoints.get(Regions.Wroclaw.regionId).execute()
-        return response.body()?.let {
-            it.data?.items?.mapNotNull {
-                map(it)
-            }.orEmpty()
-        } ?: emptyList()
+
+        return response.body().let {
+            it?.data?.items?.mapNotNull(this::map).orEmpty()
+        }
     }
 
     private fun map(data: BlinkeItemResponse): MarkerModel? {
         val id = data.id?.toString() ?: return null
         val lat = data.position?.latitude ?: return null
-        val lng = data.position?.longitude ?: return null
+        val lng = data.position.longitude ?: return null
+
         return BlinkeeMarkerModel(
             id = id,
             location = LatLng(lat, lng)
