@@ -13,5 +13,6 @@ open class MainPlugin : BaseAndroidPlugin() {
         (project.dependencies.add("implementation", "com.crashlytics.sdk.android:crashlytics:2.9.5@aar") as ModuleDependency).apply {
             isTransitive = true
         }
+        project.dependencies.add("implementation", "com.jakewharton.timber:timber-android:5.0.0-SNAPSHOT")
     }
 }

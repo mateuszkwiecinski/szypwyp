@@ -13,6 +13,9 @@ import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
+import timber.log.Timber
+import timber.log.debug
+import timber.log.warn
 import javax.inject.Inject
 
 class RefreshVehiclesCommand @Inject constructor(
@@ -24,7 +27,7 @@ class RefreshVehiclesCommand @Inject constructor(
 ) : Command<Unit> {
 
     override fun execute(param: Unit): Completable =
-        Single.fromCallable<List<Single<RequestDto>>> {
+        Single.fromCallable {
             val servicesToCall = findServices()
             val target = searchConfig.target ?: DEFAULT_LOCATION
 

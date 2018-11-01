@@ -9,6 +9,7 @@ open class BasePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.repositories.google()
         project.repositories.jcenter()
+        project.repositories.maven { it.setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
 
         project.pluginManager.apply("org.jmailen.kotlinter")
         project.extensions.configure(KotlinterExtension::class.java) {

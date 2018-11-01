@@ -16,5 +16,6 @@ open class DomainPlugin : BasePlugin() {
 
         project.dependencies.add("testImplementation", "junit:junit:$JUNIT_VERSION")
         project.dependencies.add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:$MOCKITO_KOTLIN_VERSION")
+        project.dependencies.add("compile", "com.jakewharton.timber:timber-jdk:5.0.0-SNAPSHOT")
     }
 }

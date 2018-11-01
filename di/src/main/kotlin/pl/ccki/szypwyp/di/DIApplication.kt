@@ -10,13 +10,19 @@ import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
 import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
 import pl.ccki.szypwyp.platform.DaggerPlatformComponent
 import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
+import timber.log.LogcatTree
+import timber.log.Timber
+import timber.log.error
 
 class DIApplication : PresentationAplication() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(LogcatTree())
         RxJavaPlugins.setErrorHandler {
-            Log.e("RxJavaError", it.message.orEmpty(), it)
+            Timber.error(it){
+                "RxJavaError: ${it.message.orEmpty()}"
+            }
         }
     }
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
