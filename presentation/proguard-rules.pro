@@ -20,3 +20,8 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-jsoup.pro
+-keeppackagenames org.jsoup.nodes
+
+
