@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vozilla_red">#e20613</color>
+    <color name="vozilla_blue">#0077bd</color>
+    <color name="vozilla_green">#5fb461</color>
+    <color name="vozilla_yellow">#FFDC00</color>
+    <color name="vozilla_grey">#BBBBBB</color>
+</resources>

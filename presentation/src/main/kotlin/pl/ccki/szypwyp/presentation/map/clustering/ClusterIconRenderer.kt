@@ -18,7 +18,7 @@ import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 
 class ClusterIconRenderer(
     private val context: Context,
-    private val viewsProvider : Map<PluginId, MapViewsProvider<MarkerModel>>,
+    private val viewsProvider: Map<PluginId, MapViewsProvider<MarkerModel>>,
     googleMap: GoogleMap,
     manager: ClusterManager<SingleClusterItem>
 ) : DefaultClusterRenderer<SingleClusterItem>(context, googleMap, manager) {
@@ -34,18 +34,7 @@ class ClusterIconRenderer(
     }
 
     private fun createIcon(item: PluginId): BitmapDescriptor =
-        viewsProvider[item]?.icon?.let {
-            ContextCompat.getDrawable(context, it.icon)
-        }?.let {
-            getMarkerIconFromDrawable(it)
-        } ?: BitmapDescriptorFactory.defaultMarker()
-
-    private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor {
-        val canvas = Canvas()
-        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        canvas.setBitmap(bitmap)
-        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-        drawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
+        viewsProvider[item]?.createIcon(context)
+            ?.let(BitmapDescriptorFactory::fromBitmap)
+            ?: BitmapDescriptorFactory.defaultMarker()
 }

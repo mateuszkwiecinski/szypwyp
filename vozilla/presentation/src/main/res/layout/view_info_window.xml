@@ -10,42 +10,61 @@
             type="pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="100dp"
-        android:padding="5dp">
+        android:minWidth="200dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:background="#FFFFFFFF">
 
         <TextView
-            android:id="@+id/txtTitle"
+            android:id="@+id/txtName"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="@string/info_window_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias=".5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="@{model.name}"
+            tools:text="Nissan leaf env20000" />
 
         <TextView
             android:id="@+id/txtRangeLabel"
+            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="@string/info_window_range"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTitle" />
+            android:textAllCaps="true" />
 
-        <TextView
-            android:id="@+id/txtRange"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@{String.valueOf(model.range.value)}"
-            app:layout_constraintStart_toEndOf="@id/txtRangeLabel"
-            app:layout_constraintTop_toTopOf="@id/txtRangeLabel"
-            tools:text="22" />
+            android:gravity="center_vertical">
 
+            <include
+                layout="@layout/view_battery_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:percentage="@{model.battery}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/info_window_range_kilometers(model.range.value)}"
+                tools:text="@string/info_window_range_kilometers" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="end"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:src="@drawable/ic_logo_full" />
+    </LinearLayout>
 </layout>

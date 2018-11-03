@@ -5,7 +5,8 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.vozilla.data.config.VozillaEndpoints
 import pl.ccki.szypwyp.vozilla.domain.VozillaRepository
 import pl.ccki.szypwyp.vozilla.data.model.ObjectResponse
-import pl.ccki.szypwyp.vozilla.domain.Kilometers
+import pl.ccki.szypwyp.domain.models.Kilometers
+import pl.ccki.szypwyp.domain.models.Percent
 import pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel
 import javax.inject.Inject
 
@@ -25,7 +26,9 @@ class RemoteVozillaRepository @Inject constructor(
 
         return VozillaMarkerModel(id = id,
             location = LatLng(lat, lng),
-            range = param.rangeKm?.let(::Kilometers)
+            name = param.name.orEmpty(),
+            range = param.rangeKm?.let(::Kilometers),
+            battery = param.batteryLevelPct?.let(::Percent)
         )
     }
 }
