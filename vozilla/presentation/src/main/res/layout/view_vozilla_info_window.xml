@@ -13,23 +13,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="200dp"
+        android:minWidth="210dp"
         android:orientation="vertical"
         android:padding="5dp"
         tools:background="#FFFFFFFF">
 
         <TextView
-            android:id="@+id/txtName"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textColor="@color/textColorPrimary"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@{model.name}"
             tools:text="Nissan leaf env20000" />
 
         <TextView
-            android:id="@+id/txtRangeLabel"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,12 +58,30 @@
                 tools:text="@string/info_window_range_kilometers" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="end"
-            android:adjustViewBounds="true"
-            android:padding="2dp"
-            android:src="@drawable/ic_logo_full" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:src="@drawable/ic_logo_full" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/info_window_open_app"
+                android:textAllCaps="true" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

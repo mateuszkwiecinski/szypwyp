@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="pl.ccki.szypwyp.traficar.domain.models.TraficarMarkerModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="210dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="@string/info_window_name"
+            android:textAllCaps="true"
+            android:textSize="12sp" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{model.name}"
+            android:textColor="@color/traficar_blue"
+            tools:text="Renault dupa dupa" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="@string/info_window_fuel_label"
+            android:textAllCaps="true"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <include
+                layout="@layout/view_fuel_meter"
+                android:layout_width="60dp"
+                android:layout_height="15dp"
+                app:percent="@{model.fuel}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fuel" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/info_window_fuel(model.range.value)}"
+                android:textColor="@color/traficar_blue"
+                tools:text="@string/info_window_fuel" />
+        </LinearLayout>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Traficar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/info_window_open_app"
+            android:textAllCaps="true" />
+    </LinearLayout>
+</layout>

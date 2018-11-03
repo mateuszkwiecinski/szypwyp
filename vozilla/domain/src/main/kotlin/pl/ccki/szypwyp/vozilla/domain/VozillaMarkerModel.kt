@@ -12,4 +12,3 @@ data class VozillaMarkerModel(
     val range: Kilometers?,
     val battery: Percent?
 ) : MarkerModel
-

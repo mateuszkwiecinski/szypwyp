@@ -2,4 +2,5 @@
 <resources>
 
     <color name="white">#FFFFFFFF</color>
+    <color name="textColorPrimary">@android:color/primary_text_light</color>
 </resources>
