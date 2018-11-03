@@ -10,8 +10,10 @@ import pl.ccki.szypwyp.presentation.interfaces.generateBitmap
 import javax.inject.Inject
 
 class BlinkeeMapViewsProvider @Inject constructor() : MapViewsProvider<BlinkeeMarkerModel> {
-    override fun createIcon(context : Context): Bitmap? =
+
+    override fun createIcon(context: Context): Bitmap? =
         R.drawable.ic_blinkee.generateBitmap(context)
+
     override fun createInfoWindow(inflater: LayoutInflater, marker: BlinkeeMarkerModel): View? {
         return null
     }
