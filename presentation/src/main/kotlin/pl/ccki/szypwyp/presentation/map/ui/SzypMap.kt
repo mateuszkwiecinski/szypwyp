@@ -80,14 +80,14 @@ private fun Camera.toCameraUpdate(camera: CameraPosition): CameraUpdate =
             val min = minZoom?.toFloat() ?: current
 
             when {
-                current < max -> CameraUpdateFactory.newLatLngZoom(position.toLatLng(), max)
-                current > min -> CameraUpdateFactory.newLatLngZoom(position.toLatLng(), min)
-                else -> CameraUpdateFactory.newLatLng(position.toLatLng())
+                current < max -> CameraUpdateFactory.newLatLngZoom(position.latLng, max)
+                current > min -> CameraUpdateFactory.newLatLngZoom(position.latLng, min)
+                else -> CameraUpdateFactory.newLatLng(position.latLng)
             }
         }
         is Camera.ToGroup -> {
             val builder = LatLngBounds.builder()
-            items.map(LatLng::toLatLng).forEach { builder.include(it) }
+            items.map(LatLng::latLng).forEach { builder.include(it) }
 
             CameraUpdateFactory.newLatLngBounds(builder.build(), 200)
         }
@@ -101,8 +101,8 @@ private fun Zoom.toFloat(): Float =
         Zoom.Away -> 12f
     }
 
-internal fun LatLng.toLatLng(): GoogleLatLng =
-    GoogleLatLng(latitude, longitude)
+val LatLng.latLng: GoogleLatLng
+    get() = GoogleLatLng(latitude, longitude)
 
-internal fun GoogleLatLng.toLatLng(): LatLng =
-    LatLng(latitude, longitude)
+val GoogleLatLng.latLng: LatLng
+    get() = LatLng(latitude, longitude)

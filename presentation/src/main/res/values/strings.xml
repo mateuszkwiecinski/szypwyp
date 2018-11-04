@@ -7,4 +7,5 @@
     <string name="map_change_target">Search this area</string>
     <string name="nav_map">Map</string>
     <string name="nav_settings">Settings</string>
+    <string name="map_open_external_app">Open App</string>
 </resources>

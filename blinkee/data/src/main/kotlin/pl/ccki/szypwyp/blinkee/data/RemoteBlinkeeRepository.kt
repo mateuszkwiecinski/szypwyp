@@ -29,7 +29,8 @@ class RemoteBlinkeeRepository @Inject constructor(
 
         return BlinkeeMarkerModel(
             id = id,
-            location = LatLng(lat, lng)
+            location = LatLng(lat, lng),
+            name = "Blinkee ${data.type}"
         )
     }
 }

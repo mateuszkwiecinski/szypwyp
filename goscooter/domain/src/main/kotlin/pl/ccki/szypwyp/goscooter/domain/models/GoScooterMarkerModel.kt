@@ -5,5 +5,6 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 
 data class GoScooterMarkerModel(
     override val id: String,
-    override val location: LatLng
+    override val location: LatLng,
+    override val name: String
 ) : MarkerModel

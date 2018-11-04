@@ -8,7 +8,7 @@ import pl.ccki.szypwyp.domain.models.Percent
 data class TraficarMarkerModel(
     override val id: String,
     override val location: LatLng,
-    val name: String,
+    override val name: String,
     val range: Kilometers?,
     val fuel: Percent?
 ) : MarkerModel

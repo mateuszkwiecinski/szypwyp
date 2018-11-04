@@ -27,7 +27,8 @@ class RemoteGoScooterRepository @Inject constructor(
 
         return GoScooterMarkerModel(
             id = id,
-            location = LatLng(lat, lng)
+            location = LatLng(lat, lng),
+            name = data.name.orEmpty()
         )
     }
 }
