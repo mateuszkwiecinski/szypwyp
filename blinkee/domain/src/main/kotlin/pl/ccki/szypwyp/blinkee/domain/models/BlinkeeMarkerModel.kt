@@ -6,5 +6,6 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 data class BlinkeeMarkerModel(
     override val id: String,
     override val location: LatLng,
-    override val name: String
+    override val name: String,
+    val type: BlinkeeType
 ) : MarkerModel

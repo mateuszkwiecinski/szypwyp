@@ -27,10 +27,6 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@{model.name}"
             android:textColor="@color/textColorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="Car name" />
 
         <Button
@@ -40,10 +36,6 @@
             android:background="@drawable/change_search_target_background_ripple"
             android:backgroundTint="@color/md_blue_700"
             android:text="@string/map_open_external_app"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/md_white_1000" />
     </LinearLayout>
 </layout>

@@ -3,6 +3,6 @@
 
     <style name="Widget.AppCompat.Button.Vozilla">
         <item name="android:background">@drawable/vozilla_button</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/md_white_1000</item>
     </style>
 </resources>

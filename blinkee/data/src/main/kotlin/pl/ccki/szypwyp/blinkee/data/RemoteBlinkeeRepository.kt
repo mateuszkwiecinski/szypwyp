@@ -6,8 +6,11 @@ import pl.ccki.szypwyp.blinkee.data.models.BlinkeItemResponse
 import pl.ccki.szypwyp.blinkee.data.models.regionId
 import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeRegion
 import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeMarkerModel
+import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeType
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
+import timber.log.Timber
+import timber.log.error
 import javax.inject.Inject
 
 class RemoteBlinkeeRepository @Inject constructor(
@@ -26,11 +29,20 @@ class RemoteBlinkeeRepository @Inject constructor(
         val id = data.id?.toString() ?: return null
         val lat = data.position?.latitude ?: return null
         val lng = data.position.longitude ?: return null
+        val type = when (data.type) {
+            "scooter" -> BlinkeeType.Scooter
+            "bike" -> BlinkeeType.Bike
+            else -> {
+                Timber.error { data.toString() }
+                return null
+            }
+        }
 
         return BlinkeeMarkerModel(
             id = id,
             location = LatLng(lat, lng),
-            name = "Blinkee ${data.type}"
+            name = "Blinkee ${data.type}",
+            type = type
         )
     }
 }

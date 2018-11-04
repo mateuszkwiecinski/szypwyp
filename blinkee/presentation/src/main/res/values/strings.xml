@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_open_app">Open Blinkee App</string>
+    <string name="type_scooter">Blinkee Scooter</string>
+    <string name="type_bike">Blinkee Rower</string>
+</resources>
