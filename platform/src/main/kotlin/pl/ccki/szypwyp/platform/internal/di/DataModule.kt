@@ -15,6 +15,7 @@ import pl.ccki.szypwyp.platform.implementations.AndroidAppOpeningService
 import pl.ccki.szypwyp.platform.implementations.AndroidAppsCheckingService
 import pl.ccki.szypwyp.platform.implementations.AndroidLocationProvider
 import pl.ccki.szypwyp.platform.implementations.AndroidPermissionChecker
+import pl.ccki.szypwyp.platform.implementations.SharedPrefsSearchConfigRepository
 
 @Module(includes = [LocationModule::class])
 abstract class DataModule {
@@ -26,14 +27,10 @@ abstract class DataModule {
         fun servicesConfiguration(): ServicesConfigurationRepository = object : ServicesConfigurationRepository {
             override var selected: Iterable<PluginId>? = null
         }
-
-        @Provides
-        @JvmStatic
-        fun searchConfig(): SearchConfigRepository = object : SearchConfigRepository {
-
-            override var target: LatLng? = null
-        }
     }
+
+    @Binds
+    abstract fun searchConfig(impl : SharedPrefsSearchConfigRepository) : SearchConfigRepository
 
     @Binds
     abstract fun locationProvider(provider: AndroidLocationProvider): LocationProvider
