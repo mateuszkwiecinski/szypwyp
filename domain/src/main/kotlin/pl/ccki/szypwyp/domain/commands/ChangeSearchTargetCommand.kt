@@ -24,5 +24,4 @@ class ChangeSearchTargetCommand @Inject constructor(
             }
             .andThen(vehiclesPersistence.clear())
             .andThen(refreshVehiclesCommand.execute())
-
 }

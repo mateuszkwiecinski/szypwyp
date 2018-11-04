@@ -1,12 +1,15 @@
 package pl.ccki.szypwyp.vozilla.data.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class VozillaReponse(
     @SerializedName("objects")
     val list: List<ObjectResponse>?
 )
 
+@Keep
 data class Picture(
     @SerializedName("id")
     val id: String?,
@@ -16,6 +19,7 @@ data class Picture(
     val extension: String?
 )
 
+@Keep
 data class Location(
     @SerializedName("latitude")
     val latitude: Double?,
@@ -23,6 +27,7 @@ data class Location(
     val longitude: Double?
 )
 
+@Keep
 data class ObjectResponse(
     @SerializedName("id")
     val id: String?,

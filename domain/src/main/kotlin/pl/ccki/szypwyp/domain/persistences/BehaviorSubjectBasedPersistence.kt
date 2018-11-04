@@ -3,7 +3,6 @@ package pl.ccki.szypwyp.domain.persistences
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 
 interface DefaultPersistence<T> {
@@ -31,5 +30,4 @@ abstract class BehaviorSubjectBasedPersistence<T>(
         Maybe.fromCallable<T> {
             subject.value
         }
-
 }

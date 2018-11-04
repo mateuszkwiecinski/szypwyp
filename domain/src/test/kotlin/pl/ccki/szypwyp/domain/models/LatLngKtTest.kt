@@ -1,8 +1,7 @@
 package pl.ccki.szypwyp.domain.models
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class LatLngKtTest {
 

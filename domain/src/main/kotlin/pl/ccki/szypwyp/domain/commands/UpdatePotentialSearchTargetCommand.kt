@@ -1,15 +1,12 @@
 package pl.ccki.szypwyp.domain.commands
 
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import pl.ccki.szypwyp.domain.base.Command
-import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.compareTo
 import pl.ccki.szypwyp.domain.models.distanceTo
 import pl.ccki.szypwyp.domain.persistences.PotentialSearchTargetPersistence
-import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import javax.inject.Inject
 
 class UpdatePotentialSearchTargetCommand @Inject constructor(
