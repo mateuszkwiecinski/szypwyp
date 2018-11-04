@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import io.reactivex.disposables.CompositeDisposable
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.models.Camera
@@ -18,6 +19,7 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.presentation.base.extensions.observe
+import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.map.clustering.MapCluterManager
 import pl.ccki.szypwyp.presentation.map.clustering.MarkerInfoWindowAdapter
@@ -39,6 +41,7 @@ class SzypMap(
 
     init {
         googleMap.clear()
+        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.google_map_style))
         viewModel.markers.observe(lifecycleOwner) {
             clusterManager.items = it.orEmpty()
         }

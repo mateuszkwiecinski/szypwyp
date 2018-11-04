@@ -61,5 +61,4 @@ class UpdatePotentialSearchTargetCommandTest {
         test.assertNoErrors().assertComplete()
         verify(persistence).update(LatLng(20.0, 30.0))
     }
-
 }

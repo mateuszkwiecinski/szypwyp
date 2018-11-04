@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/mapFragment">
+    app:startDestination="@id/fakeMapFragment">
 
     <fragment
         android:id="@+id/mapFragment"
@@ -14,6 +14,17 @@
             android:id="@+id/action_mapFragment_to_configurationFragment"
             app:destination="@id/configurationFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fakeMapFragment"
+        android:name="pl.ccki.szypwyp.presentation.map.ui.FakeMapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_mapFragment_to_configurationFragment"
+            app:destination="@id/configurationFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/configurationFragment"
         android:name="pl.ccki.szypwyp.presentation.configuration.ui.ConfigurationFragment"
