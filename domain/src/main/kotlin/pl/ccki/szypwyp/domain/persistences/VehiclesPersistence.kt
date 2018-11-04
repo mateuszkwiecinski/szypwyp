@@ -13,6 +13,7 @@ private typealias VehiclesData = Map<PluginId, List<MarkerModel>>
 interface VehiclesPersistence {
     fun get(): Observable<VehiclesData>
     fun update(id: PluginId, data: List<MarkerModel>): Completable
+    fun clear(): Completable
 }
 
 @Singleton
@@ -27,4 +28,8 @@ class InMemoryVehiclesPersistence @Inject constructor() : VehiclesPersistence {
             newValue[id] = data
             subject.onNext(newValue)
         }
+
+    override fun clear() = Completable.fromAction {
+        subject.onNext(emptyMap())
+    }
 }

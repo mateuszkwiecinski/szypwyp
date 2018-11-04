@@ -1,7 +1,9 @@
 package pl.ccki.szypwyp.domain.persistences
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 
 interface DefaultPersistence<T> {
@@ -10,11 +12,13 @@ interface DefaultPersistence<T> {
 }
 
 abstract class BehaviorSubjectBasedPersistence<T>(
-    emptyValue: T? = null
+    emptyValue: (() -> T?)? = null
 ) : DefaultPersistence<T> {
-    private val subject = emptyValue?.let {
-        BehaviorSubject.createDefault(it)
-    } ?: BehaviorSubject.create<T>()
+    private val subject by lazy {
+        emptyValue?.invoke()?.let {
+            BehaviorSubject.createDefault(it)
+        } ?: BehaviorSubject.create<T>()
+    }
 
     override fun get(): Observable<T> = subject.hide()
 
@@ -22,4 +26,10 @@ abstract class BehaviorSubjectBasedPersistence<T>(
         Completable.fromAction {
             subject.onNext(new)
         }
+
+    fun last(): Maybe<T> =
+        Maybe.fromCallable<T> {
+            subject.value
+        }
+
 }

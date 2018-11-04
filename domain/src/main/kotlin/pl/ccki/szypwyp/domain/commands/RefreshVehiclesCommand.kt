@@ -6,9 +6,13 @@ import pl.ccki.szypwyp.domain.base.Command
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.applySchedulers
+import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
+import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.models.compareTo
+import pl.ccki.szypwyp.domain.models.distanceTo
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
@@ -25,12 +29,12 @@ class RefreshVehiclesCommand @Inject constructor(
 
     override fun execute(param: Unit): Completable =
         Single.fromCallable {
-            val servicesToCall = findServices()
             val target = searchConfig.target ?: DEFAULT_LOCATION
+            val selectedPlugins = findServices(target)
 
-            servicesToCall.map { (id, plugin) ->
+            selectedPlugins.map { (id, cityId, plugin) ->
                 Single.fromCallable {
-                    RequestDto(id, plugin.findInLocation(target))
+                    RequestDto(id, plugin.findInLocation(cityId))
                 }
             }
         }
@@ -42,7 +46,16 @@ class RefreshVehiclesCommand @Inject constructor(
             }
             .applySchedulers(schedulersProvider)
 
-    private fun findServices(): Map<PluginId, ExternalPlugin> {
+    private fun findServices(target: LatLng): List<Triple<PluginId, CityId, ExternalPlugin>> =
+        findUserServices().mapNotNull { (id, plugin) ->
+            val city = plugin.supportedCities.firstOrNull {
+                it.center.distanceTo(target) < it.radius
+            } ?: return@mapNotNull null
+
+            Triple(id, city.id, plugin)
+        }
+
+    private fun findUserServices(): Map<PluginId, ExternalPlugin> {
         val services = configuration.selected ?: return registeredPlugins
 
         return registeredPlugins.filterKeys {

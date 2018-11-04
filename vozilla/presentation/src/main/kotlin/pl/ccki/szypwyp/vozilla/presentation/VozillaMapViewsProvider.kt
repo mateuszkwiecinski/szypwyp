@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.interfaces.generateBitmap
-import pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel
+import pl.ccki.szypwyp.vozilla.domain.models.VozillaMarkerModel
 import pl.ccki.szypwyp.vozilla.presentation.databinding.ViewVozillaInfoWindowBinding
 import javax.inject.Inject
 

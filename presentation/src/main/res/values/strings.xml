@@ -4,4 +4,5 @@
     <string name="dialog_permission_blocked_title">Required Permission</string>
     <string name="dialog_permission_blocked_positive">Settings</string>
     <string name="dialog_permission_blocked_location_message">Location permission is required to use this functionality. Plese go to settings and grant location acces for this app.</string>
+    <string name="map_change_target">Search this area</string>
 </resources>

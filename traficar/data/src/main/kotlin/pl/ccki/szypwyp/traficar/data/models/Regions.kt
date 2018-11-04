@@ -1,26 +1,16 @@
 package pl.ccki.szypwyp.traficar.data.models
 
-enum class Regions {
-    Krakow,
-    Warszawa,
-    Wroclaw,
-    Poznan,
-    Gdansk,
-    Katowice,
-    Bydgoszcz,
-    Lubin,
-    Lodz;
+import pl.ccki.szypwyp.traficar.domain.models.TraficarRegion
 
-    internal val regionId: Int
-        get() = when (this) {
-            Krakow -> 1
-            Warszawa -> 2
-            Wroclaw -> 3
-            Poznan -> 4
-            Gdansk -> 5
-            Katowice -> 6
-            Bydgoszcz -> 7
-            Lubin -> 8
-            Lodz -> 9
-        }
-}
+internal val TraficarRegion.regionId: Int
+    get() = when (this) {
+        TraficarRegion.Krakow -> 1
+        TraficarRegion.Warszawa -> 2
+        TraficarRegion.Wroclaw -> 3
+        TraficarRegion.Poznan -> 4
+        TraficarRegion.Gdansk -> 5
+        TraficarRegion.Katowice -> 6
+        TraficarRegion.Bydgoszcz -> 7
+        TraficarRegion.Lublin -> 8
+        TraficarRegion.Lodz -> 9
+    }

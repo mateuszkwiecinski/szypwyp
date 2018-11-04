@@ -14,13 +14,36 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#dddddd">
 
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/btnChangeSearchTarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:alpha="0"
+            android:background="@drawable/change_search_target_background_ripple"
+            android:elevation="7dp"
+            android:fontFamily="sans-serif"
+            android:onClick="@{() -> model.onChangeSearchTarget()}"
+            android:text="@string/map_change_target"
+            android:textAllCaps="false"
+            android:textColor="@color/md_blue_700"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="1"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnLocation"
@@ -44,6 +67,7 @@
             android:layout_marginBottom="30dp"
             android:onClick="@{() -> model.onRefreshClicked()}"
             android:visibility="visible"
+            app:backgroundTint="@color/md_white_1000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

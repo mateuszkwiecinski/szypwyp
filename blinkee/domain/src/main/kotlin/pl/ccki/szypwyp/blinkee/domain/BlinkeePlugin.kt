@@ -1,8 +1,16 @@
 package pl.ccki.szypwyp.blinkee.domain
 
+import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeRegion
+import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.ExternalAppId
-import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
+import pl.ccki.szypwyp.domain.models.cityKrakow
+import pl.ccki.szypwyp.domain.models.cityLodz
+import pl.ccki.szypwyp.domain.models.cityLublin
+import pl.ccki.szypwyp.domain.models.cityPoznan
+import pl.ccki.szypwyp.domain.models.cityTrojmiasto
+import pl.ccki.szypwyp.domain.models.cityWarsaw
+import pl.ccki.szypwyp.domain.models.cityWroclaw
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
 import javax.inject.Inject
 
@@ -12,6 +20,18 @@ class BlinkeePlugin @Inject constructor(
 
     override val appId = ExternalAppId("pl.blinkee.mobile")
 
-    override fun findInLocation(location: LatLng): List<MarkerModel> =
-        repository.getAll()
+    override val supportedCities
+        get() = listOf(
+            cityWroclaw(BlinkeeRegion.Wroclaw),
+            cityWarsaw(BlinkeeRegion.Warszawa),
+                cityPoznan(BlinkeeRegion.Poznan),
+                cityKrakow(BlinkeeRegion.Krakow),
+                cityTrojmiasto(BlinkeeRegion.Trojmiasto),
+                cityWroclaw(BlinkeeRegion.Wroclaw),
+                cityLodz(BlinkeeRegion.Lodz),
+                cityLublin(BlinkeeRegion.Lublin)
+        )
+
+    override fun findInLocation(location: CityId): List<MarkerModel> =
+        repository.getAll(location as BlinkeeRegion)
 }

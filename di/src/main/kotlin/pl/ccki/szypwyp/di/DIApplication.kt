@@ -1,6 +1,5 @@
 package pl.ccki.szypwyp.di
 
-import android.util.Log
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins

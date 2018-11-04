@@ -6,6 +6,7 @@ import com.google.maps.android.clustering.ClusterManager
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
+import pl.ccki.szypwyp.presentation.map.ui.toLatLng
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 
 class MapCluterManager(
@@ -29,7 +30,12 @@ class MapCluterManager(
     private val clusterManager by lazy {
         ClusterManager<SingleClusterItem>(context, map).also {
             map.setOnMarkerClickListener(it)
-            map.setOnCameraIdleListener(it)
+            map.setOnCameraIdleListener{
+                with(map.cameraPosition){
+                    viewModel.onCameraIdle(target.toLatLng())
+                }
+                it.onCameraIdle()
+            }
             map.setOnInfoWindowClickListener(it)
             it.setOnClusterItemClickListener { item ->
                 viewModel.onItemClicked(item)

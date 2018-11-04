@@ -24,6 +24,7 @@ open class BasePlugin : Plugin<Project> {
         project.afterEvaluate {
             it.dependencies.add("testImplementation", "junit:junit:${Versions.JUNIT_VERSION}")
             it.dependencies.add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN_VERSION}")
+            it.dependencies.add("testImplementation", "org.assertj:assertj-core:3.11.1")
         }
     }
 }

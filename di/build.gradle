@@ -1,4 +1,5 @@
 apply plugin: 'lib.main'
+// apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
@@ -54,4 +55,9 @@ dependencies {
     implementation project(":traficar:presentation")
     implementation project(":platform")
     implementation project(":presentationInterfaces")
+
+    implementation "com.google.firebase:firebase-core:16.0.5"
+//    implementation "com.crashlytics.sdk.android:crashlytics:2.9.5"
 }
+
+apply plugin: 'com.google.gms.google-services'

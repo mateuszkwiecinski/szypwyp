@@ -4,7 +4,9 @@ import dagger.Binds
 import dagger.Module
 import pl.ccki.szypwyp.domain.persistences.CameraPersistence
 import pl.ccki.szypwyp.domain.persistences.InMemoryCameraPersistence
+import pl.ccki.szypwyp.domain.persistences.InMemorySearchTargetPersistence
 import pl.ccki.szypwyp.domain.persistences.InMemoryVehiclesPersistence
+import pl.ccki.szypwyp.domain.persistences.PotentialSearchTargetPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 
 @Module
@@ -15,4 +17,7 @@ abstract class PersistencesModule {
 
     @Binds
     abstract fun cameraPersistence(implementation: InMemoryCameraPersistence): CameraPersistence
+
+    @Binds
+    abstract fun searchTarget(implementation: InMemorySearchTargetPersistence): PotentialSearchTargetPersistence
 }

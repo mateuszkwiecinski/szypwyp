@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.vozilla.domain
+package pl.ccki.szypwyp.vozilla.domain.models
 
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng

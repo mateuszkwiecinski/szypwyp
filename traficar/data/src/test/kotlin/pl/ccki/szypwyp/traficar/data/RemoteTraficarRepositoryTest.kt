@@ -6,6 +6,7 @@ import org.junit.Assert
 import org.junit.Test
 import pl.ccki.szypwyp.traficar.data.config.TraficarEndpoints
 import pl.ccki.szypwyp.traficar.data.config.TraficarRetrofitFactory
+import pl.ccki.szypwyp.traficar.domain.models.TraficarRegion
 
 class RemoteTraficarRepositoryTest {
 
@@ -20,7 +21,7 @@ class RemoteTraficarRepositoryTest {
             .create(TraficarEndpoints::class.java)
         val repository = RemoteTraficarRepository(endpoints)
 
-        val result = repository.getAll()
+        val result = repository.getAll(TraficarRegion.Warszawa)
 
         Assert.assertTrue(result.isNotEmpty())
     }

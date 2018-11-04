@@ -5,10 +5,11 @@ import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Percent
 import pl.ccki.szypwyp.traficar.data.config.TraficarEndpoints
+import pl.ccki.szypwyp.traficar.data.models.Car
+import pl.ccki.szypwyp.traficar.data.models.regionId
 import pl.ccki.szypwyp.traficar.domain.TraficarRepository
 import pl.ccki.szypwyp.traficar.domain.models.TraficarMarkerModel
-import pl.ccki.szypwyp.traficar.data.models.Car
-import pl.ccki.szypwyp.traficar.data.models.Regions
+import pl.ccki.szypwyp.traficar.domain.models.TraficarRegion
 import javax.inject.Inject
 import kotlin.math.min
 
@@ -20,8 +21,8 @@ class RemoteTraficarRepository @Inject constructor(
         private const val CALCULATED_MULTIPLIER_PROBABLY_AVERAGE_FUEL_CONSUMPTION = 12.5
     }
 
-    override fun getAll(): List<MarkerModel> {
-        val response = endpoints.get(Regions.Wroclaw.regionId).execute()
+    override fun getAll(region: TraficarRegion): List<MarkerModel> {
+        val response = endpoints.get(region.regionId).execute()
         return response.body()?.let {
             it.cars?.mapNotNull(this::map).orEmpty()
         } ?: emptyList()
@@ -33,7 +34,7 @@ class RemoteTraficarRepository @Inject constructor(
         val lng = data.longitude ?: return null
         val fuel = data.fuel?.let {
             val percentage = it * 100 * CALCULATED_MULTIPLIER_PROBABLY_AVERAGE_FUEL_CONSUMPTION / MAX_RANGE
-            min(percentage.toInt() , 100)
+            min(percentage.toInt(), 100)
         }?.let(::Percent)
 
         return TraficarMarkerModel(

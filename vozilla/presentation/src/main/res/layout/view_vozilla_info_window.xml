@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel" />
+            type="pl.ccki.szypwyp.vozilla.domain.models.VozillaMarkerModel" />
     </data>
 
     <LinearLayout

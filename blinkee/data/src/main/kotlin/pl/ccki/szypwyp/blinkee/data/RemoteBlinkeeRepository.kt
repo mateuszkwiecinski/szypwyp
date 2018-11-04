@@ -3,7 +3,8 @@ package pl.ccki.szypwyp.blinkee.data
 import pl.ccki.szypwyp.blinkee.data.config.BlinkeeEndpoints
 import pl.ccki.szypwyp.blinkee.domain.BlinkeeRepository
 import pl.ccki.szypwyp.blinkee.data.models.BlinkeItemResponse
-import pl.ccki.szypwyp.blinkee.data.models.Regions
+import pl.ccki.szypwyp.blinkee.data.models.regionId
+import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeRegion
 import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeMarkerModel
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
@@ -13,8 +14,8 @@ class RemoteBlinkeeRepository @Inject constructor(
     private val endpoints: BlinkeeEndpoints
 ) : BlinkeeRepository {
 
-    override fun getAll(): List<MarkerModel> {
-        val response = endpoints.get(Regions.Wroclaw.regionId).execute()
+    override fun getAll(region: BlinkeeRegion): List<MarkerModel> {
+        val response = endpoints.get(region.regionId).execute()
 
         return response.body().let {
             it?.data?.items?.mapNotNull(this::map).orEmpty()

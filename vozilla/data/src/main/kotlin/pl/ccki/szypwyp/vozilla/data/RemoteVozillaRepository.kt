@@ -7,7 +7,7 @@ import pl.ccki.szypwyp.vozilla.domain.VozillaRepository
 import pl.ccki.szypwyp.vozilla.data.model.ObjectResponse
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.Percent
-import pl.ccki.szypwyp.vozilla.domain.VozillaMarkerModel
+import pl.ccki.szypwyp.vozilla.domain.models.VozillaMarkerModel
 import javax.inject.Inject
 
 class RemoteVozillaRepository @Inject constructor(

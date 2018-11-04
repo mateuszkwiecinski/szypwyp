@@ -98,5 +98,8 @@ private fun Zoom.toFloat(): Float =
         Zoom.Away -> 12f
     }
 
-private fun LatLng.toLatLng(): GoogleLatLng =
+internal fun LatLng.toLatLng(): GoogleLatLng =
     GoogleLatLng(latitude, longitude)
+
+internal fun GoogleLatLng.toLatLng(): LatLng =
+    LatLng(latitude, longitude)

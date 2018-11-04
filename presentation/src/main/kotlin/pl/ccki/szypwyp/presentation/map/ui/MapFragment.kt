@@ -1,6 +1,7 @@
 package pl.ccki.szypwyp.presentation.map.ui
 
 import android.os.Bundle
+import android.view.View
 import com.google.android.gms.maps.SupportMapFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import pl.ccki.szypwyp.domain.base.InjectableMap
@@ -8,7 +9,6 @@ import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.PluginId
-import pl.ccki.szypwyp.presentation.MainActivity
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
 import pl.ccki.szypwyp.presentation.base.extensions.observe
@@ -61,6 +61,25 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
                 LocationMode.None, null -> 0f
                 LocationMode.ZoomedUpdates -> 180f
             })
+        }
+        viewModel.canChangeTarget.observe(this) {
+            if (it == true) {
+                binding.btnChangeSearchTarget.animate().apply {
+                    alpha(1f)
+                    translationY(0f)
+                    withStartAction {
+                        binding.btnChangeSearchTarget.visibility = View.VISIBLE
+                    }
+                }.start()
+            } else {
+                binding.btnChangeSearchTarget.animate().apply {
+                    alpha(0f)
+                    translationY(-30f)
+                    withEndAction {
+                        binding.btnChangeSearchTarget.visibility = View.GONE
+                    }
+                }.start()
+            }
         }
         // navController.navigate(R.id.action_mapFragment_to_configurationFragment)
     }

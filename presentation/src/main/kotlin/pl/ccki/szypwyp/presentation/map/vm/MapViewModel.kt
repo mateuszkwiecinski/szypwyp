@@ -12,9 +12,11 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.base.execute
+import pl.ccki.szypwyp.domain.commands.ChangeSearchTargetCommand
 import pl.ccki.szypwyp.domain.commands.InitializeMapCommand
 import pl.ccki.szypwyp.domain.commands.OpenExternalAppCommand
 import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
+import pl.ccki.szypwyp.domain.commands.UpdatePotentialSearchTargetCommand
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
@@ -22,6 +24,7 @@ import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
+import pl.ccki.szypwyp.domain.queries.GetCanChangeTargetQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
 import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
@@ -32,19 +35,23 @@ import pl.ccki.szypwyp.presentation.map.models.MapEvent
 import javax.inject.Inject
 
 class MapViewModel @Inject constructor(
-    getVehiclesCommand: GetVehiclesQuery,
-    getCameraCommand: GetCameraQuery,
-    private val refreshVehiclesQuery: RefreshVehiclesCommand,
-    private val initializeMapQuery: InitializeMapCommand,
-    private val permissionChecker: PermissionChecker,
+    getVehiclesQuery: GetVehiclesQuery,
+    getCameraQuery: GetCameraQuery,
+    getCanChangeTargetQuery: GetCanChangeTargetQuery,
     private val getLocationQuery: GetLocationQuery,
-    private val openExternalAppCommand: OpenExternalAppCommand
+    private val refreshVehiclesCommand: RefreshVehiclesCommand,
+    private val initializeMapCommand: InitializeMapCommand,
+    private val permissionChecker: PermissionChecker,
+    private val openExternalAppCommand: OpenExternalAppCommand,
+    private val updatePotentialSearchTargetCommand: UpdatePotentialSearchTargetCommand,
+    private val changeSearchTargetCommand: ChangeSearchTargetCommand
 ) : BaseViewModel() {
 
     private var cameraUpdates: Disposable? = null
 
     val markers = MutableLiveData<Map<PluginId, List<MarkerModel>>>()
     val camera = BehaviorSubject.create<Camera>()
+    val canChangeTarget = getCanChangeTargetQuery.execute().toLiveData(disposeBag)
     val locationPermissionGranted = BehaviorSubject.create<Boolean>()
 
     private val locationSubject = BehaviorSubject.createDefault(LocationMode.None)
@@ -53,10 +60,10 @@ class MapViewModel @Inject constructor(
     val navigation = PublishSubject.create<MapEvent>()
 
     init {
-        getVehiclesCommand.execute {
+        getVehiclesQuery.execute {
             markers.value = it
         }
-        getCameraCommand.execute {
+        getCameraQuery.execute {
             camera.onNext(it)
         }
         locationSubject
@@ -68,7 +75,7 @@ class MapViewModel @Inject constructor(
                         cameraUpdates?.dispose()
                         cameraUpdates = getLocationQuery.execute()
                             .subscribe {
-                                val zoom = if (mode == LocationMode.ContinuousUpdates) Zoom.Away else Zoom.Close
+                                val zoom = if (mode == LocationMode.ZoomedUpdates) Zoom.Close else Zoom.Away
                                 camera.onNext(Camera.ToPosition(it, maxZoom = zoom))
                             }
                             .also { disposeBag.add(it) }
@@ -86,7 +93,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun onFirstRun() {
-        initializeMapQuery.execute()
+        initializeMapCommand.execute()
             .subscribe()
             .disposeIn(disposeBag)
     }
@@ -106,7 +113,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        refreshVehiclesQuery.execute()
+        refreshVehiclesCommand.execute()
             .subscribe()
             .disposeIn(disposeBag)
     }
@@ -128,6 +135,20 @@ class MapViewModel @Inject constructor(
     fun onInfoWindowClicked(item: SingleClusterItem) {
         openExternalAppCommand
             .execute(item.id)
+            .subscribe()
+            .disposeIn(disposeBag)
+    }
+
+    fun onCameraIdle(newTarget: LatLng) {
+        updatePotentialSearchTargetCommand
+            .execute(newTarget)
+            .subscribe()
+            .disposeIn(disposeBag)
+    }
+
+    fun onChangeSearchTarget() {
+        changeSearchTargetCommand
+            .execute()
             .subscribe()
             .disposeIn(disposeBag)
     }

@@ -9,7 +9,6 @@ open class PresentationPlugin : BaseAndroidPlugin() {
     override fun apply(project: Project) {
         project.plugins.apply("com.android.library")
         super.apply(project)
-        project.extensions
 
         project.extensions.getByType(TestedExtension::class.java).apply {
             testOptions {
