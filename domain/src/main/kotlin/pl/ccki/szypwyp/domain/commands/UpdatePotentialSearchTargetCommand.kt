@@ -10,18 +10,19 @@ import pl.ccki.szypwyp.domain.persistences.PotentialSearchTargetPersistence
 import javax.inject.Inject
 
 class UpdatePotentialSearchTargetCommand @Inject constructor(
-    private val targetPersistence: PotentialSearchTargetPersistence
+    private val persistence: PotentialSearchTargetPersistence
 ) : Command<LatLng> {
 
     companion object {
-        private val DEFAULT_DISTANCE = Kilometers(70)
+        private val DEFAULT_DISTANCE = Kilometers(40)
     }
 
     override fun execute(param: LatLng) =
-        targetPersistence.last()
+        persistence.last()
             .flatMapCompletable {
-                if (it.distanceTo(param) > DEFAULT_DISTANCE) {
-                    targetPersistence.update(param)
+                if (it.distanceTo(param) > DEFAULT_DISTANCE || !persistence.locked) {
+                    persistence.locked = false
+                    persistence.update(param)
                 } else {
                     Completable.complete()
                 }

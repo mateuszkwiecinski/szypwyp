@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.stub
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
@@ -31,9 +32,10 @@ class UpdatePotentialSearchTargetCommandTest {
     fun `should not update target if new location close to actual one`() {
         val param = LatLng(20.00, 30.0)
         persistence.stub {
-            on { get() } doReturn Observable.create {
-                it.onNext(LatLng(19.9, 29.9))
+            on { last() } doReturn Maybe.create {
+                it.onSuccess(LatLng(19.9, 29.9))
             }
+            on { locked } doReturn true
         }
 
         val test = command.execute(param).test()
@@ -47,12 +49,10 @@ class UpdatePotentialSearchTargetCommandTest {
     fun `should update target on distant new value`() {
         val param = LatLng(20.00, 30.0)
         persistence.stub {
-            on { get() } doReturn Observable.create {
-                it.onNext(LatLng(19.9, 29.9))
-                it.onNext(LatLng(29.9, 39.9))
-                it.onNext(LatLng(39.9, 49.9))
-                it.onNext(LatLng(49.9, 59.9))
+            on { last() } doReturn Maybe.create {
+                it.onSuccess(LatLng(49.9, 59.9))
             }
+            on { locked } doReturn true
         }
 
         val test = command.execute(param).test()

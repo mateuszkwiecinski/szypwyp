@@ -41,7 +41,7 @@ class RemoteTraficarRepository @Inject constructor(
             id = id,
             location = LatLng(lat, lng),
             fuel = fuel,
-            range = data.fuel?.let { it * CALCULATED_MULTIPLIER_PROBABLY_AVERAGE_FUEL_CONSUMPTION }?.toInt()?.let(::Kilometers),
+            range = data.fuel?.let { it * CALCULATED_MULTIPLIER_PROBABLY_AVERAGE_FUEL_CONSUMPTION }?.toLong()?.let(::Kilometers),
             name = data.model.orEmpty()
         )
     }

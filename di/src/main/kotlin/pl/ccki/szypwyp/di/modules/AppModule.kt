@@ -8,7 +8,7 @@ import pl.ccki.szypwyp.platform.implementations.AndroidLocationProvider
 import pl.ccki.szypwyp.presentation.base.AndroidSchedulersProvider
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelsModule::class, PersistencesModule::class])
+@Module(includes = [PersistencesModule::class])
 abstract class AppModule {
 
     @Binds

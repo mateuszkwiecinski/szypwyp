@@ -4,7 +4,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.KotlinterExtension
-import pl.ccki.plugins.Versions
 
 open class BasePlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -22,8 +21,9 @@ open class BasePlugin : Plugin<Project> {
         }
 
         project.afterEvaluate {
-            it.dependencies.add("testImplementation", "junit:junit:${Versions.JUNIT_VERSION}")
-            it.dependencies.add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN_VERSION}")
+            it.dependencies.add("testImplementation", "junit:junit:4.12")
+            it.dependencies.add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
+            it.dependencies.add("testImplementation", "org.mockito:mockito-core:2.23.0")
             it.dependencies.add("testImplementation", "org.assertj:assertj-core:3.11.1")
         }
     }

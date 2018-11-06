@@ -13,5 +13,5 @@ fun LatLng.distanceTo(other: LatLng): Kilometers {
 
     val meterConversion = 1609
 
-    return Kilometers((distance * meterConversion / 1000).toInt())
+    return Kilometers((distance * meterConversion / 1000).toLong())
 }

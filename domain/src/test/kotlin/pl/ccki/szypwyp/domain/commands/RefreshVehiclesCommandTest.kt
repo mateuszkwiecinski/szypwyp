@@ -1,12 +1,17 @@
 package pl.ccki.szypwyp.domain.commands
 
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argWhere
+import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.stub
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
@@ -17,8 +22,11 @@ import pl.ccki.szypwyp.domain.models.CityModel
 import pl.ccki.szypwyp.domain.models.ExternalAppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MapError
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.models.Progress
+import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
@@ -30,9 +38,10 @@ class RefreshVehiclesCommandTest {
     lateinit var persistence: VehiclesPersistence
     lateinit var searchConfig: SearchConfigRepository
     lateinit var schedulersProvider: SchedulersProvider
+    lateinit var mapEvents: MapEventsPersistence
     private val point45_45 = LatLng(45.0, 45.0)
     private val point0_0 = LatLng(.0, .0)
-    private val RANGE_MAX = Kilometers(Int.MAX_VALUE)
+    private val RANGE_MAX = Kilometers(Long.MAX_VALUE)
 
     @Before
     fun setUp() {
@@ -48,6 +57,10 @@ class RefreshVehiclesCommandTest {
         schedulersProvider = mock {
             on { worker } doReturn Schedulers.trampoline()
             on { postExecution } doReturn Schedulers.trampoline()
+        }
+        mapEvents = mock {
+            on { progress() } doReturn Observable.create { }
+            on { errors() } doReturn Observable.create { }
         }
     }
 
@@ -65,7 +78,7 @@ class RefreshVehiclesCommandTest {
             on { worker } doReturn Schedulers.io()
         }
         searchConfig.stub {
-            on { target } doReturn LatLng(100.0, 100.0)
+            on { target } doReturn point45_45
         }
         val registeredPlugins = mapOf(first, second)
         val usecase = RefreshVehiclesCommand(
@@ -73,13 +86,15 @@ class RefreshVehiclesCommandTest {
             registeredPlugins,
             persistence,
             searchConfig,
+            mapEvents,
             schedulersProvider
         )
 
         val test = usecase.execute().test()
 
         test.awaitTerminalEvent()
-        test.assertError(IllegalStateException::class.java)
+        test.assertNoErrors()
+        verify(mapEvents).update(argWhere { it is MapError.SpecificPluginError && it.id.id == "2" })
         verify(persistence).update(first.first, data)
         verifyNoMoreInteractions(persistence)
     }
@@ -110,6 +125,7 @@ class RefreshVehiclesCommandTest {
             registeredPlugins,
             persistence,
             searchConfig,
+            mapEvents,
             schedulersProvider
         )
 
@@ -146,6 +162,7 @@ class RefreshVehiclesCommandTest {
             registeredPlugins,
             persistence,
             searchConfig,
+            mapEvents,
             schedulersProvider
         )
 
@@ -155,23 +172,148 @@ class RefreshVehiclesCommandTest {
         verifyNoMoreInteractions(persistence)
     }
 
-    private fun createPlugin(pluginId: String, locations: List<CityModel>, data: () -> List<MarkerModel>): Pair<PluginId,
-        ExternalPlugin> {
-        val first = object : PluginId {
-            override val id: String
-                get() = pluginId
+    @Test
+    fun `should emit progress events in right order`() {
+        val data = listOf<MarkerModel>(mock(), mock())
+        val first = createPlugin("10", listOf(CityModel(Id("910"), point45_45, RANGE_MAX))) {
+            Thread.sleep(30)
+            data
         }
-        val second = object : ExternalPlugin {
-            override val appId: ExternalAppId
-                get() = ExternalAppId("pl.$pluginId")
-            override val supportedCities: Iterable<CityModel>
-                get() = locations
-
-            override fun findInLocation(location: CityId) = data()
+        val second = createPlugin("20", listOf(CityModel(Id("911"), point45_45, RANGE_MAX))) {
+            Thread.sleep(20)
+            data
         }
+        val third = createPlugin("30", listOf(CityModel(Id("912"), point45_45, RANGE_MAX))) {
+            Thread.sleep(10)
+            data
+        }
+        schedulersProvider.stub {
+            on { worker } doReturn Schedulers.io()
+        }
+        searchConfig.stub {
+            on { target } doReturn point45_45
+        }
+        val registeredPlugins = mapOf(first, second, third)
+        val usecase = RefreshVehiclesCommand(
+            configuration,
+            registeredPlugins,
+            persistence,
+            searchConfig,
+            mapEvents,
+            schedulersProvider
+        )
 
-        return first to second
+        val test = usecase.execute().test()
+
+        test.awaitTerminalEvent()
+        test.assertNoErrors()
+        mapEvents.inOrder {
+            verify().update(argWhere { it is Progress.Initial })
+            verify(mapEvents, times(3)).update(argWhere { it is Progress.Loading })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "30" })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "20" })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "10" })
+            verify().update(argWhere { it is Progress.Completed })
+            verifyNoMoreInteractions()
+        }
     }
+
+    @Test
+    fun `should emit error and progress events in right order`() {
+        val data = listOf<MarkerModel>(mock(), mock())
+        val first = createPlugin("10", listOf(CityModel(Id("910"), point45_45, RANGE_MAX))) {
+            Thread.sleep(40)
+            data
+        }
+        val second = createPlugin("20", listOf(CityModel(Id("911"), point45_45, RANGE_MAX))) {
+            Thread.sleep(30)
+            data
+        }
+        val third = createPlugin("30", listOf(CityModel(Id("912"), point45_45, RANGE_MAX))) {
+            Thread.sleep(20)
+            throw IllegalStateException("TestException")
+        }
+        val fourth = createPlugin("40", listOf(CityModel(Id("914"), point45_45, RANGE_MAX))) {
+            Thread.sleep(10)
+            data
+        }
+        schedulersProvider.stub {
+            on { worker } doReturn Schedulers.io()
+        }
+        searchConfig.stub {
+            on { target } doReturn point45_45
+        }
+        val registeredPlugins = mapOf(first, second, third, fourth)
+        val usecase = RefreshVehiclesCommand(
+            configuration,
+            registeredPlugins,
+            persistence,
+            searchConfig,
+            mapEvents,
+            schedulersProvider
+        )
+
+        val test = usecase.execute().test()
+
+        test.awaitTerminalEvent()
+        test.assertNoErrors()
+        mapEvents.inOrder {
+            verify().update(argWhere { it is Progress.Initial })
+            verify(mapEvents, times(registeredPlugins.count())).update(argWhere { it is Progress.Loading })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "40" })
+            verify().update(argWhere { it is MapError.SpecificPluginError && it.id.id == "30" })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "30" })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "20" })
+            verify().update(argWhere { it is Progress.Finished && it.id.id == "10" })
+            verify().update(argWhere { it is Progress.Completed })
+            verifyNoMoreInteractions()
+        }
+    }
+
+    @Test
+    fun `should emit events even if onError was emitted`() {
+        searchConfig.stub {
+            on { target } doAnswer {
+                throw IllegalStateException()
+            }
+        }
+        val usecase = RefreshVehiclesCommand(
+            configuration,
+            emptyMap(),
+            persistence,
+            searchConfig,
+            mapEvents,
+            schedulersProvider
+        )
+
+        val test = usecase.execute().test()
+
+        test.awaitTerminalEvent()
+        mapEvents.inOrder {
+            verify().update(argWhere { it is Progress.Initial })
+            verify().update(argWhere { it is MapError.Unknown })
+            verify().update(argWhere { it is Progress.Completed })
+            verifyNoMoreInteractions()
+        }
+    }
+}
+
+private fun createPlugin(pluginId: String, locations: List<CityModel>, data: () -> List<MarkerModel>): Pair<PluginId,
+    ExternalPlugin> {
+    val first = object : PluginId {
+        override val id: String
+            get() = pluginId
+    }
+    val second = object : ExternalPlugin {
+        override val appId: ExternalAppId
+            get() = ExternalAppId("pl.$pluginId")
+        override val supportedCities: Iterable<CityModel>
+            get() = locations
+
+        override fun findInLocation(location: CityId) = data()
+    }
+
+    return first to second
 }
 
 data class Id(val value: String) : CityId

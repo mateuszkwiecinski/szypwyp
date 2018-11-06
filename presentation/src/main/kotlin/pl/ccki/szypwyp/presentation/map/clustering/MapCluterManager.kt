@@ -38,7 +38,7 @@ class MapCluterManager(
             }
             map.setOnInfoWindowClickListener(it)
             it.setOnClusterItemClickListener { item ->
-                viewModel.onItemClicked(item)
+                viewModel.onItemClicked()
                 false
             }
             it.setOnClusterClickListener { cluster ->

@@ -20,6 +20,7 @@ class ChangeSearchTargetCommand @Inject constructor(
             .flatMapCompletable {
                 Completable.fromAction {
                     repository.target = it
+                    persistence.locked = true
                 }.andThen(persistence.update(it))
             }
             .andThen(vehiclesPersistence.clear())

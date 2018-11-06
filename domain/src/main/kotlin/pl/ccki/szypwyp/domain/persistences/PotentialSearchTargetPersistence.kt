@@ -8,9 +8,12 @@ import javax.inject.Singleton
 
 interface PotentialSearchTargetPersistence : DefaultPersistence<LatLng> {
     fun last(): Maybe<LatLng>
+    var locked: Boolean
 }
 
 @Singleton
 class InMemorySearchTargetPersistence @Inject constructor(
     private val repository: SearchConfigRepository
-) : BehaviorSubjectBasedPersistence<LatLng>({ repository.target }), PotentialSearchTargetPersistence
+) : BehaviorSubjectBasedPersistence<LatLng>({ repository.target }), PotentialSearchTargetPersistence {
+    override var locked: Boolean = true
+}

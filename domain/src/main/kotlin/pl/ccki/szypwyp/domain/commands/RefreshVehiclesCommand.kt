@@ -1,6 +1,7 @@
 package pl.ccki.szypwyp.domain.commands
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import pl.ccki.szypwyp.domain.base.Command
 import pl.ccki.szypwyp.domain.base.InjectableMap
@@ -9,10 +10,13 @@ import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.LatLng
+import pl.ccki.szypwyp.domain.models.MapError
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.models.Progress
 import pl.ccki.szypwyp.domain.models.compareTo
 import pl.ccki.szypwyp.domain.models.distanceTo
+import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
@@ -24,25 +28,26 @@ class RefreshVehiclesCommand @Inject constructor(
     private val registeredPlugins: InjectableMap<PluginId, ExternalPlugin>,
     private val persistence: VehiclesPersistence,
     private val searchConfig: SearchConfigRepository,
+    private val mapEvents: MapEventsPersistence,
     private val schedulersProvider: SchedulersProvider
 ) : Command<Unit> {
 
     override fun execute(param: Unit): Completable =
         Single.fromCallable {
+            mapEvents.update(Progress.Initial)
             val target = searchConfig.target ?: DEFAULT_LOCATION
             val selectedPlugins = findServices(target)
 
             selectedPlugins.map { (id, cityId, plugin) ->
-                Single.fromCallable {
-                    RequestDto(id, plugin.findInLocation(cityId))
-                }
+                serviceCall(id, cityId, plugin)
             }
         }
-            .flatMapCompletable {
-                Single.mergeDelayError(it)
-                    .flatMapCompletable { (id, result) ->
-                        persistence.update(id, result)
-                    }
+            .flatMapCompletable(Completable::merge)
+            .doOnError {
+                mapEvents.update(MapError.Unknown(it))
+            }
+            .doFinally {
+                mapEvents.update(Progress.Completed)
             }
             .applySchedulers(schedulersProvider)
 
@@ -62,6 +67,21 @@ class RefreshVehiclesCommand @Inject constructor(
             services.contains(it)
         }
     }
-}
 
-private data class RequestDto(val id: PluginId, val result: List<MarkerModel>)
+    private fun serviceCall(id: PluginId, cityId: CityId, plugin: ExternalPlugin) =
+        Maybe.fromCallable<List<MarkerModel>> {
+            try {
+                mapEvents.update(Progress.Loading(id))
+                plugin.findInLocation(cityId)
+            } catch (throwable: Throwable) {
+                mapEvents.update(MapError.SpecificPluginError(id, throwable))
+                null
+            } finally {
+                mapEvents.update(Progress.Finished(id))
+            }
+        }
+            .flatMapCompletable {
+                persistence.update(id, it)
+            }
+            .subscribeOn(schedulersProvider.worker)
+}

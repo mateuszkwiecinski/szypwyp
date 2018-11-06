@@ -1,7 +1,15 @@
 package pl.ccki.szypwyp.presentation.map.ui
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.Animation.INFINITE
+import android.view.animation.Animation.RELATIVE_TO_SELF
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
 import com.google.android.gms.maps.SupportMapFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import pl.ccki.szypwyp.domain.base.InjectableMap
@@ -17,6 +25,7 @@ import pl.ccki.szypwyp.presentation.base.extensions.rxGetMap
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
 import pl.ccki.szypwyp.presentation.dialogs.PermissionBlockedDialog
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
+import pl.ccki.szypwyp.presentation.map.listeners.AnimationListener
 import pl.ccki.szypwyp.presentation.map.models.LocationMode
 import pl.ccki.szypwyp.presentation.map.models.MapEvent
 import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
@@ -81,7 +90,24 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
                 }.start()
             }
         }
-        // navController.navigate(R.id.action_mapFragment_to_configurationFragment)
+        viewModel.isLoadingSomething.observe(this) {
+            if (it == true) {
+                val animation = RotateAnimation(0f, 360f, RELATIVE_TO_SELF, .5f, RELATIVE_TO_SELF, .5f).apply {
+                    repeatCount = INFINITE
+                    duration = 2000
+                    interpolator = AccelerateDecelerateInterpolator()
+                    fillAfter = true
+                    setAnimationListener(AnimationListener(
+                        onAnimationRepeat = {
+                            if (viewModel.isLoadingSomething.value != true) {
+                                it.cancel()
+                            }
+                        }
+                    ))
+                }
+                binding.btnRefresh.startAnimation(animation)
+            }
+        }
     }
 
     private fun initMap(savedInstanceState: Bundle?) {

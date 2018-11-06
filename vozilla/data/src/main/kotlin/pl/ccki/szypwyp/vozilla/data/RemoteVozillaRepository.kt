@@ -27,7 +27,7 @@ class RemoteVozillaRepository @Inject constructor(
         return VozillaMarkerModel(id = id,
             location = LatLng(lat, lng),
             name = param.name.orEmpty(),
-            range = param.rangeKm?.let(::Kilometers),
+            range = param.rangeKm?.toLong()?.let(::Kilometers),
             battery = param.batteryLevelPct?.let(::Percent)
         )
     }

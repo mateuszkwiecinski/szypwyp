@@ -22,22 +22,29 @@ import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.models.Progress
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
 import pl.ccki.szypwyp.domain.queries.GetCanChangeTargetQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
+import pl.ccki.szypwyp.domain.queries.GetMapErrorsQuery
+import pl.ccki.szypwyp.domain.queries.GetMapProgressQuery
 import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.presentation.base.BaseViewModel
 import pl.ccki.szypwyp.presentation.map.clustering.SingleClusterItem
 import pl.ccki.szypwyp.presentation.map.models.LocationMode
 import pl.ccki.szypwyp.presentation.map.models.MapEvent
+import timber.log.Timber
+import timber.log.info
 import javax.inject.Inject
 
 class MapViewModel @Inject constructor(
     getVehiclesQuery: GetVehiclesQuery,
     getCameraQuery: GetCameraQuery,
     getCanChangeTargetQuery: GetCanChangeTargetQuery,
+    getMapProgressQuery: GetMapProgressQuery,
+    getMapErrorsQuery: GetMapErrorsQuery,
     private val getLocationQuery: GetLocationQuery,
     private val refreshVehiclesCommand: RefreshVehiclesCommand,
     private val initializeMapCommand: InitializeMapCommand,
@@ -53,11 +60,17 @@ class MapViewModel @Inject constructor(
     val camera = BehaviorSubject.create<Camera>()
     val canChangeTarget = getCanChangeTargetQuery.execute().toLiveData(disposeBag)
     val locationPermissionGranted = BehaviorSubject.create<Boolean>()
+    val isLoadingSomething = getMapProgressQuery.execute()
+        .filter { it is Progress.Initial || it is Progress.Finished }
+        .map { it is Progress.Initial }
+        .distinctUntilChanged()
+        .toLiveData(disposeBag)
 
     private val locationSubject = BehaviorSubject.createDefault(LocationMode.None)
     val locationMode = locationSubject.distinctUntilChanged().toLiveData(disposeBag)
 
     val navigation = PublishSubject.create<MapEvent>()
+    var refreshDisposable: Disposable? = null
 
     init {
         getVehiclesQuery.execute {
@@ -113,9 +126,12 @@ class MapViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        refreshVehiclesCommand.execute()
-            .subscribe()
-            .disposeIn(disposeBag)
+        if (refreshDisposable?.isDisposed != false) {
+            refreshDisposable = refreshVehiclesCommand.execute()
+                .subscribe()
+        } else {
+            Timber.info { "Loading in progress" }
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -123,7 +139,7 @@ class MapViewModel @Inject constructor(
         locationPermissionGranted.onNext(permissionChecker.check(Permission.Location))
     }
 
-    fun onItemClicked(item: SingleClusterItem) {
+    fun onItemClicked() {
         locationSubject.onNext(LocationMode.None)
     }
 
@@ -151,6 +167,15 @@ class MapViewModel @Inject constructor(
             .execute()
             .subscribe()
             .disposeIn(disposeBag)
+    }
+
+    fun onInfoClicked(){
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        refreshDisposable?.dispose()
     }
 }
 
