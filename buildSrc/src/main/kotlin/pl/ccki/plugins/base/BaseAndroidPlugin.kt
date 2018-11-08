@@ -4,6 +4,7 @@ import com.android.build.gradle.TestedExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import pl.ccki.plugins.Versions.DAGGER_VERSION
 import pl.ccki.plugins.Versions.KOTLIN_VERSION
 
@@ -37,9 +38,16 @@ abstract class BaseAndroidPlugin : BasePlugin() {
             compileOptions.sourceCompatibility = JavaVersion.VERSION_1_8
             compileOptions.targetCompatibility = JavaVersion.VERSION_1_8
         }
+        project.extensions.configure(KaptExtension::class.java) {
+            it.correctErrorTypes = true
+            it.useBuildCache = true
+            it.arguments {
+                this.arg("dagger.formatGeneratedSource","disabled")
+                this.arg("dagger.gradle.incremental")
+            }
+        }
 
         project.dependencies.add("implementation", "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
-
         project.dependencies.add("implementation", "com.google.dagger:dagger:$DAGGER_VERSION")
         project.dependencies.add("implementation", "com.google.dagger:dagger-android:$DAGGER_VERSION")
         project.dependencies.add("implementation", "com.google.dagger:dagger-android-support:$DAGGER_VERSION")

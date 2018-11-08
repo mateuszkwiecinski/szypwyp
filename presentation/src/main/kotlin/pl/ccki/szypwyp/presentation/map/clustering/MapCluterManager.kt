@@ -37,7 +37,7 @@ class MapCluterManager(
                 it.onCameraIdle()
             }
             map.setOnInfoWindowClickListener(it)
-            it.setOnClusterItemClickListener { item ->
+            it.setOnClusterItemClickListener { _ ->
                 viewModel.onItemClicked()
                 false
             }
