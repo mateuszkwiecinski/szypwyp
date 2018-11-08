@@ -1,16 +1,13 @@
 package pl.ccki.szypwyp.presentation.map.ui
 
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.view.animation.Animation.INFINITE
 import android.view.animation.Animation.RELATIVE_TO_SELF
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import com.google.android.gms.maps.SupportMapFragment
+import com.tapadoo.alerter.Alerter
 import com.tbruyelle.rxpermissions2.RxPermissions
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.disposeIn
@@ -94,18 +91,35 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
             if (it == true) {
                 val animation = RotateAnimation(0f, 360f, RELATIVE_TO_SELF, .5f, RELATIVE_TO_SELF, .5f).apply {
                     repeatCount = INFINITE
-                    duration = 2000
+                    duration = 700
                     interpolator = AccelerateDecelerateInterpolator()
                     fillAfter = true
                     setAnimationListener(AnimationListener(
-                        onAnimationRepeat = {
+                        onAnimationRepeat = { anim ->
                             if (viewModel.isLoadingSomething.value != true) {
-                                it.cancel()
+                                anim.cancel()
                             }
                         }
                     ))
                 }
                 binding.btnRefresh.startAnimation(animation)
+            }
+        }
+
+        viewModel.shouldShowError.observe(this) {
+            val activity = activity ?: return@observe
+            if (it == true) {
+                Alerter.create(activity)
+                    .apply {
+                        setTitle(R.string.map_error_loading_title)
+                        setText(R.string.map_error_loading_message)
+                        setBackgroundColorRes(R.color.md_amber_900)
+                        setIcon(R.drawable.ic_info)
+                        enableInfiniteDuration(true)
+                    }
+                    .show()
+            } else {
+                Alerter.clearCurrent(activity)
             }
         }
     }

@@ -15,5 +15,6 @@ class GetVehiclesQuery @Inject constructor(
 ) : Query<Map<PluginId, List<MarkerModel>>> {
 
     override fun execute(): Observable<Map<PluginId, List<MarkerModel>>> =
-        persistence.get().applySchedulers(schedulersProvider)
+        persistence.get()
+            .applySchedulers(schedulersProvider)
 }

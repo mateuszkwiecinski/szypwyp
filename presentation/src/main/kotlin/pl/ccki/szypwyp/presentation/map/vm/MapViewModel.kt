@@ -19,15 +19,12 @@ import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
 import pl.ccki.szypwyp.domain.commands.UpdatePotentialSearchTargetCommand
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
-import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
-import pl.ccki.szypwyp.domain.models.PluginId
-import pl.ccki.szypwyp.domain.models.Progress
+import pl.ccki.szypwyp.domain.models.StateModel
 import pl.ccki.szypwyp.domain.models.Zoom
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
 import pl.ccki.szypwyp.domain.queries.GetCanChangeTargetQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
-import pl.ccki.szypwyp.domain.queries.GetMapErrorsQuery
 import pl.ccki.szypwyp.domain.queries.GetMapProgressQuery
 import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
@@ -44,7 +41,6 @@ class MapViewModel @Inject constructor(
     getCameraQuery: GetCameraQuery,
     getCanChangeTargetQuery: GetCanChangeTargetQuery,
     getMapProgressQuery: GetMapProgressQuery,
-    getMapErrorsQuery: GetMapErrorsQuery,
     private val getLocationQuery: GetLocationQuery,
     private val refreshVehiclesCommand: RefreshVehiclesCommand,
     private val initializeMapCommand: InitializeMapCommand,
@@ -56,15 +52,19 @@ class MapViewModel @Inject constructor(
 
     private var cameraUpdates: Disposable? = null
 
-    val markers = MutableLiveData<Map<PluginId, List<MarkerModel>>>()
+    val markers = getVehiclesQuery.execute().toLiveData(disposeBag)
     val camera = BehaviorSubject.create<Camera>()
     val canChangeTarget = getCanChangeTargetQuery.execute().toLiveData(disposeBag)
     val locationPermissionGranted = BehaviorSubject.create<Boolean>()
     val isLoadingSomething = getMapProgressQuery.execute()
-        .filter { it is Progress.Initial || it is Progress.Finished }
-        .map { it is Progress.Initial }
+        .map { it.values.any { it is StateModel.Loading } }
         .distinctUntilChanged()
         .toLiveData(disposeBag)
+    val shouldShowError = getMapProgressQuery.execute()
+        .map { it.values.any { it is StateModel.Failed } }
+        .distinctUntilChanged()
+        .toLiveData(disposeBag)
+    val allProgress = getMapProgressQuery.execute().toLiveData(disposeBag)
 
     private val locationSubject = BehaviorSubject.createDefault(LocationMode.None)
     val locationMode = locationSubject.distinctUntilChanged().toLiveData(disposeBag)
@@ -73,9 +73,6 @@ class MapViewModel @Inject constructor(
     var refreshDisposable: Disposable? = null
 
     init {
-        getVehiclesQuery.execute {
-            markers.value = it
-        }
         getCameraQuery.execute {
             camera.onNext(it)
         }
@@ -169,7 +166,7 @@ class MapViewModel @Inject constructor(
             .disposeIn(disposeBag)
     }
 
-    fun onInfoClicked(){
+    fun onInfoClicked() {
 
     }
 

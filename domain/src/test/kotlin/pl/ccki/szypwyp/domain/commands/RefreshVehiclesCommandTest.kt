@@ -2,7 +2,6 @@ package pl.ccki.szypwyp.domain.commands
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argWhere
-import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
@@ -22,10 +21,9 @@ import pl.ccki.szypwyp.domain.models.CityModel
 import pl.ccki.szypwyp.domain.models.ExternalAppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
-import pl.ccki.szypwyp.domain.models.MapError
+import pl.ccki.szypwyp.domain.models.LoadEvent
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
-import pl.ccki.szypwyp.domain.models.Progress
 import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
@@ -59,8 +57,7 @@ class RefreshVehiclesCommandTest {
             on { postExecution } doReturn Schedulers.trampoline()
         }
         mapEvents = mock {
-            on { progress() } doReturn Observable.create { }
-            on { errors() } doReturn Observable.create { }
+            on { events() } doReturn Observable.create { }
         }
     }
 
@@ -94,7 +91,7 @@ class RefreshVehiclesCommandTest {
 
         test.awaitTerminalEvent()
         test.assertNoErrors()
-        verify(mapEvents).update(argWhere { it is MapError.SpecificPluginError && it.id.id == "2" })
+        verify(mapEvents).update(argWhere { it is LoadEvent.Finished.WithError && it.id.id == "2" })
         verify(persistence).update(first.first, data)
         verifyNoMoreInteractions(persistence)
     }
@@ -208,12 +205,12 @@ class RefreshVehiclesCommandTest {
         test.awaitTerminalEvent()
         test.assertNoErrors()
         mapEvents.inOrder {
-            verify().update(argWhere { it is Progress.Initial })
-            verify(mapEvents, times(3)).update(argWhere { it is Progress.Loading })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "30" })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "20" })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "10" })
-            verify().update(argWhere { it is Progress.Completed })
+            verify().update(argWhere { it is LoadEvent.Initial })
+            verify(mapEvents, times(3)).update(argWhere { it is LoadEvent.Loading })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "30" })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "20" })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "10" })
+            verify().update(argWhere { it is LoadEvent.Completed })
             verifyNoMoreInteractions()
         }
     }
@@ -258,41 +255,13 @@ class RefreshVehiclesCommandTest {
         test.awaitTerminalEvent()
         test.assertNoErrors()
         mapEvents.inOrder {
-            verify().update(argWhere { it is Progress.Initial })
-            verify(mapEvents, times(registeredPlugins.count())).update(argWhere { it is Progress.Loading })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "40" })
-            verify().update(argWhere { it is MapError.SpecificPluginError && it.id.id == "30" })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "30" })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "20" })
-            verify().update(argWhere { it is Progress.Finished && it.id.id == "10" })
-            verify().update(argWhere { it is Progress.Completed })
-            verifyNoMoreInteractions()
-        }
-    }
-
-    @Test
-    fun `should emit events even if onError was emitted`() {
-        searchConfig.stub {
-            on { target } doAnswer {
-                throw IllegalStateException()
-            }
-        }
-        val usecase = RefreshVehiclesCommand(
-            configuration,
-            emptyMap(),
-            persistence,
-            searchConfig,
-            mapEvents,
-            schedulersProvider
-        )
-
-        val test = usecase.execute().test()
-
-        test.awaitTerminalEvent()
-        mapEvents.inOrder {
-            verify().update(argWhere { it is Progress.Initial })
-            verify().update(argWhere { it is MapError.Unknown })
-            verify().update(argWhere { it is Progress.Completed })
+            verify().update(argWhere { it is LoadEvent.Initial })
+            verify(mapEvents, times(registeredPlugins.count())).update(argWhere { it is LoadEvent.Loading })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "40" })
+            verify().update(argWhere { it is LoadEvent.Finished.WithError && it.id.id == "30" })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "20" })
+            verify().update(argWhere { it is LoadEvent.Finished.WithSuccess && it.id.id == "10" })
+            verify().update(argWhere { it is LoadEvent.Completed })
             verifyNoMoreInteractions()
         }
     }

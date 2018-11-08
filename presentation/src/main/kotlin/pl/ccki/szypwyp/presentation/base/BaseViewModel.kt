@@ -2,10 +2,10 @@ package pl.ccki.szypwyp.presentation.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.internal.disposables.DisposableContainer
 import pl.ccki.szypwyp.domain.base.Query
+import pl.ccki.szypwyp.domain.base.disposeIn
 
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     protected val disposeBag = CompositeDisposable()
@@ -16,10 +16,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
     fun <T : Any> Query<T>.execute(action: (T) -> Unit) =
-        execute().subscribe(action).disposeWith(disposeBag)
+        execute().observeOn(AndroidSchedulers.mainThread()).subscribe(action).disposeIn(disposeBag)
 }
-
-fun Disposable.disposeWith(disposeBag: DisposableContainer) =
-    disposeBag.add(this)
 
 

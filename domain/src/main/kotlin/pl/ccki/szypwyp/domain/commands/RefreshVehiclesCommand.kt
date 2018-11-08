@@ -10,10 +10,9 @@ import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.LatLng
-import pl.ccki.szypwyp.domain.models.MapError
+import pl.ccki.szypwyp.domain.models.LoadEvent
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
-import pl.ccki.szypwyp.domain.models.Progress
 import pl.ccki.szypwyp.domain.models.compareTo
 import pl.ccki.szypwyp.domain.models.distanceTo
 import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
@@ -34,7 +33,7 @@ class RefreshVehiclesCommand @Inject constructor(
 
     override fun execute(param: Unit): Completable =
         Single.fromCallable {
-            mapEvents.update(Progress.Initial)
+            mapEvents.update(LoadEvent.Initial)
             val target = searchConfig.target ?: DEFAULT_LOCATION
             val selectedPlugins = findServices(target)
 
@@ -43,11 +42,8 @@ class RefreshVehiclesCommand @Inject constructor(
             }
         }
             .flatMapCompletable(Completable::merge)
-            .doOnError {
-                mapEvents.update(MapError.Unknown(it))
-            }
             .doFinally {
-                mapEvents.update(Progress.Completed)
+                mapEvents.update(LoadEvent.Completed)
             }
             .applySchedulers(schedulersProvider)
 
@@ -71,13 +67,13 @@ class RefreshVehiclesCommand @Inject constructor(
     private fun serviceCall(id: PluginId, cityId: CityId, plugin: ExternalPlugin) =
         Maybe.fromCallable<List<MarkerModel>> {
             try {
-                mapEvents.update(Progress.Loading(id))
-                plugin.findInLocation(cityId)
+                mapEvents.update(LoadEvent.Loading(id))
+                val result = plugin.findInLocation(cityId)
+                mapEvents.update(LoadEvent.Finished.WithSuccess(id))
+                result
             } catch (throwable: Throwable) {
-                mapEvents.update(MapError.SpecificPluginError(id, throwable))
+                mapEvents.update(LoadEvent.Finished.WithError(id, throwable))
                 null
-            } finally {
-                mapEvents.update(Progress.Finished(id))
             }
         }
             .flatMapCompletable {

@@ -1,15 +1,14 @@
 package pl.ccki.szypwyp.domain.models
 
-sealed class MapEvent
+sealed class LoadEvent {
+    object Initial : LoadEvent()
+    data class Loading(val id: PluginId) : LoadEvent()
+    sealed class Finished : LoadEvent() {
+        abstract val id: PluginId
 
-sealed class Progress : MapEvent() {
-    object Initial : Progress()
-    data class Loading(val id: PluginId) : Progress()
-    data class Finished(val id: PluginId) : Progress()
-    object Completed : Progress()
-}
+        data class WithSuccess(override val id: PluginId) : Finished()
+        data class WithError(override val id: PluginId, val throwable: Throwable) : Finished()
+    }
 
-sealed class MapError : MapEvent() {
-    data class SpecificPluginError(val id: PluginId, val issue: Throwable) : MapError()
-    data class Unknown(val issue: Throwable) : MapError()
+    object Completed : LoadEvent()
 }
