@@ -4,4 +4,16 @@ import pl.ccki.szypwyp.presentation.base.BaseViewModel
 import javax.inject.Inject
 
 class ConfigurationViewModel @Inject constructor(
-) : BaseViewModel()
+) : BaseViewModel() {
+    fun onClickReportABug(){
+
+    }
+
+    fun onClickLicenses(){
+
+    }
+
+    fun onClickAboutApp(){
+
+    }
+}

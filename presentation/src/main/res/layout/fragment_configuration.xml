@@ -2,10 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="model"
+            type="pl.ccki.szypwyp.presentation.configuration.vm.ConfigurationViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_white_1000"
+        android:background="@color/md_grey_50"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -21,12 +29,91 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_circle"
+                    android:backgroundTint="#0A62A6"
+                    android:src="@mipmap/ic_app_foreground" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/configuration_info"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackground"
+                            android:onClick="@{() -> model.onClickReportABug()}"
+                            android:padding="20dp"
+                            android:text="@string/configuration_report_a_bug"
+                            android:textColor="@color/textColorPrimary" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/md_grey_50" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackground"
+                            android:onClick="@{() -> model.onClickAboutApp()}"
+                            android:padding="20dp"
+                            android:text="@string/configuration_about"
+                            android:textColor="@color/textColorPrimary" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/md_grey_50" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackground"
+                            android:onClick="@{() -> model.onClickLicenses()}"
+                            android:padding="20dp"
+                            android:text="@string/configuration_licenses"
+                            android:textColor="@color/textColorPrimary" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

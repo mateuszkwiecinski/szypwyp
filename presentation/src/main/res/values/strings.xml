@@ -20,4 +20,8 @@
         please visit app store and hit the update button</string>
     <string name="map_info_newer_version_positive">Open store</string>
     <string name="map_info_newer_version_negative">Dismiss</string>
+    <string name="configuration_info">Info &amp; More</string>
+    <string name="configuration_licenses">Third Party Licenses</string>
+    <string name="configuration_about">About App</string>
+    <string name="configuration_report_a_bug">Report a bug</string>
 </resources>
