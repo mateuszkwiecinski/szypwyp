@@ -8,7 +8,7 @@ import com.nhaarman.mockitokotlin2.stub
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Before
 import org.junit.Test
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.services.AppOpeningService
 import pl.ccki.szypwyp.domain.services.AppsCheckingService
@@ -28,7 +28,7 @@ class OpenExternalAppCommandTest {
     fun `should open external app if installed`() {
         val pluginId = Generate(1)
         val plugin = mock<ExternalPlugin> {
-            on { appId } doReturn ExternalAppId("app")
+            on { appId } doReturn AppId("app")
         }
         appsChecker.stub {
             on { isAppInstalled(any()) } doReturn true
@@ -46,7 +46,7 @@ class OpenExternalAppCommandTest {
     fun `should open store if not installed`() {
         val pluginId = Generate(1)
         val plugin = mock<ExternalPlugin> {
-            on { appId } doReturn ExternalAppId("app")
+            on { appId } doReturn AppId("app")
         }
         appsChecker.stub {
             on { isAppInstalled(any()) } doReturn false

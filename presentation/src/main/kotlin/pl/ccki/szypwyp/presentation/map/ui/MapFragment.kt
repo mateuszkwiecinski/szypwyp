@@ -11,6 +11,7 @@ import com.tapadoo.alerter.Alerter
 import com.tbruyelle.rxpermissions2.RxPermissions
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.disposeIn
+import pl.ccki.szypwyp.domain.models.CurrentAppVersionState
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.PluginId
@@ -20,6 +21,7 @@ import pl.ccki.szypwyp.presentation.base.extensions.observe
 import pl.ccki.szypwyp.presentation.base.extensions.permissionName
 import pl.ccki.szypwyp.presentation.base.extensions.rxGetMap
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
+import pl.ccki.szypwyp.presentation.dialogs.AppBlockedDialog
 import pl.ccki.szypwyp.presentation.dialogs.PermissionBlockedDialog
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.map.listeners.AnimationListener
@@ -108,6 +110,12 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
 
         viewModel.shouldShowError.observe(this) {
             val activity = activity ?: return@observe
+            when (viewModel.appInfoState.value) {
+                CurrentAppVersionState.ItIsJustOkAndFineThanks, null -> Unit
+                CurrentAppVersionState.Blocked,
+                CurrentAppVersionState.NewerVersionAvailable -> return@observe
+                //FIXME HACK: this behavior will be obsolete when showing inline errors is introduced
+            }
             if (it == true) {
                 Alerter.create(activity)
                     .apply {
@@ -120,6 +128,33 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
                     .show()
             } else {
                 Alerter.clearCurrent(activity)
+            }
+        }
+        viewModel.appInfoState.observe(this) {
+            val activity = activity ?: return@observe
+            when (it) {
+                CurrentAppVersionState.Blocked -> AppBlockedDialog(activity) {
+                    viewModel.onOpenStoreClicked()
+                }.show()
+                CurrentAppVersionState.NewerVersionAvailable -> {
+                    Alerter.create(activity)
+                        .apply {
+                            setTitle(R.string.map_info_newer_version_title)
+                            setText(R.string.map_info_newer_version_message)
+                            setBackgroundColorRes(R.color.md_light_blue_400)
+                            setIcon(R.drawable.ic_get_app)
+                            enableInfiniteDuration(true)
+                            addButton(getString(R.string.map_info_newer_version_negative), R.style.AlertButton, View.OnClickListener {
+                                Alerter.hide()
+                            })
+                            addButton(getString(R.string.map_info_newer_version_positive), R.style.AlertButton, View.OnClickListener {
+                                viewModel.onOpenStoreClicked()
+                                Alerter.hide()
+                            })
+                        }
+                        .show()
+                }
+                CurrentAppVersionState.ItIsJustOkAndFineThanks, null -> Unit
             }
         }
     }

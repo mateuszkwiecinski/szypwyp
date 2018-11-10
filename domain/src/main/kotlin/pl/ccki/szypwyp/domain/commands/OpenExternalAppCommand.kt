@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import pl.ccki.szypwyp.domain.base.Command
 import pl.ccki.szypwyp.domain.base.InjectableMap
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.services.AppOpeningService
 import pl.ccki.szypwyp.domain.services.AppsCheckingService
@@ -18,7 +18,7 @@ class OpenExternalAppCommand @Inject constructor(
 ) : Command<PluginId> {
 
     override fun execute(param: PluginId): Completable =
-        Maybe.fromCallable<ExternalAppId> {
+        Maybe.fromCallable<AppId> {
             supportedApps[param]?.appId
         }
             .doOnSuccess {

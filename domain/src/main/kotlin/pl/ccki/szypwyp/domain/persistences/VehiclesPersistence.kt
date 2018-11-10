@@ -6,7 +6,6 @@ import io.reactivex.subjects.BehaviorSubject
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private typealias VehiclesData = Map<PluginId, List<MarkerModel>>
 
@@ -16,7 +15,6 @@ interface VehiclesPersistence {
     fun clear(): Completable
 }
 
-@Singleton
 class InMemoryVehiclesPersistence @Inject constructor() : VehiclesPersistence {
     private val subject = BehaviorSubject.createDefault<VehiclesData>(emptyMap())
 

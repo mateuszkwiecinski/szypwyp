@@ -28,7 +28,6 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
     @Inject
     lateinit var viewModelFactory: ViewModelsFactory
 
-    @Inject
     lateinit var viewModel: TViewModel
 
     protected abstract val layoutId: Int

@@ -2,7 +2,7 @@ package pl.ccki.szypwyp.di
 
 import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.CityModel
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
@@ -15,8 +15,8 @@ object DelayingPlugin : ExternalPlugin {
         override val id: String
             get() = "someId"
     }
-    override val appId: ExternalAppId
-        get() = ExternalAppId("com.google.android.googlequicksearchbox")
+    override val appId: AppId
+        get() = AppId("com.google.android.googlequicksearchbox")
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 
@@ -42,8 +42,8 @@ object ThrowingPlugin : ExternalPlugin {
         override val id: String
             get() = "throwing"
     }
-    override val appId: ExternalAppId
-        get() = ExternalAppId("com.google.android.googlequicksearchbox")
+    override val appId: AppId
+        get() = AppId("com.google.android.googlequicksearchbox")
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 

@@ -1,7 +1,7 @@
 package pl.ccki.szypwyp.traficar.domain
 
 import pl.ccki.szypwyp.domain.models.CityId
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.cityBydgoszcz
 import pl.ccki.szypwyp.domain.models.cityKatowice
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class TraficarPlugin @Inject constructor(
     private val repository: TraficarRepository
 ) : ExternalPlugin {
-    override val appId = ExternalAppId("pl.express.traficar")
+    override val appId = AppId("pl.express.traficar")
 
     override val supportedCities
         get() = listOf(

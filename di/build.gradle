@@ -1,5 +1,5 @@
 apply plugin: 'lib.main'
-// apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "pl.ccki.szypwyp"
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0-beta1"
     }
     dataBinding {
         enabled = true
@@ -57,7 +57,10 @@ dependencies {
     implementation project(":presentationInterfaces")
 
     implementation "com.google.firebase:firebase-core:16.0.5"
-//    implementation "com.crashlytics.sdk.android:crashlytics:2.9.5"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.9.5"
+
+    // needed to initialize firebaseApp
+    implementation 'com.google.firebase:firebase-config:16.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

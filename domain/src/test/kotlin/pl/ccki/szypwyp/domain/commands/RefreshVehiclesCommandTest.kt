@@ -18,7 +18,7 @@ import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.CityModel
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.LoadEvent
@@ -274,8 +274,8 @@ private fun createPlugin(pluginId: String, locations: List<CityModel>, data: () 
             get() = pluginId
     }
     val second = object : ExternalPlugin {
-        override val appId: ExternalAppId
-            get() = ExternalAppId("pl.$pluginId")
+        override val appId: AppId
+            get() = AppId("pl.$pluginId")
         override val supportedCities: Iterable<CityModel>
             get() = locations
 

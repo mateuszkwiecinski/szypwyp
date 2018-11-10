@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.platform.implementations
+package pl.ccki.szypwyp.platform.implementations.location
 
 import android.annotation.SuppressLint
 import android.os.Looper
@@ -15,8 +15,10 @@ import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.providers.LocationProvider
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
+import pl.ccki.szypwyp.platform.PlatformSingleton
 import javax.inject.Inject
 
+@PlatformSingleton
 class AndroidLocationProvider @Inject constructor(
     private val permissionChecker: PermissionChecker,
     private val fusedProvider: FusedLocationProviderClient

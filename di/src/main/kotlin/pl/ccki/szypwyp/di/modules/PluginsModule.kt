@@ -2,6 +2,7 @@ package pl.ccki.szypwyp.di.modules
 
 import dagger.Module
 import dagger.Provides
+import pl.ccki.szypwyp.BuildConfig
 import pl.ccki.szypwyp.di.DebugObject
 import pl.ccki.szypwyp.di.ProductionObject
 import pl.ccki.szypwyp.domain.base.InjectableMap
@@ -16,11 +17,10 @@ class PluginsModule {
 
     @Provides
     fun plugins(
-        isDebug: IsDebug,
         @DebugObject debug: Provider<Set<@JvmSuppressWildcards Pair<PluginId, ExternalPlugin>>>,
         @ProductionObject production: Provider<Set<@JvmSuppressWildcards Pair<PluginId, ExternalPlugin>>>
     ): InjectableMap<PluginId, ExternalPlugin> =
-        if (isDebug.value) {
+        if (BuildConfig.DEBUG) {
             debug.get()
         } else {
             production.get()

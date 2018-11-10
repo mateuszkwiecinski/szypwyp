@@ -3,6 +3,7 @@ package pl.ccki.szypwyp.di
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import pl.ccki.szypwyp.DIApplication
 import pl.ccki.szypwyp.blinkee.di.BlinkeeComponent
 import pl.ccki.szypwyp.di.modules.AppModule
 import pl.ccki.szypwyp.di.modules.ApplicationInjectorsModule
@@ -12,9 +13,9 @@ import pl.ccki.szypwyp.goscooter.di.GoScooterComponent
 import pl.ccki.szypwyp.platform.PlatformComponent
 import pl.ccki.szypwyp.traficar.di.TraficarComponent
 import pl.ccki.szypwyp.vozilla.di.VozillaComponent
-import javax.inject.Singleton
+import javax.inject.Scope
 
-@Singleton
+@ApplicationSingleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     ApplicationInjectorsModule::class,
@@ -39,3 +40,7 @@ interface ApplicationComponent : AndroidInjector<DIApplication> {
         abstract fun platform(dependency: PlatformComponent): Builder
     }
 }
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ApplicationSingleton

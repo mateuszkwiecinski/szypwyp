@@ -18,5 +18,3 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     fun <T : Any> Query<T>.execute(action: (T) -> Unit) =
         execute().observeOn(AndroidSchedulers.mainThread()).subscribe(action).disposeIn(disposeBag)
 }
-
-

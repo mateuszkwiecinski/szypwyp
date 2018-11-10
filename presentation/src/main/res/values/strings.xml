@@ -11,4 +11,13 @@
     <string name="map_error_loading_title">Loading error</string>
     <string name="map_error_loading_message">Cannot load data from the web. Data may be
         incomplete or outdated.</string>
+    <string name="dialog_app_blocked_title">Too old app version</string>
+    <string name="dialog_app_blocked_message">You\'re using too old app version. Please go to store and hit the update button.</string>
+    <string name="dialog_app_blocked_positive">Open store</string>
+    <string name="map_info_newer_version_title">Newer version available!</string>
+    <string name="map_info_newer_version_message">We\'re happy to inform you that there is a new
+        version released. To experience whole new level of experience in newer app version
+        please visit app store and hit the update button</string>
+    <string name="map_info_newer_version_positive">Open store</string>
+    <string name="map_info_newer_version_negative">Dismiss</string>
 </resources>

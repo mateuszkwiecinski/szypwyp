@@ -13,9 +13,6 @@ import pl.ccki.szypwyp.domain.services.ExternalPlugin
 @Module
 class DebugModule {
 
-    @Provides
-    fun isDebug(): IsDebug = IsDebug(BuildConfig.DEBUG)
-
     @DebugObject
     @Provides
     @IntoSet
@@ -26,5 +23,3 @@ class DebugModule {
     @IntoSet
     fun throwing(): Pair<PluginId, ExternalPlugin> = ThrowingPlugin.id to ThrowingPlugin
 }
-
-data class IsDebug(val value: Boolean)

@@ -15,6 +15,7 @@ import pl.ccki.szypwyp.domain.base.execute
 import pl.ccki.szypwyp.domain.commands.ChangeSearchTargetCommand
 import pl.ccki.szypwyp.domain.commands.InitializeMapCommand
 import pl.ccki.szypwyp.domain.commands.OpenExternalAppCommand
+import pl.ccki.szypwyp.domain.commands.OpenStoreCommand
 import pl.ccki.szypwyp.domain.commands.RefreshVehiclesCommand
 import pl.ccki.szypwyp.domain.commands.UpdatePotentialSearchTargetCommand
 import pl.ccki.szypwyp.domain.models.Camera
@@ -22,6 +23,7 @@ import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.StateModel
 import pl.ccki.szypwyp.domain.models.Zoom
+import pl.ccki.szypwyp.domain.queries.GetAppVersionInfoQuery
 import pl.ccki.szypwyp.domain.queries.GetCameraQuery
 import pl.ccki.szypwyp.domain.queries.GetCanChangeTargetQuery
 import pl.ccki.szypwyp.domain.queries.GetLocationQuery
@@ -41,11 +43,13 @@ class MapViewModel @Inject constructor(
     getCameraQuery: GetCameraQuery,
     getCanChangeTargetQuery: GetCanChangeTargetQuery,
     getMapProgressQuery: GetMapProgressQuery,
+    getAppVersionInfoQuery: GetAppVersionInfoQuery,
     private val getLocationQuery: GetLocationQuery,
     private val refreshVehiclesCommand: RefreshVehiclesCommand,
     private val initializeMapCommand: InitializeMapCommand,
     private val permissionChecker: PermissionChecker,
     private val openExternalAppCommand: OpenExternalAppCommand,
+    private val openStorePageCommand: OpenStoreCommand,
     private val updatePotentialSearchTargetCommand: UpdatePotentialSearchTargetCommand,
     private val changeSearchTargetCommand: ChangeSearchTargetCommand
 ) : BaseViewModel() {
@@ -65,6 +69,7 @@ class MapViewModel @Inject constructor(
         .distinctUntilChanged()
         .toLiveData(disposeBag)
     val allProgress = getMapProgressQuery.execute().toLiveData(disposeBag)
+    val appInfoState = getAppVersionInfoQuery.execute().toLiveData(disposeBag)
 
     private val locationSubject = BehaviorSubject.createDefault(LocationMode.None)
     val locationMode = locationSubject.distinctUntilChanged().toLiveData(disposeBag)
@@ -161,6 +166,13 @@ class MapViewModel @Inject constructor(
 
     fun onChangeSearchTarget() {
         changeSearchTargetCommand
+            .execute()
+            .subscribe()
+            .disposeIn(disposeBag)
+    }
+
+    fun onOpenStoreClicked() {
+        openStorePageCommand
             .execute()
             .subscribe()
             .disposeIn(disposeBag)

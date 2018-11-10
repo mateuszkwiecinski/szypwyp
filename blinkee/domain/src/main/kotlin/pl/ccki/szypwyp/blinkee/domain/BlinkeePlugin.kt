@@ -2,7 +2,7 @@ package pl.ccki.szypwyp.blinkee.domain
 
 import pl.ccki.szypwyp.blinkee.domain.models.BlinkeeRegion
 import pl.ccki.szypwyp.domain.models.CityId
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.cityKrakow
 import pl.ccki.szypwyp.domain.models.cityLodz
@@ -18,7 +18,7 @@ class BlinkeePlugin @Inject constructor(
     private val repository: BlinkeeRepository
 ) : ExternalPlugin {
 
-    override val appId = ExternalAppId("pl.blinkee.mobile")
+    override val appId = AppId("pl.blinkee.mobile")
 
     override val supportedCities
         get() = listOf(

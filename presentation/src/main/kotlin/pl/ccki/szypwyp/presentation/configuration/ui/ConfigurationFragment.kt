@@ -8,6 +8,8 @@ import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
 import pl.ccki.szypwyp.presentation.configuration.vm.ConfigurationViewModel
 import pl.ccki.szypwyp.presentation.databinding.FragmentConfigurationBinding
+import timber.log.Timber
+import timber.log.debug
 
 class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, ConfigurationViewModel>() {
     override val layoutId: Int = R.layout.fragment_configuration

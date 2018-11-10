@@ -1,9 +1,9 @@
 package pl.ccki.szypwyp.domain.services
 
-import pl.ccki.szypwyp.domain.models.ExternalAppId
+import pl.ccki.szypwyp.domain.models.AppId
 
 interface AppOpeningService {
-    fun openApp(appId: ExternalAppId)
+    fun openApp(appId: AppId)
 
-    fun openStore(appId: ExternalAppId)
+    fun openStore(appId: AppId)
 }

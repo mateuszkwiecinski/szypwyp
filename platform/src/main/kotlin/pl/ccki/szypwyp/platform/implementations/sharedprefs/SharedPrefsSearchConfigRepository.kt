@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.platform.implementations
+package pl.ccki.szypwyp.platform.implementations.sharedprefs
 
 import android.content.Context
 import androidx.core.content.edit
