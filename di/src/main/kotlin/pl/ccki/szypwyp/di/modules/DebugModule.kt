@@ -3,7 +3,6 @@ package pl.ccki.szypwyp.di.modules
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import pl.ccki.szypwyp.BuildConfig
 import pl.ccki.szypwyp.di.DebugObject
 import pl.ccki.szypwyp.di.DelayingPlugin
 import pl.ccki.szypwyp.di.ThrowingPlugin

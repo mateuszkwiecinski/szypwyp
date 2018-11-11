@@ -2,6 +2,11 @@ package pl.ccki.szypwyp
 
 import android.os.StrictMode
 import com.google.firebase.FirebaseApp
+import com.instabug.bug.BugReporting
+import com.instabug.bug.invocation.InvocationOption
+import com.instabug.library.Feature
+import com.instabug.library.Instabug
+import com.instabug.library.invocation.InstabugInvocationEvent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
@@ -9,23 +14,24 @@ import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
 import pl.ccki.szypwyp.di.DaggerApplicationComponent
 import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
 import pl.ccki.szypwyp.platform.DaggerPlatformComponent
-import pl.ccki.szypwyp.presentation.PresentationApplication
 import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
-import timber.log.LogcatTree
 import timber.log.Timber
+import timber.log.Tree
 import timber.log.error
+import javax.inject.Inject
 
-class DIApplication : PresentationApplication() {
+class DIApplication : DaggerApplication() {
+
+    @Inject
+    lateinit var loggers: Set<@JvmSuppressWildcards Tree>
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
-            Timber.plant(LogcatTree())
-        }
+        Timber.plant(*loggers.toTypedArray())
         RxJavaPlugins.setErrorHandler {
             Timber.error(it) {
-                "RxJavaError: ${it.message.orEmpty()}"
+                "RxJavaError"
             }
         }
         FirebaseApp.initializeApp(this)!!
@@ -37,6 +43,9 @@ class DIApplication : PresentationApplication() {
                 StrictMode.setVmPolicy(it)
             }
         }
+
+        Instabug.Builder(this, BuildConfig.INSTABUG_KEY).build()
+        BugReporting.setInvocationOptions(InvocationOption.EMAIL_FIELD_OPTIONAL)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =

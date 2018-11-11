@@ -91,9 +91,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?selectableItemBackground"
-                            android:onClick="@{() -> model.onClickAboutApp()}"
+                            android:onClick="@{() -> model.onClickLicenses()}"
                             android:padding="20dp"
-                            android:text="@string/configuration_about"
+                            android:text="@string/configuration_licenses"
                             android:textColor="@color/textColorPrimary" />
 
                         <View
@@ -105,9 +105,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?selectableItemBackground"
-                            android:onClick="@{() -> model.onClickLicenses()}"
+                            android:onClick="@{() -> model.onClickAboutApp()}"
                             android:padding="20dp"
-                            android:text="@string/configuration_licenses"
+                            android:text="@string/configuration_about"
                             android:textColor="@color/textColorPrimary" />
                     </LinearLayout>
 

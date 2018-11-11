@@ -14,6 +14,7 @@ android {
         applicationId "pl.ccki.szypwyp"
         versionCode 1
         versionName "1.0.0-beta1"
+        buildConfigField "String", "INSTABUG_KEY", " \"c35308432e3172fe1e1a377f8f894f16\""
     }
     dataBinding {
         enabled = true
@@ -61,6 +62,8 @@ dependencies {
 
     // needed to initialize firebaseApp
     implementation 'com.google.firebase:firebase-config:16.1.0'
+
+    implementation 'com.instabug.library:instabug:8.0.11'
 }
 
 apply plugin: 'com.google.gms.google-services'
