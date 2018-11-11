@@ -26,7 +26,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.tapadoo.android:alerter:3.0.1'
-    implementation 'com.instabug.library:instabug:8.0.11'
     implementation "com.mikepenz:aboutlibraries:6.2.0"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

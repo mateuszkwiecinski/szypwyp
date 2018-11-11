@@ -62,8 +62,6 @@ dependencies {
 
     // needed to initialize firebaseApp
     implementation 'com.google.firebase:firebase-config:16.1.0'
-
-    implementation 'com.instabug.library:instabug:8.0.11'
 }
 
 apply plugin: 'com.google.gms.google-services'

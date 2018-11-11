@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import com.instabug.bug.BugReporting
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
 import pl.ccki.szypwyp.presentation.configuration.vm.ConfigurationViewModel
 import pl.ccki.szypwyp.presentation.configuration.vm.NavigationEvent
 import pl.ccki.szypwyp.presentation.databinding.FragmentConfigurationBinding
-import timber.log.Timber
-import timber.log.debug
 
 class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, ConfigurationViewModel>() {
     override val layoutId: Int = R.layout.fragment_configuration
@@ -24,7 +21,7 @@ class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, Configu
     override fun init(savedInstanceState: Bundle?) {
         viewModel.navigation.subscribe {
             when (it) {
-                NavigationEvent.ReportABug -> BugReporting.invoke()
+                NavigationEvent.ReportABug -> Unit
                 NavigationEvent.Licenses -> {
                     navController.navigate(R.id.action_configurationFragment_to_licensesFragment)
                 }
