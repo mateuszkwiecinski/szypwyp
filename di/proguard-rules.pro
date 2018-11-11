@@ -24,3 +24,7 @@
 # https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-jsoup.pro
 -keeppackagenames org.jsoup.nodes
 
+# https://github.com/mikepenz/AboutLibraries#proguard
+-keepclasseswithmembers class **.R$* {
+    public static final int define_*;
+}

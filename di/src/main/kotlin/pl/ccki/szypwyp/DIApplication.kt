@@ -44,7 +44,9 @@ class DIApplication : DaggerApplication() {
             }
         }
 
-        Instabug.Builder(this, BuildConfig.INSTABUG_KEY).build()
+        Instabug.Builder(this, BuildConfig.INSTABUG_KEY).apply {
+            setCrashReportingState(Feature.State.DISABLED)
+        }.build()
         BugReporting.setInvocationOptions(InvocationOption.EMAIL_FIELD_OPTIONAL)
     }
 

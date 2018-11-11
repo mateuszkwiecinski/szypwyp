@@ -29,5 +29,15 @@
         android:id="@+id/configurationFragment"
         android:name="pl.ccki.szypwyp.presentation.configuration.ui.ConfigurationFragment"
         android:label="fragment_configuration"
-        tools:layout="@layout/fragment_configuration" />
+        tools:layout="@layout/fragment_configuration">
+        <action
+            android:id="@+id/action_configurationFragment_to_licensesFragment"
+            app:destination="@id/licensesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/licensesFragment"
+        android:name="pl.ccki.szypwyp.presentation.configuration.ui.LicensesFragment"
+        android:label="fragment_configuration"
+        tools:layout="@layout/fragment_licenses" />
 </navigation>
