@@ -1,5 +1,6 @@
 package pl.ccki.szypwyp
 
+import android.os.Build
 import android.os.StrictMode
 import com.google.firebase.FirebaseApp
 import com.instabug.bug.BugReporting
@@ -18,6 +19,7 @@ import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
 import timber.log.Timber
 import timber.log.Tree
+import timber.log.debug
 import timber.log.error
 import javax.inject.Inject
 
@@ -39,15 +41,25 @@ class DIApplication : DaggerApplication() {
             StrictMode.ThreadPolicy.Builder().detectAll().build().let {
                 StrictMode.setThreadPolicy(it)
             }
-            StrictMode.VmPolicy.Builder().detectAll().build().let {
+            StrictMode.VmPolicy.Builder().apply {
+                detectLeakedSqlLiteObjects()
+                detectActivityLeaks()
+                detectLeakedClosableObjects()
+                detectLeakedRegistrationObjects()
+                detectFileUriExposure()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    detectContentUriWithoutPermission()
+                }
+            }.build().let {
                 StrictMode.setVmPolicy(it)
             }
         }
-
+        Timber.debug { "firebase initalized" }
         Instabug.Builder(this, BuildConfig.INSTABUG_KEY).apply {
             setCrashReportingState(Feature.State.DISABLED)
         }.build()
         BugReporting.setInvocationOptions(InvocationOption.EMAIL_FIELD_OPTIONAL)
+        Timber.debug { "instabug initialized" }
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
