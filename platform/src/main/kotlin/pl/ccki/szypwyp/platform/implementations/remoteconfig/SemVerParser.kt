@@ -4,7 +4,7 @@ import pl.ccki.szypwyp.domain.models.SemanticVersionModel
 import java.util.regex.Pattern
 
 private val pattern by lazy {
-    Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)-?(beta(\\d*))?")
+    Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)-?(beta(\\d*))?.*")
 }
 
 fun String.toSemanticVersion(): SemanticVersionModel {

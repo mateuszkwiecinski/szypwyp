@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "pl.ccki.szypwyp"
         versionCode 1
-        versionName "1.0.0-beta1"
+        versionName "1.0.0"
         buildConfigField "String", "INSTABUG_KEY", " \"c35308432e3172fe1e1a377f8f894f16\""
     }
     dataBinding {
@@ -21,10 +21,18 @@ android {
     }
     buildTypes {
         debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
             signingConfig signingConfigs.debug
         }
-        release {
+        rc {
+            initWith release
+            applicationIdSuffix '.rc'
+            versionNameSuffix '-RC'
             signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug']
+        }
+        release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
