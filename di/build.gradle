@@ -30,7 +30,7 @@ android {
             applicationIdSuffix '.rc'
             versionNameSuffix '-RC'
             signingConfig signingConfigs.debug
-            matchingFallbacks = ['debug']
+            matchingFallbacks = ['release']
         }
         release {
             minifyEnabled true
