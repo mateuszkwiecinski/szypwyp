@@ -9,7 +9,7 @@ data class NextbikeMarkerModel(
     val address: String,
     val bikes: Int,
     val racks: Int,
-    val number : Int?
+    val number: Int?
 ) : MarkerModel {
     override val name: String
         get() = address

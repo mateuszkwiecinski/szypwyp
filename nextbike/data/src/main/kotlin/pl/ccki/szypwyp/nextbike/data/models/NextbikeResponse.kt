@@ -24,7 +24,7 @@ data class CityResponse(
 @Keep
 data class PlaceResponse(
     @SerializedName("uid") val id: Long?,
-    @SerializedName("number") val number : Int?,
+    @SerializedName("number") val number: Int?,
     @SerializedName("lat") val latitude: Double?,
     @SerializedName("lng") val longitude: Double?,
     @SerializedName("name") val name: String?,
