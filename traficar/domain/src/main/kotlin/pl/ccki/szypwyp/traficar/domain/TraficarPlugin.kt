@@ -34,6 +34,6 @@ class TraficarPlugin @Inject constructor(
             cityLublin(TraficarRegion.Lublin)
         )
 
-    override fun findInLocation(location: CityId): List<MarkerModel> =
-        repository.getAll(location as TraficarRegion)
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> =
+        repository.getAll(location.map { it as TraficarRegion })
 }

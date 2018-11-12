@@ -17,6 +17,6 @@ class GoScooterPlugin @Inject constructor(
     override val supportedCities
         get() = listOf(cityWroclaw(GoScooterRegion.Wroclaw))
 
-    override fun findInLocation(location: CityId): List<MarkerModel> =
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> =
         repository.getAll()
 }

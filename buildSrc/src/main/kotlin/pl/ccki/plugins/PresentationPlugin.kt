@@ -1,5 +1,6 @@
 package pl.ccki.plugins
 
+import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestedExtension
 import org.gradle.api.Project
 import pl.ccki.plugins.base.BaseAndroidPlugin
@@ -10,9 +11,12 @@ open class PresentationPlugin : BaseAndroidPlugin() {
         project.plugins.apply("com.android.library")
         super.apply(project)
 
-        project.extensions.getByType(TestedExtension::class.java).apply {
+        project.extensions.getByType(LibraryExtension::class.java).apply {
             testOptions {
                 it.unitTests.isIncludeAndroidResources = true
+            }
+            libraryVariants.all {
+                it.generateBuildConfigProvider.configure { it.enabled = false }
             }
         }
 

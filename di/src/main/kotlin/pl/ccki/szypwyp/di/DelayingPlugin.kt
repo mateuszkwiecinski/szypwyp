@@ -20,7 +20,7 @@ object DelayingPlugin : ExternalPlugin {
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 
-    override fun findInLocation(location: CityId): List<MarkerModel> {
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> {
         Thread.sleep(3000)
         val list = mutableListOf<MarkerModel>()
         for (i in 1..200) {
@@ -47,7 +47,7 @@ object ThrowingPlugin : ExternalPlugin {
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 
-    override fun findInLocation(location: CityId): List<MarkerModel> {
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> {
         Thread.sleep(1500)
         throw IllegalStateException()
     }

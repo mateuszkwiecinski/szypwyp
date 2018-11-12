@@ -32,6 +32,6 @@ class BlinkeePlugin @Inject constructor(
                 cityLublin(BlinkeeRegion.Lublin)
         )
 
-    override fun findInLocation(location: CityId): List<MarkerModel> =
-        repository.getAll(location as BlinkeeRegion)
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> =
+        repository.getAll(location.map { it as BlinkeeRegion })
 }

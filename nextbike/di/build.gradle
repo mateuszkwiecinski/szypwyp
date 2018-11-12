@@ -1,0 +1,10 @@
+apply plugin: 'lib.di'
+
+dependencies {
+    implementation project(":nextbike:data")
+    implementation project(":nextbike:presentation")
+    implementation project(":nextbike:domain")
+
+    compileOnly 'com.squareup.retrofit2:retrofit:2.4.0'
+    compileOnly 'com.squareup.okhttp3:okhttp:3.11.0'
+}

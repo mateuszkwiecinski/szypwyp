@@ -9,6 +9,7 @@ import io.reactivex.plugins.RxJavaPlugins
 import pl.ccki.szypwyp.blinkee.di.DaggerBlinkeeComponent
 import pl.ccki.szypwyp.di.DaggerApplicationComponent
 import pl.ccki.szypwyp.goscooter.di.DaggerGoScooterComponent
+import pl.ccki.szypwyp.nextbike.di.DaggerNextbikeComponent
 import pl.ccki.szypwyp.platform.DaggerPlatformComponent
 import pl.ccki.szypwyp.traficar.di.DaggerTraficarComponent
 import pl.ccki.szypwyp.vozilla.di.DaggerVozillaComponent
@@ -56,6 +57,7 @@ class DIApplication : DaggerApplication() {
             .vozilla(DaggerVozillaComponent.create())
             .goScooter(DaggerGoScooterComponent.create())
             .traficar(DaggerTraficarComponent.create())
+            .nextbike(DaggerNextbikeComponent.create())
             .platform(DaggerPlatformComponent.builder().apply {
                 context(this@DIApplication)
                 isDebug(BuildConfig.DEBUG)

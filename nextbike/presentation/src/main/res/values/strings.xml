@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="info_window_open_traficar">Open Nextbike App</string>
+    <string name="map_info_window_racks">Bikes in racks: %1$d / %2$d</string>
+    <string name="map_info_window_name">Station %1$s</string>
+</resources>

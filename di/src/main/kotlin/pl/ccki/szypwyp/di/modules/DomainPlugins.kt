@@ -10,6 +10,8 @@ import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
 import pl.ccki.szypwyp.goscooter.domain.GoScooterId
 import pl.ccki.szypwyp.goscooter.domain.GoScooterPlugin
+import pl.ccki.szypwyp.nextbike.domain.NextbikeId
+import pl.ccki.szypwyp.nextbike.domain.NextbikePlugin
 import pl.ccki.szypwyp.traficar.domain.TraficarId
 import pl.ccki.szypwyp.traficar.domain.TraficarPlugin
 import pl.ccki.szypwyp.vozilla.domain.VozillaId
@@ -39,5 +41,11 @@ class DomainPlugins {
     @Provides
     @IntoSet
     fun goScooter(id: GoScooterId, plugin: GoScooterPlugin): Pair<PluginId, ExternalPlugin> =
+        id to plugin
+
+    @ProductionObject
+    @Provides
+    @IntoSet
+    fun nextbike(id: NextbikeId, plugin: NextbikePlugin): Pair<PluginId, ExternalPlugin> =
         id to plugin
 }

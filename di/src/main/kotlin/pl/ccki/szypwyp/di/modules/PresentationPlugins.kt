@@ -10,6 +10,8 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.goscooter.domain.GoScooterId
 import pl.ccki.szypwyp.goscooter.presentation.GoScooterMapViewsProvider
+import pl.ccki.szypwyp.nextbike.domain.NextbikeId
+import pl.ccki.szypwyp.nextbike.presentation.NextbikeMapViewsProvider
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.traficar.domain.TraficarId
 import pl.ccki.szypwyp.traficar.presentation.TraficarMapViewsProvider
@@ -38,5 +40,10 @@ class PresentationPlugins {
     @Provides
     @IntoSet
     fun goScooter(id: GoScooterId, provider: GoScooterMapViewsProvider): Pair<PluginId, MapViewsProvider<MarkerModel>> =
+        id to provider as MapViewsProvider<MarkerModel>
+
+    @Provides
+    @IntoSet
+    fun nextbike(id: NextbikeId, provider: NextbikeMapViewsProvider): Pair<PluginId, MapViewsProvider<MarkerModel>> =
         id to provider as MapViewsProvider<MarkerModel>
 }

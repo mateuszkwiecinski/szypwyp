@@ -22,7 +22,8 @@ class LicensesFragment : BaseFragment<FragmentLicensesBinding, LicensesViewModel
                     withAboutVersionShown(true)
                     withLicenseShown(true)
                     withLicenseDialog(true)
-                    withLibraries("Alerter", "RxPermissions")
+                    withLibraries("Alerter", "RxPermissions", "constraintlayout", "timber", "rxjava", "rxandroid", "retrofit",
+                        "okhttp", "jsoup", "gson", "googleplayservices", "dagger2", "android_maps_utils")
                 }.supportFragment().let {
                     replace(R.id.container, it, it.TAG)
                 }

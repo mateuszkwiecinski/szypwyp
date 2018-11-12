@@ -21,12 +21,13 @@ class RemoteTraficarRepository @Inject constructor(
         private const val CALCULATED_MULTIPLIER_PROBABLY_AVERAGE_FUEL_CONSUMPTION = 12.5
     }
 
-    override fun getAll(region: TraficarRegion): List<MarkerModel> {
-        val response = endpoints.get(region.regionId).execute()
-        return response.body()?.let {
-            it.cars?.mapNotNull(this::map).orEmpty()
-        } ?: emptyList()
-    }
+    override fun getAll(region: Iterable<TraficarRegion>): List<MarkerModel> =
+        region.map {
+            val response = endpoints.get(it.regionId).execute()
+            response.body()?.let {
+                it.cars?.mapNotNull(this::map).orEmpty()
+            }.orEmpty()
+        }.flatten()
 
     private fun map(data: Car): MarkerModel? {
         val id = data.id?.toString() ?: return null

@@ -16,44 +16,44 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="2dp"
-            android:layout_height="10dp"
+            android:layout_width="4dp"
+            android:layout_height="14dp"
             android:src="@drawable/battery_bar_fill"
             app:index="@{0}"
             app:percent="@{percentage.value}"
             tools:tint="@color/vozilla_red" />
 
         <ImageView
-            android:layout_width="2dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="1dp"
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="2dp"
             android:src="@drawable/battery_bar_fill"
             app:index="@{1}"
             app:percent="@{percentage.value}"
             tools:tint="@color/vozilla_yellow" />
 
         <ImageView
-            android:layout_width="2dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="1dp"
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="2dp"
             android:src="@drawable/battery_bar_fill"
             app:index="@{2}"
             app:percent="@{percentage.value}"
             tools:tint="@color/vozilla_yellow" />
 
         <ImageView
-            android:layout_width="2dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="1dp"
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="2dp"
             android:src="@drawable/battery_bar_fill"
             app:index="@{3}"
             app:percent="@{percentage.value}"
             tools:tint="@color/vozilla_green" />
 
         <ImageView
-            android:layout_width="2dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="1dp"
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="2dp"
             android:src="@drawable/battery_bar_fill"
             app:index="@{4}"
             app:percent="@{percentage.value}"

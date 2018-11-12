@@ -21,7 +21,7 @@ class RemoteTraficarRepositoryTest {
             .create(TraficarEndpoints::class.java)
         val repository = RemoteTraficarRepository(endpoints)
 
-        val result = repository.getAll(TraficarRegion.Warszawa)
+        val result = repository.getAll(listOf(TraficarRegion.Warszawa))
 
         Assert.assertTrue(result.isNotEmpty())
     }

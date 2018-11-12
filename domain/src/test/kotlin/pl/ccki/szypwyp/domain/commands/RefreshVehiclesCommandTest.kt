@@ -279,7 +279,7 @@ private fun createPlugin(pluginId: String, locations: List<CityModel>, data: () 
         override val supportedCities: Iterable<CityModel>
             get() = locations
 
-        override fun findInLocation(location: CityId) = data()
+        override fun findInLocation(location: Iterable<CityId>) = data()
     }
 
     return first to second

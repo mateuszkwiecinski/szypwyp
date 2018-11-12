@@ -61,6 +61,10 @@ dependencies {
     implementation project(":traficar:domain")
     implementation project(":traficar:data")
     implementation project(":traficar:presentation")
+    implementation project(":nextbike:di")
+    implementation project(":nextbike:domain")
+    implementation project(":nextbike:data")
+    implementation project(":nextbike:presentation")
     implementation project(":platform")
     implementation project(":presentationInterfaces")
 

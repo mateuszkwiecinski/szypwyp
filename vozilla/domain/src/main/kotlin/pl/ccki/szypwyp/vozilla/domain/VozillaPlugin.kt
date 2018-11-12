@@ -17,6 +17,6 @@ class VozillaPlugin @Inject constructor(
     override val supportedCities
         get() = listOf(cityWroclaw(VozillaRegion.Wroclaw))
 
-    override fun findInLocation(location: CityId): List<MarkerModel> =
+    override fun findInLocation(location: Iterable<CityId>): List<MarkerModel> =
         repository.getAll()
 }

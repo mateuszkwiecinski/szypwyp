@@ -1,0 +1,11 @@
+apply plugin: 'lib.presentation'
+
+android {
+    dataBinding {
+        enabled = true
+    }
+}
+dependencies {
+    implementation project(":nextbike:domain")
+    api project(":presentationInterfaces")
+}

@@ -47,13 +47,15 @@ class RefreshVehiclesCommand @Inject constructor(
             }
             .applySchedulers(schedulersProvider)
 
-    private fun findServices(target: LatLng): List<Triple<PluginId, CityId, ExternalPlugin>> =
+    private fun findServices(target: LatLng): List<Triple<PluginId, List<CityId>, ExternalPlugin>> =
         findUserServices().mapNotNull { (id, plugin) ->
-            val city = plugin.supportedCities.firstOrNull {
+            val cities = plugin.supportedCities.filter {
                 it.center.distanceTo(target) < it.radius
-            } ?: return@mapNotNull null
+            }
+                .map { it.id }
+                .takeIf { it.isNotEmpty() } ?: return@mapNotNull null
 
-            Triple(id, city.id, plugin)
+            Triple(id, cities, plugin)
         }
 
     private fun findUserServices(): Map<PluginId, ExternalPlugin> {
@@ -64,11 +66,11 @@ class RefreshVehiclesCommand @Inject constructor(
         }
     }
 
-    private fun serviceCall(id: PluginId, cityId: CityId, plugin: ExternalPlugin) =
+    private fun serviceCall(id: PluginId, cities: List<CityId>, plugin: ExternalPlugin) =
         Maybe.fromCallable<List<MarkerModel>> {
             try {
                 mapEvents.update(LoadEvent.Loading(id))
-                val result = plugin.findInLocation(cityId)
+                val result = plugin.findInLocation(cities)
                 mapEvents.update(LoadEvent.Finished.WithSuccess(id))
                 result
             } catch (throwable: Throwable) {
