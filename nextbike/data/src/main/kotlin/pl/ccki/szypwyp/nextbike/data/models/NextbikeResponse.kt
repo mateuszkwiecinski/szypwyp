@@ -28,6 +28,6 @@ data class PlaceResponse(
     @SerializedName("lat") val latitude: Double?,
     @SerializedName("lng") val longitude: Double?,
     @SerializedName("name") val name: String?,
-    @SerializedName("bike_racks") val bikeRacks: Int?,
-    @SerializedName("free_racks") val freeRacks: Int?
+    @SerializedName("bike_racks") val totalRacks: Int?,
+    @SerializedName("free_racks") val bikes: Int?
 )

@@ -38,8 +38,8 @@ class RemoteNextbikeRepository @Inject constructor(
             id = id.toString(),
             location = LatLng(lat, lng),
             address = response.name.orEmpty(),
-            bikes = response.bikeRacks ?: 0,
-            racks = response.freeRacks ?: 0,
+            bikes = response.bikes ?: 0,
+            racks = response.totalRacks ?: 0,
             number = response.number
         )
     }
