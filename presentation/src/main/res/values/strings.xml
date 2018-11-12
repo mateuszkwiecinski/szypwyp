@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SzypWyp</string>
+    <string name="app_name" translatable="false">SzypWyp</string>
 
     <string name="dialog_permission_blocked_title">Required Permission</string>
     <string name="dialog_permission_blocked_positive">Settings</string>
@@ -24,4 +24,9 @@
     <string name="configuration_licenses">Third Party Licenses</string>
     <string name="configuration_about">About App</string>
     <string name="configuration_report_a_bug">Report a bug</string>
+    <string name="configuration_report_a_bug_email" translatable="false">ccki.development+szypwyp@gmail.com</string>
+    <string name="configuration_report_a_bug_subject">The app is broken…</string>
+    <string name="configuration_report_a_bug_chooser_title">Send an email using…</string>
+    <string name="dialog_app_info_title">About app</string>
+    <string name="dialog_app_info_message">SzypWyp\nApp version: %1$s</string>
 </resources>

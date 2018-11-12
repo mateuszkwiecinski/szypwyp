@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_permission_blocked_title">Required Permission</string>
+    <string name="dialog_permission_blocked_positive">Ustawienia</string>
+    <string name="dialog_permission_blocked_location_message">Uprawnienia do lokalizacji są
+        wymagane aby użyć tej funkcjonalności. Otwórz ustawienia i przyznaj aplikacji dostęp do
+        lokalizacji</string>
+    <string name="map_change_target">Szukaj tutaj</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_settings">Informacje</string>
+    <string name="map_open_external_app">Idź do aplikacj</string>
+    <string name="map_error_loading_title">Wystąpił błąd</string>
+    <string name="map_error_loading_message">Nie udało się załadować danych z sieci web.
+        Dane mogą być niekompletne lub przestarzałe.</string>
+    <string name="dialog_app_blocked_title">Zbyt stara wersja aplikacji</string>
+    <string name="dialog_app_blocked_message">Używasz zbyt starej wersji aplikacji. Otwórz sklep i naciśnij przycisk Aktualizuj.</string>
+    <string name="dialog_app_blocked_positive">Otwórz sklep</string>
+    <string name="map_info_newer_version_title">Nowa wersja dostępna</string>
+    <string name="map_info_newer_version_message">"Z radością informujemy, "</string>
+    <string name="map_info_newer_version_positive">Otwórz sklep</string>
+    <string name="map_info_newer_version_negative">Zamknij</string>
+    <string name="configuration_info">Informacje</string>
+    <string name="configuration_licenses">Licencje firm trzecich</string>
+    <string name="configuration_about">O aplikacji</string>
+    <string name="configuration_report_a_bug">Zgłoś błąd</string>
+    <string name="configuration_report_a_bug_subject">Popsuta aplikacja…</string>
+    <string name="configuration_report_a_bug_chooser_title">Wyślij e-mail</string>
+    <string name="dialog_app_info_title">O aplikacji</string>
+    <string name="dialog_app_info_message">SzypWyp\nWersja aplikacji: %1$s</string>
+</resources>

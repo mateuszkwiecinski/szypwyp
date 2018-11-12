@@ -2,6 +2,6 @@
 <resources>
     <string name="info_window_model_label">Model name</string>
     <string name="info_window_fuel_label">Fuel</string>
-    <string name="info_window_fuel">~ %1$s km</string>
+    <string name="info_window_fuel" translatable="false">~ %1$s km</string>
     <string name="info_window_open_app">Open App</string>
 </resources>

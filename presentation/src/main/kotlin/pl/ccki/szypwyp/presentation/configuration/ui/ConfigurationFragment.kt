@@ -1,5 +1,6 @@
 package pl.ccki.szypwyp.presentation.configuration.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.animation.AccelerateInterpolator
@@ -10,6 +11,7 @@ import pl.ccki.szypwyp.presentation.base.BaseFragment
 import pl.ccki.szypwyp.presentation.configuration.vm.ConfigurationViewModel
 import pl.ccki.szypwyp.presentation.configuration.vm.NavigationEvent
 import pl.ccki.szypwyp.presentation.databinding.FragmentConfigurationBinding
+import pl.ccki.szypwyp.presentation.dialogs.AppInfoDialog
 
 class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, ConfigurationViewModel>() {
     override val layoutId: Int = R.layout.fragment_configuration
@@ -21,22 +23,29 @@ class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, Configu
     override fun init(savedInstanceState: Bundle?) {
         viewModel.navigation.subscribe {
             when (it) {
-                NavigationEvent.ReportABug -> Unit
-                NavigationEvent.Licenses -> {
-                    navController.navigate(R.id.action_configurationFragment_to_licensesFragment)
-                }
-                NavigationEvent.About -> {
-
-                }
+                NavigationEvent.ReportABug -> sendEmail()
+                NavigationEvent.Licenses -> navController.navigate(R.id.action_configurationFragment_to_licensesFragment)
+                NavigationEvent.About -> context?.let(::AppInfoDialog)?.show()
                 null -> Unit
             }
         }.disposeIn(disposeBag)
     }
 
+    private fun sendEmail() {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "plain/text";
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.configuration_report_a_bug_email)))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.configuration_report_a_bug_subject))
+            putExtra(Intent.EXTRA_TEXT, "")
+        }.let {
+            context?.startActivity(Intent.createChooser(it, getString(R.string.configuration_report_a_bug_chooser_title)))
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 
-        animateToolbarIn()
+        savedInstanceState ?: animateToolbarIn()
     }
 
     override fun onDestroyView() {

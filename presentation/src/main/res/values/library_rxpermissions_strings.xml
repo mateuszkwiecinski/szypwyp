@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="define_int_rxpermissions"></string>
+    <string name="define_int_rxpermissions" translatable="false" />
     <!-- Author section -->
-    <string name="library_rxpermissions_author">tbruyelle</string>
-    <string name="library_rxpermissions_authorWebsite">https://github.com/tbruyelle/RxPermissions</string>
+    <string name="library_rxpermissions_author" translatable="false">tbruyelle</string>
+    <string name="library_rxpermissions_authorWebsite" translatable="false">https://github.com/tbruyelle/RxPermissions</string>
     <!-- Library section -->
-    <string name="library_rxpermissions_libraryName">RxPermissions</string>
-    <string name="library_rxpermissions_libraryDescription">This library allows the usage of RxJava with the new Android M permission model.</string>
-    <string name="library_rxpermissions_libraryWebsite">https://github.com/tbruyelle/RxPermissions</string>
-    <string name="library_rxpermissions_libraryVersion">0.10.2</string>
+    <string name="library_rxpermissions_libraryName" translatable="false">RxPermissions</string>
+    <string name="library_rxpermissions_libraryDescription" translatable="false">This library allows the usage of RxJava with the new Android M permission model.</string>
+    <string name="library_rxpermissions_libraryWebsite" translatable="false">https://github.com/tbruyelle/RxPermissions</string>
+    <string name="library_rxpermissions_libraryVersion" translatable="false">0.10.2</string>
     <!-- OpenSource section -->
-    <string name="library_rxpermissions_isOpenSource">true</string>
-    <string name="library_rxpermissions_repositoryLink">https://github.com/tbruyelle/RxPermissions</string>
+    <string name="library_rxpermissions_isOpenSource" translatable="false">true</string>
+    <string name="library_rxpermissions_repositoryLink" translatable="false">https://github.com/tbruyelle/RxPermissions</string>
     <!-- ClassPath for autoDetect section -->
-    <string name="library_rxpermissions_classPath">com.tbruyelle.rxpermissions2</string>
+    <string name="library_rxpermissions_classPath" translatable="false">com.tbruyelle.rxpermissions2</string>
     <!-- License section -->
-    <string name="library_rxpermissions_licenseId">apache_2_0</string>
+    <string name="library_rxpermissions_licenseId" translatable="false">apache_2_0</string>
     <!-- Custom variables section -->
 </resources>

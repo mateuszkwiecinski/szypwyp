@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="define_int_alerter"></string>
+    <string name="define_int_alerter" translatable="false" />
     <!-- Author section -->
-    <string name="library_alerter_author">Tapadoo</string>
-    <string name="library_alerter_authorWebsite">https://github.com/Tapadoo/Alerter</string>
+    <string name="library_alerter_author" translatable="false">Tapadoo</string>
+    <string name="library_alerter_authorWebsite" translatable="false">https://github.com/Tapadoo/Alerter</string>
     <!-- Library section -->
-    <string name="library_alerter_libraryName">Alerter</string>
-    <string name="library_alerter_libraryDescription">This library aims to overcome the limitations of Toasts and Snackbars, while reducing the complexity of your layouts.</string>
-    <string name="library_alerter_libraryWebsite">https://github.com/Tapadoo/Alerter</string>
-    <string name="library_alerter_libraryVersion">3.0.1</string>
+    <string name="library_alerter_libraryName" translatable="false">Alerter</string>
+    <string name="library_alerter_libraryDescription" translatable="false">This library aims to overcome the limitations of Toasts and Snackbars, while reducing the complexity of your layouts.</string>
+    <string name="library_alerter_libraryWebsite" translatable="false">https://github.com/Tapadoo/Alerter</string>
+    <string name="library_alerter_libraryVersion" translatable="false">3.0.1</string>
     <!-- OpenSource section -->
-    <string name="library_alerter_isOpenSource">true</string>
-    <string name="library_alerter_repositoryLink">https://github.com/Tapadoo/Alerter</string>
-    <string name="library_alerter_classPath">com.tapadoo.android</string>
+    <string name="library_alerter_isOpenSource" translatable="false">true</string>
+    <string name="library_alerter_repositoryLink" translatable="false">https://github.com/Tapadoo/Alerter</string>
+    <string name="library_alerter_classPath" translatable="false">com.tapadoo.android</string>
     <!-- License section -->
-    <string name="library_alerter_licenseId">mit</string>
+    <string name="library_alerter_licenseId" translatable="false">mit</string>
     <!-- Custom variables section -->
 </resources>

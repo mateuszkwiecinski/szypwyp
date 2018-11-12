@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="info_window_range">Range</string>
-    <string name="info_window_name">Vozilla</string>
-    <string name="info_window_range_kilometers">%1$s km</string>
+    <string name="info_window_name" translatable="false">Vozilla</string>
+    <string name="info_window_range_kilometers" translatable="false">%1$s km</string>
     <string name="info_window_open_app">Open App</string>
 </resources>
