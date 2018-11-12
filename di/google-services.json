@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "872625112941-1077ho8aqia4h08vvqlejd8i89gkm192.apps.googleusercontent.com",
+          "client_id": "872625112941-kftthm9akfkpbpda169oai0hh5aqpgss.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "pl.ccki.szypwyp",
-            "certificate_hash": "49aab2d783f4f6d5683c0ec81c117d9b54cc0150"
+            "certificate_hash": "e7daf70445b57c89622e7b6dc3082746e1350b4a"
           }
         },
         {
@@ -59,11 +59,55 @@
       },
       "oauth_client": [
         {
-          "client_id": "872625112941-bqggqgqn0rkcedrk7v77o2u1rqg9mk6h.apps.googleusercontent.com",
+          "client_id": "872625112941-n2bq2nt2sbrn1ilfp7o5g9edglbknvng.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "pl.ccki.szypwyp.debug",
-            "certificate_hash": "c7e97294367b500d963b6a1e153467904524b31b"
+            "certificate_hash": "49aab2d783f4f6d5683c0ec81c117d9b54cc0150"
+          }
+        },
+        {
+          "client_id": "872625112941-417p9c1jqqdj49m2u5ejpuivm7ckhipp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrJ8ro71hizKbeUfe-kDDkaMys01lJCCE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872625112941-417p9c1jqqdj49m2u5ejpuivm7ckhipp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872625112941:android:71903b40628d33ef",
+        "android_client_info": {
+          "package_name": "pl.ccki.szypwyp.rc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872625112941-ug56j99nq30806bi9hpksap6m0g2hngd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.ccki.szypwyp.rc",
+            "certificate_hash": "49aab2d783f4f6d5683c0ec81c117d9b54cc0150"
           }
         },
         {
