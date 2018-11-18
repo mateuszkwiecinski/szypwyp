@@ -27,4 +27,5 @@
     <string name="configuration_report_a_bug_chooser_title">Wyślij e-mail</string>
     <string name="dialog_app_info_title">O aplikacji</string>
     <string name="dialog_app_info_message">SzypWyp\nWersja aplikacji: %1$s</string>
+    <string name="nav_filters">Filtrowanie</string>
 </resources>

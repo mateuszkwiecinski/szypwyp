@@ -5,10 +5,13 @@ import dagger.Provides
 import pl.ccki.szypwyp.BuildConfig
 import pl.ccki.szypwyp.di.DebugObject
 import pl.ccki.szypwyp.di.ProductionObject
+import pl.ccki.szypwyp.di.modules.presentation.FilterViewsModule
+import pl.ccki.szypwyp.di.modules.presentation.MapViewsModule
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
+import pl.ccki.szypwyp.presentation.interfaces.FilterViewsProvider
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import javax.inject.Provider
 
@@ -21,7 +24,7 @@ class PluginsModule {
         @ProductionObject production: Provider<Set<@JvmSuppressWildcards Pair<PluginId, ExternalPlugin>>>
     ): InjectableMap<PluginId, ExternalPlugin> =
         if (BuildConfig.DEBUG) {
-            debug.get()
+            production.get()
         } else {
             production.get()
         }.toMap()
@@ -31,4 +34,14 @@ class PluginsModule {
         set: Set<@JvmSuppressWildcards Pair<PluginId, MapViewsProvider<MarkerModel>>>
     ): InjectableMap<PluginId, MapViewsProvider<MarkerModel>> =
         set.toMap()
+
+    @Provides
+    fun filterViews(
+        set: Set<@JvmSuppressWildcards Pair<PluginId, FilterViewsProvider>>
+    ): InjectableMap<PluginId, FilterViewsProvider> =
+        set.toMap()
 }
+
+@Module(includes = [MapViewsModule::class, FilterViewsModule::class])
+abstract class PresentationPlugins
+

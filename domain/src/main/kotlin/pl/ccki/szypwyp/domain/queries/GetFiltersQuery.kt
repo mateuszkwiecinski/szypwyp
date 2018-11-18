@@ -1,6 +1,5 @@
 package pl.ccki.szypwyp.domain.queries
 
-import io.reactivex.Observable
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.Query
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
@@ -20,12 +19,18 @@ class GetFiltersQuery @Inject constructor(
     private val currentTarget: CurrentSearchTargetPersistence,
     private val filters: FiltersPersistence,
     private val schedulersProvider: SchedulersProvider
-) : Query<Map<PluginId, FilterState>> {
+) : Query<List<GetFiltersQuery.Item>> {
 
-    override fun execute(): Observable<Map<PluginId, FilterState>> =
+    data class Item(val pluginId: PluginId, val state: FilterState)
+
+    override fun execute() =
         currentTarget.get()
             .map(this::findServicesCanSearchHere)
             .map(this::applyFilters)
+            .map {
+                // TODO: @mk 18/11/2018 is there any order?
+                it.toList().map { Item(it.first, it.second) }
+            }
             .applySchedulers(schedulersProvider)
 
     private fun findServicesCanSearchHere(target: LatLng) =

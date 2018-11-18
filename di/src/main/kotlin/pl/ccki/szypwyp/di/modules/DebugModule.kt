@@ -17,8 +17,8 @@ class DebugModule {
     @IntoSet
     fun delaying(): Pair<PluginId, ExternalPlugin> = DelayingPlugin.id to DelayingPlugin
 
-    @DebugObject
-    @Provides
-    @IntoSet
-    fun throwing(): Pair<PluginId, ExternalPlugin> = ThrowingPlugin.id to ThrowingPlugin
+//    @DebugObject
+//    @Provides
+//    @IntoSet
+//    fun throwing(): Pair<PluginId, ExternalPlugin> = ThrowingPlugin.id to ThrowingPlugin
 }

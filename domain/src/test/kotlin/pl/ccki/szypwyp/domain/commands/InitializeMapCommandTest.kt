@@ -13,7 +13,6 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import pl.ccki.szypwyp.domain.TestSchedulers
@@ -23,10 +22,8 @@ import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.DEFAULT_LOCATION
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.Permission
-import pl.ccki.szypwyp.domain.persistences.BehaviorSubjectBasedPersistence
 import pl.ccki.szypwyp.domain.persistences.CameraPersistence
 import pl.ccki.szypwyp.domain.persistences.CurrentSearchTargetPersistence
-import pl.ccki.szypwyp.domain.persistences.InMemoryCurrentSearchTargetPersistence
 import pl.ccki.szypwyp.domain.persistences.PotentialSearchTargetPersistence
 import pl.ccki.szypwyp.domain.providers.LocationProvider
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository

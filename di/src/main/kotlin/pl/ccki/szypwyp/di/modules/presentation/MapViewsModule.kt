@@ -1,11 +1,10 @@
-package pl.ccki.szypwyp.di.modules
+package pl.ccki.szypwyp.di.modules.presentation
 
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import pl.ccki.szypwyp.blinkee.domain.BlinkeeId
 import pl.ccki.szypwyp.blinkee.presentation.BlinkeeMapViewsProvider
-import pl.ccki.szypwyp.di.ProductionObject
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.goscooter.domain.GoScooterId
@@ -20,8 +19,7 @@ import pl.ccki.szypwyp.vozilla.presentation.VozillaMapViewsProvider
 
 @Module
 @Suppress("unchecked_cast")
-class PresentationPlugins {
-
+class MapViewsModule {
     @Provides
     @IntoSet
     fun vozilla(id: VozillaId, provider: VozillaMapViewsProvider): Pair<PluginId, MapViewsProvider<MarkerModel>> =

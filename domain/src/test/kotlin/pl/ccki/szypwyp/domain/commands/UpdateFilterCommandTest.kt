@@ -10,8 +10,6 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 import pl.ccki.szypwyp.domain.TestSchedulers
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.persistences.FiltersPersistence
@@ -45,12 +43,12 @@ class UpdateFilterCommandTest {
         test.assertNoErrors()
         verify(persistence).updateDisabled(argWhere {
             it.count() == 2 &&
-                it.contains(Id("12"))&&
+                it.contains(Id("12")) &&
                 it.contains(Id("13"))
         })
         verify(repository).disabled = argWhere {
             it.count() == 2 &&
-                it.contains(Id("12"))&&
+                it.contains(Id("12")) &&
                 it.contains(Id("13"))
         }
     }
@@ -67,14 +65,14 @@ class UpdateFilterCommandTest {
         test.assertNoErrors()
         verify(persistence).updateDisabled(argWhere {
             it.count() == 3 &&
-                it.contains(Id("12"))&&
-                it.contains(Id("13"))&&
+                it.contains(Id("12")) &&
+                it.contains(Id("13")) &&
                 it.contains(Id("1"))
         })
         verify(repository).disabled = argWhere {
             it.count() == 3 &&
-                it.contains(Id("12"))&&
-                it.contains(Id("13"))&&
+                it.contains(Id("12")) &&
+                it.contains(Id("13")) &&
                 it.contains(Id("1"))
         }
     }
@@ -91,12 +89,12 @@ class UpdateFilterCommandTest {
         test.assertNoErrors()
         verify(persistence).updateDisabled(argWhere {
             it.count() == 2 &&
-                it.contains(Id("12"))&&
+                it.contains(Id("12")) &&
                 it.contains(Id("13"))
         })
         verify(repository).disabled = argWhere {
             it.count() == 2 &&
-                it.contains(Id("12"))&&
+                it.contains(Id("12")) &&
                 it.contains(Id("13"))
         }
     }
@@ -113,14 +111,14 @@ class UpdateFilterCommandTest {
         test.assertNoErrors()
         verify(persistence).updateDisabled(argWhere {
             it.count() == 3 &&
-                it.contains(Id("12"))&&
-                it.contains(Id("13"))&&
+                it.contains(Id("12")) &&
+                it.contains(Id("13")) &&
                 it.contains(Id("1"))
         })
         verify(repository).disabled = argWhere {
             it.count() == 3 &&
-            it.contains(Id("12"))&&
-                it.contains(Id("13"))&&
+            it.contains(Id("12")) &&
+                it.contains(Id("13")) &&
                 it.contains(Id("1"))
         }
     }

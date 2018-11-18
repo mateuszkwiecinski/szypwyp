@@ -2,4 +2,5 @@ apply plugin: 'lib.presentation'
 
 dependencies {
     implementation project(":domain")
+    api 'androidx.recyclerview:recyclerview:1.0.0'
 }

@@ -51,9 +51,20 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result[Id("1")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("2")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("3")]).isEqualTo(FilterState(true))
+        assertThat(result).contains(
+            GetFiltersQuery.Item(
+                Id("1"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("2"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("3"),
+                FilterState(true)
+            )
+        )
     }
 
     @Test
@@ -76,9 +87,20 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result[Id("1")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("2")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("3")]).isEqualTo(FilterState(true))
+        assertThat(result).contains(
+            GetFiltersQuery.Item(
+                Id("1"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("2"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("3"),
+                FilterState(true)
+            )
+        )
     }
 
     @Test
@@ -101,9 +123,20 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result[Id("1")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("2")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("3")]).isEqualTo(FilterState(false))
+        assertThat(result).contains(
+            GetFiltersQuery.Item(
+                Id("1"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("2"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("3"),
+                FilterState(false)
+            )
+        )
     }
 
     @Test
@@ -130,7 +163,15 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(2)
-        assertThat(result[Id("1")]).isEqualTo(FilterState(true))
-        assertThat(result[Id("3")]).isEqualTo(FilterState(false))
+        assertThat(result).contains(
+            GetFiltersQuery.Item(
+                Id("1"),
+                FilterState(true)
+            ),
+            GetFiltersQuery.Item(
+                Id("3"),
+                FilterState(false)
+            )
+        )
     }
 }

@@ -31,9 +31,7 @@ class LicensesFragment : BaseFragment<FragmentLicensesBinding, LicensesViewModel
         }
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-    }
+    override fun initView(savedInstanceState: Bundle?) = Unit
 }
 
 class LicensesViewModel @Inject constructor() : BaseViewModel()

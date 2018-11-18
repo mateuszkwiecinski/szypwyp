@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">SzypWyp</string>
+    <string name="linear_layout_manager" translatable="false">androidx.recyclerview.widget.LinearLayoutManager</string>
+    <string name="configuration_report_a_bug_email" translatable="false">ccki.development+szypwyp@gmail.com</string>
+</resources>

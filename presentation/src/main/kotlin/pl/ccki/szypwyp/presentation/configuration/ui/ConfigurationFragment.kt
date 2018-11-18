@@ -43,37 +43,41 @@ class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, Configu
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 
-        savedInstanceState ?: animateToolbarIn()
     }
 
-    override fun onDestroyView() {
-        animateToolbarOut()
-        super.onDestroyView()
-    }
+//    override fun initView(savedInstanceState: Bundle?) {
+//        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+//
+//        savedInstanceState ?: animateToolbarIn()
+//    }
 
-    private fun animateToolbarIn() {
-        val tv = TypedValue()
-        if (activity?.theme?.resolveAttribute(android.R.attr.actionBarSize, tv, true) == true) {
-            val height = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
-            binding.appBar.translationY = -height.toFloat()
-            binding.appBar.animate()
-                .apply {
-                    startDelay = animationShort
-                    translationY(0f)
-                    duration = animationShort
-                    interpolator = DecelerateInterpolator()
-                }.start()
-        }
-    }
+//    override fun onDestroyView() {
+//        animateToolbarOut()
+//        super.onDestroyView()
+//    }
 
-    private fun animateToolbarOut() {
-        binding.appBar.animate()
-            .apply {
-                translationY(-binding.appBar.measuredHeight.toFloat())
-                duration = animationShort
-                interpolator = AccelerateInterpolator()
-            }.start()
-    }
+//    private fun animateToolbarIn() {
+//        val tv = TypedValue()
+//        if (activity?.theme?.resolveAttribute(android.R.attr.actionBarSize, tv, true) == true) {
+//            val height = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+//            binding.appBar.translationY = -height.toFloat()
+//            binding.appBar.animate()
+//                .apply {
+//                    startDelay = animationShort
+//                    translationY(0f)
+//                    duration = animationShort
+//                    interpolator = DecelerateInterpolator()
+//                }.start()
+//        }
+//    }
+//
+//    private fun animateToolbarOut() {
+//        binding.appBar.animate()
+//            .apply {
+//                translationY(-binding.appBar.measuredHeight.toFloat())
+//                duration = animationShort
+//                interpolator = AccelerateInterpolator()
+//            }.start()
+//    }
 }
