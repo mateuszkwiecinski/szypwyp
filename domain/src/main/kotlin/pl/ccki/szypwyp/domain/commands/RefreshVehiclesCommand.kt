@@ -15,15 +15,15 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.compareTo
 import pl.ccki.szypwyp.domain.models.distanceTo
+import pl.ccki.szypwyp.domain.persistences.FiltersPersistence
 import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
-import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
 import javax.inject.Inject
 
 class RefreshVehiclesCommand @Inject constructor(
-    private val configuration: ServicesConfigurationRepository,
+    private val filters: FiltersPersistence,
     private val registeredPlugins: InjectableMap<PluginId, ExternalPlugin>,
     private val persistence: VehiclesPersistence,
     private val searchConfig: SearchConfigRepository,
@@ -59,11 +59,11 @@ class RefreshVehiclesCommand @Inject constructor(
         }
 
     private fun findUserServices(): Map<PluginId, ExternalPlugin> {
-        val services = configuration.selected ?: return registeredPlugins
+        val disabled = filters.current()
+            .toSingle(emptyList())
+            .blockingGet()
 
-        return registeredPlugins.filterKeys {
-            services.contains(it)
-        }
+        return (registeredPlugins - disabled).takeIf { it.isNotEmpty() } ?: registeredPlugins
     }
 
     private fun serviceCall(id: PluginId, cities: List<CityId>, plugin: ExternalPlugin) =

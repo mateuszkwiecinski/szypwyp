@@ -8,7 +8,7 @@ import pl.ccki.szypwyp.domain.providers.CurrentConfigProvider
 import pl.ccki.szypwyp.domain.providers.LocationProvider
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
-import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
+import pl.ccki.szypwyp.domain.repositories.FiltersRepository
 import pl.ccki.szypwyp.domain.services.AppOpeningService
 import pl.ccki.szypwyp.domain.services.AppsCheckingService
 import pl.ccki.szypwyp.platform.implementations.appintegrations.AndroidAppOpeningService
@@ -25,7 +25,7 @@ abstract class PlatformModule {
     companion object {
         @Provides
         @JvmStatic
-        fun servicesConfiguration(): ServicesConfigurationRepository = object : ServicesConfigurationRepository {
+        fun servicesConfiguration(): FiltersRepository = object : FiltersRepository {
             override var selected: Iterable<PluginId>? = null
         }
     }

@@ -8,17 +8,16 @@ import pl.ccki.szypwyp.domain.providers.LocationProvider
 import pl.ccki.szypwyp.domain.providers.RemoteConfigProvider
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
 import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
-import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
+import pl.ccki.szypwyp.domain.repositories.FiltersRepository
 import pl.ccki.szypwyp.domain.services.AppOpeningService
 import pl.ccki.szypwyp.domain.services.AppsCheckingService
 import pl.ccki.szypwyp.platform.internal.di.PlatformModule
-import pl.ccki.szypwyp.platform.internal.di.RemoteConfigModule
 import javax.inject.Scope
 
 @PlatformSingleton
 @Component(modules = [PlatformModule::class])
 interface PlatformComponent {
-    fun configuration(): ServicesConfigurationRepository
+    fun configuration(): FiltersRepository
     fun searchConfiguration(): SearchConfigRepository
     fun locationProvider(): LocationProvider
     fun permissionChecker(): PermissionChecker

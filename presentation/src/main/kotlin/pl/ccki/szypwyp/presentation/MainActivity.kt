@@ -17,5 +17,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         val navController = Navigation.findNavController(this, R.id.navController)
         binding.navBottomBar.setupWithNavController(navController)
+        binding.navBottomBar.setOnNavigationItemReselectedListener {  }
     }
 }
