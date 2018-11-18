@@ -21,7 +21,7 @@ class PluginsModule {
         @ProductionObject production: Provider<Set<@JvmSuppressWildcards Pair<PluginId, ExternalPlugin>>>
     ): InjectableMap<PluginId, ExternalPlugin> =
         if (BuildConfig.DEBUG) {
-            production.get()
+            debug.get()
         } else {
             production.get()
         }.toMap()

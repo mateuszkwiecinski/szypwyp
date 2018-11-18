@@ -15,10 +15,10 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.compareTo
 import pl.ccki.szypwyp.domain.models.distanceTo
+import pl.ccki.szypwyp.domain.persistences.CurrentSearchTargetPersistence
 import pl.ccki.szypwyp.domain.persistences.FiltersPersistence
 import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
-import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class RefreshVehiclesCommand @Inject constructor(
     private val filters: FiltersPersistence,
     private val registeredPlugins: InjectableMap<PluginId, ExternalPlugin>,
     private val persistence: VehiclesPersistence,
-    private val searchConfig: SearchConfigRepository,
+    private val currentTarget: CurrentSearchTargetPersistence,
     private val mapEvents: MapEventsPersistence,
     private val schedulersProvider: SchedulersProvider
 ) : Command<Unit> {
@@ -34,7 +34,9 @@ class RefreshVehiclesCommand @Inject constructor(
     override fun execute(param: Unit): Completable =
         Single.fromCallable {
             mapEvents.update(LoadEvent.Initial)
-            val target = searchConfig.target ?: DEFAULT_LOCATION
+            val target = currentTarget.current()
+                .switchIfEmpty(Single.just(DEFAULT_LOCATION))
+                .blockingGet()
             val selectedPlugins = findServices(target)
 
             selectedPlugins.map { (id, cityId, plugin) ->
@@ -59,8 +61,8 @@ class RefreshVehiclesCommand @Inject constructor(
         }
 
     private fun findUserServices(): Map<PluginId, ExternalPlugin> {
-        val disabled = filters.current()
-            .toSingle(emptyList())
+        val disabled = filters.disabled()
+            .toSingle(emptySet())
             .blockingGet()
 
         return (registeredPlugins - disabled).takeIf { it.isNotEmpty() } ?: registeredPlugins

@@ -26,7 +26,7 @@ abstract class PlatformModule {
         @Provides
         @JvmStatic
         fun servicesConfiguration(): FiltersRepository = object : FiltersRepository {
-            override var selected: Iterable<PluginId>? = null
+            override var disabled: Set<PluginId> = emptySet()
         }
     }
 

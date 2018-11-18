@@ -13,7 +13,6 @@ import pl.ccki.szypwyp.domain.persistences.CameraPersistence
 import pl.ccki.szypwyp.domain.persistences.CurrentSearchTargetPersistence
 import pl.ccki.szypwyp.domain.persistences.PotentialSearchTargetPersistence
 import pl.ccki.szypwyp.domain.providers.LocationProvider
-import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

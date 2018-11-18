@@ -8,17 +8,18 @@ import pl.ccki.szypwyp.domain.repositories.FiltersRepository
 import javax.inject.Inject
 
 interface FiltersPersistence {
-    fun current(): Maybe<Iterable<PluginId>>
-    fun observeDisabled(): Observable<Iterable<PluginId>>
-    fun updateDisabled(new: Iterable<PluginId>): Completable
+    fun disabled(): Maybe<Set<PluginId>>
+    fun observeDisabled(): Observable<Set<PluginId>>
+    fun updateDisabled(new: Set<PluginId>): Completable
 }
 
 class InMemoryFiltersPersistence @Inject constructor(
     private val repository: FiltersRepository
-) : BehaviorSubjectBasedPersistence<Iterable<PluginId>>({ repository.selected }), FiltersPersistence {
+) : BehaviorSubjectBasedPersistence<Set<PluginId>>({ repository.disabled }), FiltersPersistence {
 
-    override fun observeDisabled(): Observable<Iterable<PluginId>> = get()
+    override fun disabled(): Maybe<Set<PluginId>> = current()
 
-    override fun updateDisabled(new: Iterable<PluginId>): Completable = update(new)
+    override fun observeDisabled(): Observable<Set<PluginId>> = get()
 
+    override fun updateDisabled(new: Set<PluginId>): Completable = update(new)
 }
