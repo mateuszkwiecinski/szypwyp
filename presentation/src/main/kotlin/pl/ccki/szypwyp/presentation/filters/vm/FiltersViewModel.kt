@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.DiffUtil
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.commands.UpdateFilterCommand
+import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.queries.GetFiltersQuery
 import pl.ccki.szypwyp.presentation.base.BaseViewModel
 import pl.ccki.szypwyp.presentation.base.extensions.toLiveData
@@ -31,5 +33,11 @@ class FiltersViewModel @Inject constructor(
         }
         diff = Observable.zip(oldSource, newSource, zipper)
             .toLiveData(disposeBag)
+    }
+
+    fun onUserSelect(pluginId: PluginId, isChecked: Boolean) {
+        updateFilter.execute(UpdateFilterCommand.Param(pluginId, isChecked))
+            .subscribe()
+            .disposeIn(disposeBag)
     }
 }

@@ -23,6 +23,12 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.rvList.adapter = FilterAdapter(viewModel.filters, viewModel.diff, this, viewsProvider)
+        binding.rvList.adapter = FilterAdapter(
+            viewModel.filters,
+            viewModel.diff,
+            this,
+            viewsProvider,
+            viewModel::onUserSelect
+        )
     }
 }

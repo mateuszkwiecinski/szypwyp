@@ -28,7 +28,9 @@ class GetFiltersQueryTest {
     @Before
     fun setUp() {
         currentTarget = mock()
-        filters = mock()
+        filters = mock {
+            on { observeDisabled() } doReturn Observable.empty()
+        }
     }
 
     @Test
@@ -40,9 +42,6 @@ class GetFiltersQueryTest {
         val query = GetFiltersQuery(plugins, currentTarget, filters, TestSchedulers)
         currentTarget.stub {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
-        }
-        filters.stub {
-            on { disabled() } doReturn Maybe.empty()
         }
 
         val test = query.execute().test()
@@ -114,7 +113,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { disabled() } doReturn Maybe.just<Set<PluginId>>(setOf(Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("3")))
         }
 
         val test = query.execute().test()
@@ -154,7 +153,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { disabled() } doReturn Maybe.just<Set<PluginId>>(setOf(Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("3")))
         }
 
         val test = query.execute().test()

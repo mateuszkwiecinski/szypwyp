@@ -26,4 +26,6 @@ internal fun createPlugin(pluginId: String, locations: List<CityModel>, data: ()
 
 val WORLD = CityModel(Id("world"), LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE))
 
-internal data class Id(override val id: String) : CityId, PluginId
+internal data class Id(override val id: String) : CityId, PluginId{
+    override val name = id
+}

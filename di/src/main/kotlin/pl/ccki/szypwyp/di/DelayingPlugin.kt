@@ -12,8 +12,8 @@ import java.lang.IllegalStateException
 
 object DelayingPlugin : ExternalPlugin {
     val id: PluginId = object : PluginId {
-        override val id: String
-            get() = "someId"
+        override val id = "someId"
+        override val name = "debug"
     }
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")
@@ -39,8 +39,8 @@ object DelayingPlugin : ExternalPlugin {
 
 object ThrowingPlugin : ExternalPlugin {
     val id: PluginId = object : PluginId {
-        override val id: String
-            get() = "throwing"
+        override val id = "throwing"
+        override val name = "debug"
     }
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")

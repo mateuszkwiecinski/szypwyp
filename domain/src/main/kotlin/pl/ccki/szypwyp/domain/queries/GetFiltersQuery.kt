@@ -1,5 +1,7 @@
 package pl.ccki.szypwyp.domain.queries
 
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.Query
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
@@ -23,15 +25,19 @@ class GetFiltersQuery @Inject constructor(
 
     data class Item(val pluginId: PluginId, val state: FilterState)
 
-    override fun execute() =
-        currentTarget.get()
-            .map(this::findServicesCanSearchHere)
-            .map(this::applyFilters)
+    override fun execute() : Observable<List<GetFiltersQuery.Item>> {
+        val targeting = currentTarget.get()
+        val filtering = filters.observeDisabled().defaultIfEmpty(emptySet())
+
+        return Observable.combineLatest<LatLng, Set<PluginId>, Map<PluginId, FilterState>>(targeting, filtering, BiFunction { target, filters ->
+            val canSearchIn = findServicesCanSearchHere(target)
+            applyFilters(canSearchIn, filters)
+        })
             .map {
-                // TODO: @mk 18/11/2018 is there any order?
-                it.toList().map { Item(it.first, it.second) }
+                it.toList().map { Item(it.first, it.second) }.sortedBy { it.pluginId.name }
             }
             .applySchedulers(schedulersProvider)
+    }
 
     private fun findServicesCanSearchHere(target: LatLng) =
         registeredPlugins.filter { (_, plugin) ->
@@ -40,13 +46,8 @@ class GetFiltersQuery @Inject constructor(
             }
         }
 
-    private fun applyFilters(services: Map<PluginId, ExternalPlugin>): Map<PluginId, FilterState> {
-        val disabled = filters.disabled()
-            .toSingle(emptySet())
-            .blockingGet()
-
-        return services.mapValues { (id, _) ->
+    private fun applyFilters(services: Map<PluginId, ExternalPlugin>, disabled: Set<PluginId>) =
+        services.mapValues { (id, _) ->
             FilterState(!disabled.contains(id))
         }.takeIf { it.values.any { it.isEnabled } } ?: services.mapValues { FilterState(true) }
-    }
 }
