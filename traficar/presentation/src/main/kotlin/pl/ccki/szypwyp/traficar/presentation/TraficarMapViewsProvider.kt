@@ -13,10 +13,10 @@ import javax.inject.Inject
 
 class TraficarMapViewsProvider @Inject constructor() : MapViewsProvider {
 
-    override fun createIcon(context: Context): Bitmap? =
+    override fun createIcon(context: Context, marker: MarkerModel): Bitmap? =
         R.drawable.ic_traficar.generateBitmap(context)
 
-    override fun <T : MarkerModel> createInfoWindow(inflater: LayoutInflater, marker: T): View {
+    override fun createInfoWindow(inflater: LayoutInflater, marker: MarkerModel): View {
         val binding = ViewTraficarInfoWindowBinding.inflate(inflater, null, false)
         binding.model = marker as TraficarMarkerModel
         binding.executePendingBindings()

@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.presentation.base
+package pl.ccki.szypwyp.presentation.interfaces.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel

@@ -8,19 +8,22 @@ import pl.ccki.szypwyp.presentation.interfaces.FilterViewsProvider
 import pl.ccki.szypwyp.vozilla.presentation.databinding.ViewVozillaFilterBinding
 import javax.inject.Inject
 
-class VozillaFilterViewsProvider @Inject constructor() : FilterViewsProvider {
+class VozillaFilterViewsProvider @Inject constructor(
+    private val viewModel: DetailedFiltersViewModel
+) : FilterViewsProvider {
 
     override fun createViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder =
         VozillaHolder(ViewVozillaFilterBinding.inflate(inflater, parent, false))
 
     override fun bind(holder: RecyclerView.ViewHolder, state: FilterState, toggleFilter: (Boolean) -> Unit) {
-        (holder as? VozillaHolder)?.let {
+        (holder as? VozillaHolder)?.also {
             it.binding.model = state.isEnabled
             it.binding.rootSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (buttonView.isPressed) {
                     toggleFilter(isChecked)
                 }
             }
+            it.binding.filterList.adapter = VozillaDetailedFilterAdapter(viewModel)
         }
     }
 

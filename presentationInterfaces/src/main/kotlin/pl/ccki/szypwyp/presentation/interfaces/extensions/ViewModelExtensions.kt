@@ -1,4 +1,4 @@
-package pl.ccki.szypwyp.presentation.base.extensions
+package pl.ccki.szypwyp.presentation.interfaces.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

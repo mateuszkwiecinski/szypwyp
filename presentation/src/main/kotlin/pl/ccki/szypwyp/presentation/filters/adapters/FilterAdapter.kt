@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.queries.GetFiltersQuery
-import pl.ccki.szypwyp.presentation.base.extensions.observe
 import pl.ccki.szypwyp.presentation.databinding.ItemFiltersDefaultBinding
 import pl.ccki.szypwyp.presentation.interfaces.FilterViewsProvider
+import pl.ccki.szypwyp.presentation.interfaces.extensions.observe
 
 class FilterAdapter(
     private val source: LiveData<List<GetFiltersQuery.Item>>,
@@ -30,7 +30,9 @@ class FilterAdapter(
 
     private val viewTypesReversedMap = viewProvider.toList().withIndex().map { (index, data) ->
         data.first to index
-    }.toMap()
+    }.toMap().let {
+        it.toMutableMap().also { it.clear() } // TODO: @mk 02/12/2018 remove this
+    }
 
     init {
         diff.observe(lifecycleOwner) {
@@ -54,9 +56,11 @@ class FilterAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewsProvider = viewTypesMap[holder.itemViewType]
 
-        viewsProvider?.bind(holder, items[position].state) {
-            onItemSelected(items[position].pluginId, it)
-        } ?: bindDefault(holder, position)
+        viewsProvider?.bind(
+            holder = holder,
+            state = items[position].state,
+            toggleFilter = { onItemSelected(items[position].pluginId, it) }
+        ) ?: bindDefault(holder, position)
     }
 
     private fun bindDefault(holder: RecyclerView.ViewHolder, position: Int) {

@@ -5,7 +5,7 @@ import com.mikepenz.aboutlibraries.LibsBuilder
 import pl.ccki.szypwyp.domain.base.TAG
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
-import pl.ccki.szypwyp.presentation.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
 import pl.ccki.szypwyp.presentation.databinding.FragmentLicensesBinding
 import javax.inject.Inject
 

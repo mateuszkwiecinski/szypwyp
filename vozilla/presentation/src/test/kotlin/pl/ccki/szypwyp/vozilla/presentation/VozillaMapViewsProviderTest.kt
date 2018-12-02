@@ -13,7 +13,7 @@ class VozillaMapViewsProviderTest {
     fun createIcon() {
         val provider = VozillaMapViewsProvider()
 
-        val icon  = provider.createIcon(ApplicationProvider.getApplicationContext())
+        val icon  = provider.createIcon(ApplicationProvider.getApplicationContext(), item.marker)
 
         assertNotEquals(null, icon)
     }

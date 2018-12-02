@@ -17,6 +17,7 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import pl.ccki.szypwyp.presentation.BR
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.reflect.KClass
 

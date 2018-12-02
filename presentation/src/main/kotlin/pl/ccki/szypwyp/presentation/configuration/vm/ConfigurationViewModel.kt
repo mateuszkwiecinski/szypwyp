@@ -1,7 +1,7 @@
 package pl.ccki.szypwyp.presentation.configuration.vm
 
 import io.reactivex.subjects.PublishSubject
-import pl.ccki.szypwyp.presentation.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
 import javax.inject.Inject
 
 class ConfigurationViewModel @Inject constructor(

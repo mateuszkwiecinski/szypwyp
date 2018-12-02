@@ -9,8 +9,8 @@ import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.commands.UpdateFilterCommand
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.queries.GetFiltersQuery
-import pl.ccki.szypwyp.presentation.base.BaseViewModel
-import pl.ccki.szypwyp.presentation.base.extensions.toLiveData
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.interfaces.extensions.toLiveData
 import pl.ccki.szypwyp.presentation.filters.diffs.FilterDiff
 import javax.inject.Inject
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
-import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.presentation.databinding.ViewMapDefaultInfoWindowBinding
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
