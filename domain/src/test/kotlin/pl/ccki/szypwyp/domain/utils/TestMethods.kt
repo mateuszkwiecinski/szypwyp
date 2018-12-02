@@ -16,7 +16,7 @@ internal fun createPlugin(
     data: () -> List<MarkerModel>
 ): Pair<PluginId,
     ExternalPlugin> {
-    val first = Id(pluginId)
+    val first = PluginId(pluginId)
     val second = object : ExternalPlugin {
         override val appId: AppId
             get() = AppId("pl.$pluginId")
@@ -32,4 +32,4 @@ internal fun createPlugin(
 
 val WORLD = CityModel(Id("world"), LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE))
 
-internal data class Id(override val id: String) : CityId, PluginId
+internal data class Id(val id: String) : CityId

@@ -14,7 +14,7 @@ class VozillaPlugin @Inject constructor(
 
     override val appId = AppId("pl.techgarden.vozilla")
 
-    override val name = "Vozilla"
+    override val name = "DVozilla"
 
     override val supportedCities
         get() = listOf(cityWroclaw(VozillaRegion.Wroclaw))

@@ -31,8 +31,8 @@ class PluginsModule {
 
     @Provides
     fun mapViews(
-        set: Set<@JvmSuppressWildcards Pair<PluginId, MapViewsProvider<MarkerModel>>>
-    ): InjectableMap<PluginId, MapViewsProvider<MarkerModel>> =
+        set: Set<@JvmSuppressWildcards Pair<PluginId, MapViewsProvider>>
+    ): InjectableMap<PluginId, MapViewsProvider> =
         set.toMap()
 
     @Provides

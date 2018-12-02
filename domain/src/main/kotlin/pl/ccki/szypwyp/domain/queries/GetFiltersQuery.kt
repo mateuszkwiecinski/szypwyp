@@ -37,7 +37,7 @@ class GetFiltersQuery @Inject constructor(
                 it.toList().map { (id, state) ->
                     val name = registeredPlugins[id]?.name ?: id.id
                     Item(id, name, state)
-                }.sortedBy(Item::name)
+                }.sortedBy { it.name.toLowerCase() }
             }
             .applySchedulers(schedulersProvider)
     }

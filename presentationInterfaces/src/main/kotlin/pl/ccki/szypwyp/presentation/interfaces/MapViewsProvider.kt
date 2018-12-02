@@ -10,11 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import pl.ccki.szypwyp.domain.models.MarkerModel
 
-interface MapViewsProvider<T : MarkerModel> {
+interface MapViewsProvider {
 
     fun createIcon(context : Context): Bitmap?
 
-    fun createInfoWindow(inflater: LayoutInflater, marker: T): View?
+    fun <T : MarkerModel> createInfoWindow(inflater: LayoutInflater, marker: T): View?
 }
 
 fun Int.generateBitmap(context: Context) =

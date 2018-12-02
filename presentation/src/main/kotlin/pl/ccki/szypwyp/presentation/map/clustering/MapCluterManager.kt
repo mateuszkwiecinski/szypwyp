@@ -12,7 +12,7 @@ import pl.ccki.szypwyp.presentation.map.vm.MapViewModel
 class MapCluterManager(
     context: Context,
     map: GoogleMap,
-    viewsProvider : Map<PluginId, MapViewsProvider<MarkerModel>>,
+    viewsProvider : Map<PluginId, MapViewsProvider>,
     private val viewModel: MapViewModel
 ) {
 

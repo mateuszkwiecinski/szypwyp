@@ -33,7 +33,7 @@ class SzypMap(
     viewModel: MapViewModel,
     lifecycleOwner: LifecycleOwner,
     savedInstanceState: Bundle?,
-    viewsProvider: Map<PluginId, MapViewsProvider<MarkerModel>>,
+    viewsProvider: Map<PluginId, MapViewsProvider>,
     disposeBag: CompositeDisposable
 ) {
 

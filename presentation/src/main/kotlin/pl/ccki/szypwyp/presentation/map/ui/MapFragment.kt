@@ -36,7 +36,7 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
     override val viewModelClass = MapViewModel::class
 
     @Inject
-    lateinit var mapViewsProvider: InjectableMap<PluginId, MapViewsProvider<MarkerModel>>
+    lateinit var mapViewsProvider: InjectableMap<PluginId, MapViewsProvider>
 
     override fun init(savedInstanceState: Bundle?) {
         savedInstanceState ?: viewModel.onFirstRun()

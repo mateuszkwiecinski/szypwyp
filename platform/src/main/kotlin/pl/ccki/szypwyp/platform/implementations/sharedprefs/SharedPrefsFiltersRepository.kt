@@ -18,12 +18,10 @@ class SharedPrefsFiltersRepository @Inject constructor(
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     override var disabled: Set<PluginId>
-        get() = prefs.getStringSet(KEY_ID, emptySet()).orEmpty().map { StoredId(it) }.toSet()
+        get() = prefs.getStringSet(KEY_ID, emptySet()).orEmpty().map { PluginId(it) }.toSet()
         set(value) {
             prefs.edit {
                 putStringSet(KEY_ID, value.map { it.id }.toSet())
             }
         }
 }
-
-data class StoredId(override val id: String) : PluginId

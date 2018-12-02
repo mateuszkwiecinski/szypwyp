@@ -7,5 +7,5 @@ import pl.ccki.szypwyp.domain.models.FilterState
 
 interface FilterViewsProvider {
     fun createViewHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder
-    fun bind(holder: RecyclerView.ViewHolder, state: FilterState)
+    fun bind(holder: RecyclerView.ViewHolder, state: FilterState, toggleFilter: (Boolean) -> Unit)
 }

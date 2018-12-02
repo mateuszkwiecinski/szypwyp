@@ -24,8 +24,12 @@ class FilterAdapter(
     private val items
         get() = source.value.orEmpty()
 
-    private val viewTypesReversedMap = viewProvider.toList().withIndex().map { (index, data) ->
+    private val viewTypesMap = viewProvider.toList().withIndex().map { (index, data) ->
         index to data.second
+    }.toMap()
+
+    private val viewTypesReversedMap = viewProvider.toList().withIndex().map { (index, data) ->
+        data.first to index
     }.toMap()
 
     init {
@@ -35,11 +39,11 @@ class FilterAdapter(
     }
 
     override fun getItemViewType(position: Int): Int =
-        items[position].pluginId.hashCode()
+        viewTypesReversedMap[items[position].pluginId] ?: -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val viewsProvider = viewTypesReversedMap[viewType]
+        val viewsProvider = viewTypesMap[viewType]
 
         return viewsProvider?.createViewHolder(inflater, parent)
             ?: Empty(ItemFiltersDefaultBinding.inflate(inflater, parent, false))
@@ -48,17 +52,22 @@ class FilterAdapter(
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val viewsProvider = viewTypesReversedMap[holder.itemViewType]
+        val viewsProvider = viewTypesMap[holder.itemViewType]
 
-        viewsProvider?.bind(holder, items[position].state)
-            ?: (holder as? Empty)?.also {
-                it.binding.model = items[position]
-                it.binding.rootSwitch.setOnCheckedChangeListener { view, isChecked ->
-                    if(view.isPressed){
-                        onItemSelected(items[position].pluginId, isChecked)
-                    }
+        viewsProvider?.bind(holder, items[position].state) {
+            onItemSelected(items[position].pluginId, it)
+        } ?: bindDefault(holder, position)
+    }
+
+    private fun bindDefault(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as? Empty)?.also {
+            it.binding.model = items[position]
+            it.binding.rootSwitch.setOnCheckedChangeListener { view, isChecked ->
+                if (view.isPressed) {
+                    onItemSelected(items[position].pluginId, isChecked)
                 }
             }
+        }
     }
 
     private class Empty(val binding: ItemFiltersDefaultBinding) : RecyclerView.ViewHolder(binding.root)

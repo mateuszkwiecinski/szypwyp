@@ -55,17 +55,17 @@ class GetFiltersQueryTest {
         }
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
-                Id("1"),
+                PluginId("1"),
                 "name1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
-                Id("2"),
+                PluginId("2"),
                 "name2",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
-                Id("3"),
+                PluginId("3"),
                 "name3",
                 FilterState(true)
             )
@@ -83,7 +83,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("2"), Id("1"), Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(PluginId("2"), pl.ccki.szypwyp.domain.models.PluginId("1"), pl.ccki.szypwyp.domain.models.PluginId("3")))
         }
 
         val test = query.execute().test()
@@ -94,17 +94,17 @@ class GetFiltersQueryTest {
         assertThat(result).hasSize(3)
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
-                Id("1"),
+                PluginId("1"),
                 "name1",
                 FilterState(false)
             ),
             GetFiltersQuery.Item(
-                Id("2"),
+                PluginId("2"),
                 "name2",
                 FilterState(false)
             ),
             GetFiltersQuery.Item(
-                Id("3"),
+                PluginId("3"),
                 "name3",
                 FilterState(false)
             )
@@ -122,7 +122,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(PluginId("3")))
         }
 
         val test = query.execute().test()
@@ -133,17 +133,17 @@ class GetFiltersQueryTest {
         assertThat(result).hasSize(3)
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
-                Id("1"),
+                PluginId("1"),
                 "name1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
-                Id("2"),
+                PluginId("2"),
                 "name2",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
-                Id("3"),
+                PluginId("3"),
                 "name3",
                 FilterState(false)
             )
@@ -165,7 +165,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(PluginId("3")))
         }
 
         val test = query.execute().test()
@@ -176,12 +176,12 @@ class GetFiltersQueryTest {
         assertThat(result).hasSize(2)
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
-                Id("1"),
+                PluginId("1"),
                 "namename1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
-                Id("3"),
+                PluginId("3"),
                 "namename3",
                 FilterState(false)
             )

@@ -18,7 +18,7 @@ import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 
 class ClusterIconRenderer(
     private val context: Context,
-    private val viewsProvider: Map<PluginId, MapViewsProvider<MarkerModel>>,
+    private val viewsProvider: Map<PluginId, MapViewsProvider>,
     googleMap: GoogleMap,
     manager: ClusterManager<SingleClusterItem>
 ) : DefaultClusterRenderer<SingleClusterItem>(context, googleMap, manager) {

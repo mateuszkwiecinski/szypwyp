@@ -269,7 +269,7 @@ class RefreshVehiclesCommandTest {
     fun `should search all if all plugins filtered`() {
         val data = listOf<MarkerModel>(mock(), mock())
         filters.stub {
-            on { disabled() } doReturn Maybe.just<Set<PluginId>>(setOf(Id("2"), Id("1")))
+            on { disabled() } doReturn Maybe.just(setOf(PluginId("2"), PluginId("1")))
         }
         currentTarget.stub {
             on { current() } doReturn Maybe.just(point45_45)
@@ -307,7 +307,7 @@ class RefreshVehiclesCommandTest {
     fun `should search in non filtered plugins`() {
         val data = listOf<MarkerModel>(mock(), mock())
         filters.stub {
-            on { disabled() } doReturn Maybe.just<Set<PluginId>>(setOf(Id("2")))
+            on { disabled() } doReturn Maybe.just(setOf(PluginId("2")))
         }
         currentTarget.stub {
             on { current() } doReturn Maybe.just(point45_45)
