@@ -33,13 +33,13 @@ class RemoteNextbikeRepository @Inject constructor(
         val lat = response.latitude ?: return null
         val lng = response.longitude ?: return null
         val id = response.id ?: return null
-
+        val bikes = Math.max(0, (response.racksTotal ?: 0) - (response.racksFree ?: 0))
         return NextbikeMarkerModel(
             id = id.toString(),
             location = LatLng(lat, lng),
             address = response.name.orEmpty(),
-            bikes = response.bikes ?: 0,
-            racks = response.totalRacks ?: 0,
+            bikes = bikes,
+            racks = response.racksTotal ?: 0,
             number = response.number
         )
     }
