@@ -8,6 +8,7 @@ import pl.ccki.szypwyp.domain.base.applySchedulers
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.persistences.FiltersPersistence
+import pl.ccki.szypwyp.domain.persistences.VehiclesData
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
 import javax.inject.Inject
 
@@ -18,10 +19,11 @@ class GetVehiclesQuery @Inject constructor(
 ) : Query<Map<PluginId, List<MarkerModel>>> {
 
     override fun execute(): Observable<Map<PluginId, List<MarkerModel>>> =
-        persistence.get().withLatestFrom<Set<PluginId>, Map<PluginId, List<MarkerModel>>>(
+        Observable.combineLatest(
+            persistence.get(),
             filtersPersistence.observeDisabled(),
-            BiFunction { vehicles, filters ->
-                vehicles.filterKeys { !filters.contains(it) }
+            BiFunction<VehiclesData, Set<PluginId>, VehiclesData> { vehicles, filters ->
+                vehicles.filterKeys { !filters.contains(it) }.takeIf { it.isNotEmpty() } ?: vehicles
             }
         )
             .applySchedulers(schedulersProvider)

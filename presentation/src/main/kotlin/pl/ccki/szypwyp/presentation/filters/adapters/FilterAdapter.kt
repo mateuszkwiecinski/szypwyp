@@ -53,6 +53,11 @@ class FilterAdapter(
         viewsProvider?.bind(holder, items[position].state)
             ?: (holder as? Empty)?.also {
                 it.binding.model = items[position]
+                it.binding.rootSwitch.setOnCheckedChangeListener { view, isChecked ->
+                    if(view.isPressed){
+                        onItemSelected(items[position].pluginId, isChecked)
+                    }
+                }
             }
     }
 

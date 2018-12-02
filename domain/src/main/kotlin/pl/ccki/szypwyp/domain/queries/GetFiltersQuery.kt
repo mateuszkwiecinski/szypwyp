@@ -49,5 +49,5 @@ class GetFiltersQuery @Inject constructor(
     private fun applyFilters(services: Map<PluginId, ExternalPlugin>, disabled: Set<PluginId>) =
         services.mapValues { (id, _) ->
             FilterState(!disabled.contains(id))
-        }.takeIf { it.values.any { it.isEnabled } } ?: services.mapValues { FilterState(true) }
+        }
 }

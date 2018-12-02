@@ -50,7 +50,7 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result).contains(
+        assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
                 FilterState(true)
@@ -67,7 +67,7 @@ class GetFiltersQueryTest {
     }
 
     @Test
-    fun `should return all enabled if filters has all available services`() {
+    fun `should return all enabled if all available services have been filtered`() {
         val first = createPlugin("1", listOf(WORLD)) { emptyList() }
         val second = createPlugin("2", listOf(WORLD)) { emptyList() }
         val third = createPlugin("3", listOf(WORLD)) { emptyList() }
@@ -77,7 +77,7 @@ class GetFiltersQueryTest {
             on { get() } doReturn Observable.just(LatLng(45.0, 45.0))
         }
         filters.stub {
-            on { disabled() } doReturn Maybe.just<Set<PluginId>>(setOf(Id("2"), Id("1"), Id("3")))
+            on { observeDisabled() } doReturn Observable.just<Set<PluginId>>(setOf(Id("2"), Id("1"), Id("3")))
         }
 
         val test = query.execute().test()
@@ -86,18 +86,18 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result).contains(
+        assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
-                FilterState(true)
+                FilterState(false)
             ),
             GetFiltersQuery.Item(
                 Id("2"),
-                FilterState(true)
+                FilterState(false)
             ),
             GetFiltersQuery.Item(
                 Id("3"),
-                FilterState(true)
+                FilterState(false)
             )
         )
     }
@@ -122,7 +122,7 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
-        assertThat(result).contains(
+        assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
                 FilterState(true)
@@ -162,7 +162,7 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(2)
-        assertThat(result).contains(
+        assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
                 FilterState(true)

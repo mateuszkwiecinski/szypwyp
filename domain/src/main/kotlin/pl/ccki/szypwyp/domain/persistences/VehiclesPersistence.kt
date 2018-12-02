@@ -7,7 +7,7 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import javax.inject.Inject
 
-private typealias VehiclesData = Map<PluginId, List<MarkerModel>>
+typealias VehiclesData = Map<PluginId, List<MarkerModel>>
 
 interface VehiclesPersistence {
     fun get(): Observable<VehiclesData>
