@@ -1,6 +1,7 @@
 package pl.ccki.szypwyp.presentation.filters.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.presentation.R
@@ -23,6 +24,7 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        toolbarTitle = getString(R.string.toolbar_filters)
         binding.rvList.adapter = FilterAdapter(
             viewModel.filters,
             viewModel.diff,

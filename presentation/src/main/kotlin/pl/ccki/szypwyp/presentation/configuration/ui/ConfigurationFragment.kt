@@ -44,6 +44,7 @@ class ConfigurationFragment : BaseFragment<FragmentConfigurationBinding, Configu
 
     override fun initView(savedInstanceState: Bundle?) {
 
+        toolbarTitle = getString(R.string.toolbar_config)
     }
 
 //    override fun initView(savedInstanceState: Bundle?) {

@@ -1,6 +1,7 @@
 package pl.ccki.szypwyp.presentation
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -49,9 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setNavigationOnClickListener {
-            navController.navigateUp()
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun animateToolbarIn() {
@@ -77,6 +76,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
 
             TransitionManager.beginDelayedTransition(it.appBar)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId){
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

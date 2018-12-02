@@ -28,4 +28,6 @@
     <string name="dialog_app_info_title">About app</string>
     <string name="dialog_app_info_message">SzypWyp\nApp version: %1$s</string>
     <string name="nav_filters">Filters</string>
+    <string name="toolbar_filters">Apply filters</string>
+    <string name="toolbar_config">Information</string>
 </resources>
