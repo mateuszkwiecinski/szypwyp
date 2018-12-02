@@ -12,12 +12,11 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import pl.ccki.szypwyp.domain.base.InjectableMap
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.models.CurrentAppVersionState
-import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.Permission
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.base.BaseFragment
-import pl.ccki.szypwyp.presentation.base.extensions.observe
+import pl.ccki.szypwyp.presentation.interfaces.extensions.observe
 import pl.ccki.szypwyp.presentation.base.extensions.permissionName
 import pl.ccki.szypwyp.presentation.base.extensions.rxGetMap
 import pl.ccki.szypwyp.presentation.databinding.FragmentMapBinding
@@ -36,7 +35,7 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>() {
     override val viewModelClass = MapViewModel::class
 
     @Inject
-    lateinit var mapViewsProvider: InjectableMap<PluginId, MapViewsProvider<MarkerModel>>
+    lateinit var mapViewsProvider: InjectableMap<PluginId, MapViewsProvider>
 
     override fun init(savedInstanceState: Bundle?) {
         savedInstanceState ?: viewModel.onFirstRun()

@@ -1,5 +1,3 @@
 package pl.ccki.szypwyp.domain.models
 
-interface PluginId {
-    val id: String
-}
+data class PluginId(val id: String)

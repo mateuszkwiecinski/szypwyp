@@ -15,10 +15,9 @@ import io.reactivex.disposables.CompositeDisposable
 import pl.ccki.szypwyp.domain.base.disposeIn
 import pl.ccki.szypwyp.domain.models.Camera
 import pl.ccki.szypwyp.domain.models.LatLng
-import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.models.Zoom
-import pl.ccki.szypwyp.presentation.base.extensions.observe
+import pl.ccki.szypwyp.presentation.interfaces.extensions.observe
 import pl.ccki.szypwyp.presentation.R
 import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
 import pl.ccki.szypwyp.presentation.map.clustering.MapCluterManager
@@ -33,7 +32,7 @@ class SzypMap(
     viewModel: MapViewModel,
     lifecycleOwner: LifecycleOwner,
     savedInstanceState: Bundle?,
-    viewsProvider: Map<PluginId, MapViewsProvider<MarkerModel>>,
+    viewsProvider: Map<PluginId, MapViewsProvider>,
     disposeBag: CompositeDisposable
 ) {
 

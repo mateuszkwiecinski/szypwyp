@@ -1,22 +1,19 @@
 package pl.ccki.szypwyp.di
 
+import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.CityModel
-import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
 import pl.ccki.szypwyp.domain.services.ExternalPlugin
-import java.lang.IllegalStateException
 
 object DelayingPlugin : ExternalPlugin {
-    val id: PluginId = object : PluginId {
-        override val id: String
-            get() = "someId"
-    }
+    val id: PluginId = PluginId("someId")
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")
+    override val name = "Delaying"
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 
@@ -38,10 +35,8 @@ object DelayingPlugin : ExternalPlugin {
 }
 
 object ThrowingPlugin : ExternalPlugin {
-    val id: PluginId = object : PluginId {
-        override val id: String
-            get() = "throwing"
-    }
+    val id: PluginId = PluginId("throwing")
+    override val name = "Throwing"
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")
     override val supportedCities: Iterable<CityModel>

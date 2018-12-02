@@ -61,6 +61,4 @@ class OpenExternalAppCommandTest {
     }
 }
 
-private data class Generate(override val id: String) : PluginId {
-    constructor(id: Int) : this(id.toString())
-}
+private fun Generate(id: Int): PluginId = PluginId(id.toString())

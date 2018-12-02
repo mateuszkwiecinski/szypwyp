@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/rootSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@{safeUnbox(model)}"
+            android:padding="15dp"
+            android:text="Vozilla" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filterList"
+            android:nestedScrollingEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{safeUnbox(model) ? View.VISIBLE : View.GONE}"
+            app:layoutManager="@string/linear_layout_manager" />
+    </LinearLayout>
+</layout>

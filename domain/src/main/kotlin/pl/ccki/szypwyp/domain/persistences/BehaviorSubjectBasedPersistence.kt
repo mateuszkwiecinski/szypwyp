@@ -7,6 +7,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 interface DefaultPersistence<T> {
     fun get(): Observable<T>
+    fun current(): Maybe<T>
     fun update(new: T): Completable
 }
 
@@ -20,6 +21,11 @@ abstract class BehaviorSubjectBasedPersistence<T>(
     }
 
     override fun get(): Observable<T> = subject.hide()
+
+    override fun current(): Maybe<T> =
+        Maybe.fromCallable {
+            subject.value
+        }
 
     override fun update(new: T): Completable =
         Completable.fromAction {

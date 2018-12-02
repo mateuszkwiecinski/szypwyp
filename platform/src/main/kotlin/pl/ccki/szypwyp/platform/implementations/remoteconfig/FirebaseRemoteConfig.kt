@@ -10,6 +10,7 @@ import pl.ccki.szypwyp.platform.PlatformSingleton
 import pl.ccki.szypwyp.platform.implementations.remoteconfig.models.VersionsResponse
 import timber.log.Timber
 import timber.log.error
+import java.util.concurrent.ExecutionException
 import javax.inject.Inject
 
 @PlatformSingleton
@@ -30,12 +31,19 @@ class FirebaseRemoteConfig @Inject constructor(
 
     val versions: VersionsModel?
         get() {
-            Tasks.await(if (isDebug) {
-                firebase.fetch(0)
-            } else {
-                firebase.fetch()
-            })
-            firebase.activateFetched()
+            try {
+                Tasks.await(if (isDebug) {
+                    firebase.fetch(0)
+                } else {
+                    firebase.fetch()
+                })
+                firebase.activateFetched()
+            } catch (ex: InterruptedException) {
+                //shhh
+            } catch (ex: ExecutionException) {
+                //shhh
+            }
+
             return firebase.getString(VERSIONS_KEY).fromJson()?.let {
                 val minimum = it.minimum?.toSemanticVersion() ?: return@let null
                 val latest = it.latest?.toSemanticVersion() ?: return@let null

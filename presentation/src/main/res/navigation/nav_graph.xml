@@ -9,20 +9,19 @@
         android:id="@+id/mapFragment"
         android:name="pl.ccki.szypwyp.presentation.map.ui.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map">
-        <action
-            android:id="@+id/action_mapFragment_to_configurationFragment"
-            app:destination="@id/configurationFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_map"/>
 
     <fragment
         android:id="@+id/fakeMapFragment"
         android:name="pl.ccki.szypwyp.presentation.map.ui.FakeMapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map">
-        <action
-            android:id="@+id/action_mapFragment_to_configurationFragment"
-            app:destination="@id/configurationFragment" />
+        tools:layout="@layout/fragment_map"/>
+
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="pl.ccki.szypwyp.presentation.filters.ui.FiltersFragment"
+        android:label="fragment_filters"
+        tools:layout="@layout/fragment_filters">
     </fragment>
 
     <fragment

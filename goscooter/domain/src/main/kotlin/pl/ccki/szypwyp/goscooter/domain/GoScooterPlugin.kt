@@ -14,6 +14,8 @@ class GoScooterPlugin @Inject constructor(
 
     override val appId = AppId("pl.cybertrick.GoScooter")
 
+    override val name = "GoScooter"
+
     override val supportedCities
         get() = listOf(cityWroclaw(GoScooterRegion.Wroclaw))
 

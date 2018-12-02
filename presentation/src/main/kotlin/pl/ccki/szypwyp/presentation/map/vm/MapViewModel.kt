@@ -1,12 +1,7 @@
 package pl.ccki.szypwyp.presentation.map.vm
 
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -30,7 +25,8 @@ import pl.ccki.szypwyp.domain.queries.GetLocationQuery
 import pl.ccki.szypwyp.domain.queries.GetMapProgressQuery
 import pl.ccki.szypwyp.domain.queries.GetVehiclesQuery
 import pl.ccki.szypwyp.domain.repositories.PermissionChecker
-import pl.ccki.szypwyp.presentation.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
+import pl.ccki.szypwyp.presentation.interfaces.extensions.toLiveData
 import pl.ccki.szypwyp.presentation.map.clustering.SingleClusterItem
 import pl.ccki.szypwyp.presentation.map.models.LocationMode
 import pl.ccki.szypwyp.presentation.map.models.MapEvent
@@ -75,7 +71,7 @@ class MapViewModel @Inject constructor(
     val locationMode = locationSubject.distinctUntilChanged().toLiveData(disposeBag)
 
     val navigation = PublishSubject.create<MapEvent>()
-    var refreshDisposable: Disposable? = null
+    private var refreshDisposable: Disposable? = null
 
     init {
         getCameraQuery.execute {
@@ -186,14 +182,4 @@ class MapViewModel @Inject constructor(
         super.onCleared()
         refreshDisposable?.dispose()
     }
-}
-
-private fun <T> Observable<T>.toLiveData(disposeBag: CompositeDisposable): LiveData<T> {
-    val mutableLiveData = MutableLiveData<T>()
-    observeOn(AndroidSchedulers.mainThread())
-        .subscribe {
-            mutableLiveData.value = it
-        }
-        .disposeIn(disposeBag)
-    return mutableLiveData
 }

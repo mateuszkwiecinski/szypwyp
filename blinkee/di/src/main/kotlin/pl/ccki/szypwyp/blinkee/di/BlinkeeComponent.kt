@@ -1,13 +1,24 @@
 package pl.ccki.szypwyp.blinkee.di
 
 import dagger.Component
-import pl.ccki.szypwyp.blinkee.domain.BlinkeeId
-import pl.ccki.szypwyp.blinkee.domain.BlinkeePlugin
-import pl.ccki.szypwyp.blinkee.presentation.BlinkeeMapViewsProvider
+import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.services.ExternalPlugin
+import pl.ccki.szypwyp.presentation.interfaces.MapViewsProvider
+import javax.inject.Qualifier
 
 @Component(modules = [BlinkeeModule::class])
 interface BlinkeeComponent {
-    fun id(): BlinkeeId
-    fun plugin(): BlinkeePlugin
-    fun view(): BlinkeeMapViewsProvider
+
+    @Blinkee
+    fun id(): PluginId
+
+    @Blinkee
+    fun plugin(): ExternalPlugin
+
+    @Blinkee
+    fun view(): MapViewsProvider
 }
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Blinkee

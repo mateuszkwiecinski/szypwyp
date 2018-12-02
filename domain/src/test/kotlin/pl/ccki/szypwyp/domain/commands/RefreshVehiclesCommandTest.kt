@@ -10,31 +10,30 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Maybe
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 import pl.ccki.szypwyp.domain.base.SchedulersProvider
 import pl.ccki.szypwyp.domain.base.execute
-import pl.ccki.szypwyp.domain.models.CityId
 import pl.ccki.szypwyp.domain.models.CityModel
-import pl.ccki.szypwyp.domain.models.AppId
 import pl.ccki.szypwyp.domain.models.Kilometers
 import pl.ccki.szypwyp.domain.models.LatLng
 import pl.ccki.szypwyp.domain.models.LoadEvent
 import pl.ccki.szypwyp.domain.models.MarkerModel
 import pl.ccki.szypwyp.domain.models.PluginId
+import pl.ccki.szypwyp.domain.persistences.CurrentSearchTargetPersistence
+import pl.ccki.szypwyp.domain.persistences.FiltersPersistence
 import pl.ccki.szypwyp.domain.persistences.MapEventsPersistence
 import pl.ccki.szypwyp.domain.persistences.VehiclesPersistence
-import pl.ccki.szypwyp.domain.repositories.SearchConfigRepository
-import pl.ccki.szypwyp.domain.repositories.ServicesConfigurationRepository
-import pl.ccki.szypwyp.domain.services.ExternalPlugin
+import pl.ccki.szypwyp.domain.utils.Id
+import pl.ccki.szypwyp.domain.utils.createPlugin
 
 class RefreshVehiclesCommandTest {
 
-    lateinit var configuration: ServicesConfigurationRepository
-    lateinit var persistence: VehiclesPersistence
-    lateinit var searchConfig: SearchConfigRepository
+    lateinit var filters: FiltersPersistence
+    lateinit var vehicles: VehiclesPersistence
+    lateinit var currentTarget: CurrentSearchTargetPersistence
     lateinit var schedulersProvider: SchedulersProvider
     lateinit var mapEvents: MapEventsPersistence
     private val point45_45 = LatLng(45.0, 45.0)
@@ -43,22 +42,20 @@ class RefreshVehiclesCommandTest {
 
     @Before
     fun setUp() {
-        configuration = mock {
-            on { selected } doReturn null as Iterable<PluginId>?
+        filters = mock {
+            on { disabled() } doReturn Maybe.empty()
         }
-        persistence = mock {
+        vehicles = mock {
             on { update(any(), any()) } doReturn Completable.complete()
         }
-        searchConfig = mock {
-            on { target } doReturn null as LatLng?
+        currentTarget = mock {
+            on { current() } doReturn Maybe.empty()
         }
         schedulersProvider = mock {
             on { worker } doReturn Schedulers.trampoline()
             on { postExecution } doReturn Schedulers.trampoline()
         }
-        mapEvents = mock {
-            on { events() } doReturn Observable.create { }
-        }
+        mapEvents = mock()
     }
 
     @Test
@@ -74,15 +71,15 @@ class RefreshVehiclesCommandTest {
         schedulersProvider.stub {
             on { worker } doReturn Schedulers.io()
         }
-        searchConfig.stub {
-            on { target } doReturn point45_45
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(point45_45)
         }
         val registeredPlugins = mapOf(first, second)
         val usecase = RefreshVehiclesCommand(
-            configuration,
+            filters,
             registeredPlugins,
-            persistence,
-            searchConfig,
+            vehicles,
+            currentTarget,
             mapEvents,
             schedulersProvider
         )
@@ -92,15 +89,15 @@ class RefreshVehiclesCommandTest {
         test.awaitTerminalEvent()
         test.assertNoErrors()
         verify(mapEvents).update(argWhere { it is LoadEvent.Finished.WithError && it.id.id == "2" })
-        verify(persistence).update(first.first, data)
-        verifyNoMoreInteractions(persistence)
+        verify(vehicles).update(first.first, data)
+        verifyNoMoreInteractions(vehicles)
     }
 
     @Test
     fun `should search only in closest cities`() {
         val data = listOf<MarkerModel>(mock(), mock())
-        searchConfig.stub {
-            on { target } doReturn LatLng(44.9, 44.9)
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(point45_45)
         }
         val first = createPlugin("2", listOf(CityModel(
             id = Id("22"),
@@ -118,10 +115,10 @@ class RefreshVehiclesCommandTest {
         }
         val registeredPlugins = mapOf(first, second)
         val usecase = RefreshVehiclesCommand(
-            configuration,
+            filters,
             registeredPlugins,
-            persistence,
-            searchConfig,
+            vehicles,
+            currentTarget,
             mapEvents,
             schedulersProvider
         )
@@ -129,15 +126,16 @@ class RefreshVehiclesCommandTest {
         val test = usecase.execute().test()
 
         test.awaitTerminalEvent()
-        verify(persistence).update(second.first, data)
-        verifyNoMoreInteractions(persistence)
+        test.assertNoErrors()
+        verify(vehicles).update(second.first, data)
+        verifyNoMoreInteractions(vehicles)
     }
 
     @Test
     fun `should emit no elements if no cities found`() {
         val data = listOf<MarkerModel>(mock(), mock())
-        searchConfig.stub {
-            on { target } doReturn LatLng(0.0, 0.0)
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(LatLng(0.0, 0.0))
         }
         val first = createPlugin("1", listOf(CityModel(
             id = Id("22"),
@@ -155,10 +153,10 @@ class RefreshVehiclesCommandTest {
         }
         val registeredPlugins = mapOf(first, second)
         val usecase = RefreshVehiclesCommand(
-            configuration,
+            filters,
             registeredPlugins,
-            persistence,
-            searchConfig,
+            vehicles,
+            currentTarget,
             mapEvents,
             schedulersProvider
         )
@@ -166,7 +164,8 @@ class RefreshVehiclesCommandTest {
         val test = usecase.execute().test()
 
         test.awaitTerminalEvent()
-        verifyNoMoreInteractions(persistence)
+        test.assertNoErrors()
+        verifyNoMoreInteractions(vehicles)
     }
 
     @Test
@@ -187,15 +186,15 @@ class RefreshVehiclesCommandTest {
         schedulersProvider.stub {
             on { worker } doReturn Schedulers.io()
         }
-        searchConfig.stub {
-            on { target } doReturn point45_45
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(point45_45)
         }
         val registeredPlugins = mapOf(first, second, third)
         val usecase = RefreshVehiclesCommand(
-            configuration,
+            filters,
             registeredPlugins,
-            persistence,
-            searchConfig,
+            vehicles,
+            currentTarget,
             mapEvents,
             schedulersProvider
         )
@@ -237,15 +236,15 @@ class RefreshVehiclesCommandTest {
         schedulersProvider.stub {
             on { worker } doReturn Schedulers.io()
         }
-        searchConfig.stub {
-            on { target } doReturn point45_45
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(LatLng(0.0, 0.0))
         }
         val registeredPlugins = mapOf(first, second, third, fourth)
         val usecase = RefreshVehiclesCommand(
-            configuration,
+            filters,
             registeredPlugins,
-            persistence,
-            searchConfig,
+            vehicles,
+            currentTarget,
             mapEvents,
             schedulersProvider
         )
@@ -265,24 +264,79 @@ class RefreshVehiclesCommandTest {
             verifyNoMoreInteractions()
         }
     }
-}
 
-private fun createPlugin(pluginId: String, locations: List<CityModel>, data: () -> List<MarkerModel>): Pair<PluginId,
-    ExternalPlugin> {
-    val first = object : PluginId {
-        override val id: String
-            get() = pluginId
+    @Test
+    fun `should search all if all plugins filtered`() {
+        val data = listOf<MarkerModel>(mock(), mock())
+        filters.stub {
+            on { disabled() } doReturn Maybe.just(setOf(PluginId("2"), PluginId("1")))
+        }
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(point45_45)
+        }
+        val first = createPlugin("2", listOf(CityModel(
+            id = Id("22"),
+            center = point45_45,
+            radius = Kilometers(100)
+        ))) { data }
+        val second = createPlugin("1", listOf(CityModel(
+            id = Id("11"),
+            center = point45_45,
+            radius = Kilometers(100)
+        ))) { data }
+        val registeredPlugins = mapOf(first, second)
+        val usecase = RefreshVehiclesCommand(
+            filters,
+            registeredPlugins,
+            vehicles,
+            currentTarget,
+            mapEvents,
+            schedulersProvider
+        )
+
+        val test = usecase.execute().test()
+
+        test.awaitTerminalEvent()
+        test.assertNoErrors()
+        verify(vehicles).update(first.first, data)
+        verify(vehicles).update(second.first, data)
+        verifyNoMoreInteractions(vehicles)
     }
-    val second = object : ExternalPlugin {
-        override val appId: AppId
-            get() = AppId("pl.$pluginId")
-        override val supportedCities: Iterable<CityModel>
-            get() = locations
 
-        override fun findInLocation(location: Iterable<CityId>) = data()
+    @Test
+    fun `should search in non filtered plugins`() {
+        val data = listOf<MarkerModel>(mock(), mock())
+        filters.stub {
+            on { disabled() } doReturn Maybe.just(setOf(PluginId("2")))
+        }
+        currentTarget.stub {
+            on { current() } doReturn Maybe.just(point45_45)
+        }
+        val first = createPlugin("2", listOf(CityModel(
+            id = Id("22"),
+            center = point45_45,
+            radius = Kilometers(100)
+        ))) { data }
+        val second = createPlugin("1", listOf(CityModel(
+            id = Id("11"),
+            center = point45_45,
+            radius = Kilometers(100)
+        ))) { data }
+        val registeredPlugins = mapOf(first, second)
+        val usecase = RefreshVehiclesCommand(
+            filters,
+            registeredPlugins,
+            vehicles,
+            currentTarget,
+            mapEvents,
+            schedulersProvider
+        )
+
+        val test = usecase.execute().test()
+
+        test.awaitTerminalEvent()
+        test.assertNoErrors()
+        verify(vehicles).update(second.first, data)
+        verifyNoMoreInteractions(vehicles)
     }
-
-    return first to second
 }
-
-data class Id(val value: String) : CityId

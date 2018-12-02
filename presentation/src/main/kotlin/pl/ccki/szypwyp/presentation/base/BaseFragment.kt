@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import pl.ccki.szypwyp.presentation.BR
+import pl.ccki.szypwyp.presentation.interfaces.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -33,6 +35,12 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
     protected abstract val layoutId: Int
     protected abstract val viewModelClass: KClass<TViewModel>
     protected lateinit var binding: TBinding
+
+    protected var toolbarTitle: String?
+        get() = (activity as? AppCompatActivity)?.supportActionBar?.title?.toString()
+        set(value) {
+            (activity as? AppCompatActivity)?.supportActionBar?.title = value
+        }
 
     protected val navController: NavController
         get() = Navigation.findNavController(binding.root)

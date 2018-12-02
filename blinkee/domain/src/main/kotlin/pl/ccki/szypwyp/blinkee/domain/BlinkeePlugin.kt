@@ -20,6 +20,8 @@ class BlinkeePlugin @Inject constructor(
 
     override val appId = AppId("pl.blinkee.mobile")
 
+    override val name = "Blinkee"
+
     override val supportedCities
         get() = listOf(
             cityWroclaw(BlinkeeRegion.Wroclaw),

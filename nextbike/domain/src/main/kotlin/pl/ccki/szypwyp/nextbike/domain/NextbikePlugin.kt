@@ -16,6 +16,8 @@ class NextbikePlugin @Inject constructor(
 
     override val appId = AppId("de.nextbike")
 
+    override val name = "NextBike"
+
     override val supportedCities by lazy {
         listOf(
             CityModel(NextbikeRegion.Leipzig, LatLng(51.3415, 12.3625), Kilometers(50)),
