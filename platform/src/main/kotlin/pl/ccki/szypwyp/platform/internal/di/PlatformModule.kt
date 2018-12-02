@@ -16,19 +16,11 @@ import pl.ccki.szypwyp.platform.implementations.appintegrations.AndroidAppsCheck
 import pl.ccki.szypwyp.platform.implementations.location.AndroidLocationProvider
 import pl.ccki.szypwyp.platform.implementations.AndroidPermissionChecker
 import pl.ccki.szypwyp.platform.implementations.remoteconfig.AndroidCurrentConfigProvider
+import pl.ccki.szypwyp.platform.implementations.sharedprefs.SharedPrefsFiltersRepository
 import pl.ccki.szypwyp.platform.implementations.sharedprefs.SharedPrefsSearchConfigRepository
 
 @Module(includes = [LocationModule::class, RemoteConfigModule::class])
 abstract class PlatformModule {
-
-    @Module
-    companion object {
-        @Provides
-        @JvmStatic
-        fun servicesConfiguration(): FiltersRepository = object : FiltersRepository {
-            override var disabled: Set<PluginId> = emptySet()
-        }
-    }
 
     @Binds
     abstract fun searchConfig(impl: SharedPrefsSearchConfigRepository): SearchConfigRepository
@@ -47,4 +39,7 @@ abstract class PlatformModule {
 
     @Binds
     abstract fun currentConfig(provider: AndroidCurrentConfigProvider): CurrentConfigProvider
+
+    @Binds
+    abstract fun filters(impl: SharedPrefsFiltersRepository): FiltersRepository
 }

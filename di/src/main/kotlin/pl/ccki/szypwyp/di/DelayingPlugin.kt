@@ -13,10 +13,10 @@ import java.lang.IllegalStateException
 object DelayingPlugin : ExternalPlugin {
     val id: PluginId = object : PluginId {
         override val id = "someId"
-        override val name = "debug"
     }
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")
+    override val name = "Delaying"
     override val supportedCities: Iterable<CityModel>
         get() = listOf(CityModel(object : CityId {}, LatLng(0.0, 0.0), radius = Kilometers(Long.MAX_VALUE)))
 
@@ -40,8 +40,8 @@ object DelayingPlugin : ExternalPlugin {
 object ThrowingPlugin : ExternalPlugin {
     val id: PluginId = object : PluginId {
         override val id = "throwing"
-        override val name = "debug"
     }
+    override val name = "Throwing"
     override val appId: AppId
         get() = AppId("com.google.android.googlequicksearchbox")
     override val supportedCities: Iterable<CityModel>

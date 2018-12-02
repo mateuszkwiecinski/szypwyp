@@ -7,6 +7,7 @@ import pl.ccki.szypwyp.domain.models.MarkerModel
 
 interface ExternalPlugin {
     val appId: AppId
+    val name : String
     val supportedCities: Iterable<CityModel>
     fun findInLocation(location: Iterable<CityId>): List<MarkerModel>
 }

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:checked="@{model.state}"
         android:padding="15dp"
-        android:text="@{model.pluginId.name}"
+        android:text="@{model.name}"
         android:switchPadding="3dp"
         tools:text="Filter name it can be long and it would be nice if it can wrap" />
 </layout>

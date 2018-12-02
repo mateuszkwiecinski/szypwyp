@@ -35,9 +35,9 @@ class GetFiltersQueryTest {
 
     @Test
     fun `should return all enabled if filters are empty`() {
-        val first = createPlugin("1", listOf(WORLD)) { emptyList() }
-        val second = createPlugin("2", listOf(WORLD)) { emptyList() }
-        val third = createPlugin("3", listOf(WORLD)) { emptyList() }
+        val first = createPlugin("1", listOf(WORLD), name = "name1") { emptyList() }
+        val second = createPlugin("3", listOf(WORLD), name = "name3") { emptyList() }
+        val third = createPlugin("2", listOf(WORLD), name = "name2") { emptyList() }
         val plugins = mapOf(first, second, third)
         val query = GetFiltersQuery(plugins, currentTarget, filters, TestSchedulers)
         currentTarget.stub {
@@ -50,17 +50,23 @@ class GetFiltersQueryTest {
         test.assertNoErrors()
         val result = test.values().single()
         assertThat(result).hasSize(3)
+        assertThat(result).first().matches {
+            it.pluginId.id == "1"
+        }
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
+                "name1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
                 Id("2"),
+                "name2",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
                 Id("3"),
+                "name3",
                 FilterState(true)
             )
         )
@@ -68,9 +74,9 @@ class GetFiltersQueryTest {
 
     @Test
     fun `should return all enabled if all available services have been filtered`() {
-        val first = createPlugin("1", listOf(WORLD)) { emptyList() }
-        val second = createPlugin("2", listOf(WORLD)) { emptyList() }
-        val third = createPlugin("3", listOf(WORLD)) { emptyList() }
+        val first = createPlugin("3", listOf(WORLD), name = "name3") { emptyList() }
+        val second = createPlugin("1", listOf(WORLD), name = "name1") { emptyList() }
+        val third = createPlugin("2", listOf(WORLD), name = "name2") { emptyList() }
         val plugins = mapOf(first, second, third)
         val query = GetFiltersQuery(plugins, currentTarget, filters, TestSchedulers)
         currentTarget.stub {
@@ -89,14 +95,17 @@ class GetFiltersQueryTest {
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
+                "name1",
                 FilterState(false)
             ),
             GetFiltersQuery.Item(
                 Id("2"),
+                "name2",
                 FilterState(false)
             ),
             GetFiltersQuery.Item(
                 Id("3"),
+                "name3",
                 FilterState(false)
             )
         )
@@ -104,9 +113,9 @@ class GetFiltersQueryTest {
 
     @Test
     fun `should return as enabled only few selected plugins`() {
-        val first = createPlugin("1", listOf(WORLD)) { emptyList() }
-        val second = createPlugin("2", listOf(WORLD)) { emptyList() }
-        val third = createPlugin("3", listOf(WORLD)) { emptyList() }
+        val first = createPlugin("3", listOf(WORLD), name = "name3") { emptyList() }
+        val second = createPlugin("1", listOf(WORLD), name = "name1") { emptyList() }
+        val third = createPlugin("2", listOf(WORLD), name = "name2") { emptyList() }
         val plugins = mapOf(first, second, third)
         val query = GetFiltersQuery(plugins, currentTarget, filters, TestSchedulers)
         currentTarget.stub {
@@ -125,14 +134,17 @@ class GetFiltersQueryTest {
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
+                "name1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
                 Id("2"),
+                "name2",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
                 Id("3"),
+                "name3",
                 FilterState(false)
             )
         )
@@ -140,13 +152,13 @@ class GetFiltersQueryTest {
 
     @Test
     fun `should return as enabled plugins in range`() {
-        val first = createPlugin("1", listOf(WORLD)) { emptyList() }
-        val third = createPlugin("3", listOf(WORLD)) { emptyList() }
+        val first = createPlugin("1", listOf(WORLD), "namename1") { emptyList() }
+        val third = createPlugin("3", listOf(WORLD), "namename3") { emptyList() }
         val second = createPlugin("2", listOf(CityModel(
             Id("notapplicable"),
             center = LatLng(.0, .0),
             radius = Kilometers(1)
-        ))) { emptyList() }
+        )), "should not happen") { emptyList() }
         val plugins = mapOf(first, second, third)
         val query = GetFiltersQuery(plugins, currentTarget, filters, TestSchedulers)
         currentTarget.stub {
@@ -165,10 +177,12 @@ class GetFiltersQueryTest {
         assertThat(result).containsExactly(
             GetFiltersQuery.Item(
                 Id("1"),
+                "namename1",
                 FilterState(true)
             ),
             GetFiltersQuery.Item(
                 Id("3"),
+                "namename3",
                 FilterState(false)
             )
         )

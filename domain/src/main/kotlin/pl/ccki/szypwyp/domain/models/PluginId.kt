@@ -1,6 +1,8 @@
 package pl.ccki.szypwyp.domain.models
 
-interface PluginId {
+interface PluginId : Comparable<PluginId> {
     val id: String
-    val name: String
+
+    override fun compareTo(other: PluginId): Int =
+        id.compareTo(other.id)
 }

@@ -23,9 +23,9 @@ class GetFiltersQuery @Inject constructor(
     private val schedulersProvider: SchedulersProvider
 ) : Query<List<GetFiltersQuery.Item>> {
 
-    data class Item(val pluginId: PluginId, val state: FilterState)
+    data class Item(val pluginId: PluginId, val name: String, val state: FilterState)
 
-    override fun execute() : Observable<List<GetFiltersQuery.Item>> {
+    override fun execute(): Observable<List<GetFiltersQuery.Item>> {
         val targeting = currentTarget.get()
         val filtering = filters.observeDisabled().defaultIfEmpty(emptySet())
 
@@ -34,7 +34,10 @@ class GetFiltersQuery @Inject constructor(
             applyFilters(canSearchIn, filters)
         })
             .map {
-                it.toList().map { Item(it.first, it.second) }.sortedBy { it.pluginId.name }
+                it.toList().map { (id, state) ->
+                    val name = registeredPlugins[id]?.name ?: id.id
+                    Item(id, name, state)
+                }.sortedBy(Item::name)
             }
             .applySchedulers(schedulersProvider)
     }
