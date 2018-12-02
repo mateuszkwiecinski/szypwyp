@@ -3,7 +3,6 @@ package pl.ccki.szypwyp.domain.queries
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.stub
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

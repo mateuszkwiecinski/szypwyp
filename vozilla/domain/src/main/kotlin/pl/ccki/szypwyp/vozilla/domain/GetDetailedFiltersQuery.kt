@@ -6,8 +6,7 @@ import pl.ccki.szypwyp.vozilla.domain.models.DetailedFilterItem
 import pl.ccki.szypwyp.vozilla.domain.models.DetailedFilterModel
 import javax.inject.Inject
 
-class GetDetailedFiltersQuery @Inject constructor(
-) : Query<List<DetailedFilterItem>> {
+class GetDetailedFiltersQuery @Inject constructor() : Query<List<DetailedFilterItem>> {
 
     override fun execute() =
         Observable.just(mapOf(
@@ -20,4 +19,3 @@ class GetDetailedFiltersQuery @Inject constructor(
                 it.toList().map { DetailedFilterItem(it.first, it.second) }
             }
 }
-
